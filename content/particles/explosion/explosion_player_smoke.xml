@@ -1,0 +1,96 @@
+<system>
+	<emitters>
+		<emitinstantaneously>
+			<amount_min>20</amount_min>
+			<amount_max>40</amount_max>
+		</emitinstantaneously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>0</distance_min>
+			<distance_max>10</distance_max>
+			<velocity_min>100</velocity_min>
+			<velocity_max>500</velocity_max>
+			<velocity_exponent>3</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>8</size_min>
+			<size_max>50</size_max>
+			<exponent>2</exponent>
+		</initsizerandom>
+		
+		<initanglerandom>
+			<angle_min>0</angle_min>
+			<angle_max>360</angle_max>
+		</initanglerandom>
+		
+		<initangularvelocityrandom>
+			<angularvelocity_min>10</angularvelocity_min>
+			<angularvelocity_max>200</angularvelocity_max>
+			<flipdirection>true</flipdirection>
+		</initangularvelocityrandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.3</lifetime_min>
+			<lifetime_max>0.5</lifetime_max>
+		</initlifetimerandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>0</velocity_min_x>
+			<velocity_max_x>250</velocity_max_x>
+			<localspace>true</localspace>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.1</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.5</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>0.7</exponent>
+		</opalphafade>
+		
+		<opgravity>
+			<gravity_x>-200</gravity_x>
+		</opgravity>
+		
+		<opmovement>
+			<drag>0.065</drag>
+			<angulardrag>0.008</angulardrag>
+		</opmovement>
+		
+		<opsizescale>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<size_min>0.5</size_min>
+			<size_max>1</size_max>
+			<exponent>1</exponent>
+		</opsizescale>
+	</operators>
+	
+	<renderers>
+		<drawmaterial>
+			<material>effects/smoke_1</material>
+			<material>effects/smoke_0_blue_0</material>
+		</drawmaterial>
+	</renderers>
+	
+	<children>
+		<child>explosion/explosion_trails_yellow_0.xml</child>
+		<child>explosion/explosion_dots_yellow_0.xml</child>
+	</children>
+</system>

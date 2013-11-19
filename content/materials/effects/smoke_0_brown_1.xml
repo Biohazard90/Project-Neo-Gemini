@@ -1,0 +1,10 @@
+<material>
+	<texture>effects/smoke_0.png</texture>
+	<blendmode>screen</blendmode>
+	<opacity>0.8</opacity>
+	<tint>
+		<r>140</r>
+		<g>105</g>
+		<b>80</b>
+	</tint>
+</material>

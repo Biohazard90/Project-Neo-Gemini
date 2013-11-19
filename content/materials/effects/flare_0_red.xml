@@ -1,0 +1,5 @@
+<material>
+	<texture>effects/flare_0_red.png</texture>
+	<blendmode>plus</blendmode>
+	<opacity>1.0</opacity>
+</material>

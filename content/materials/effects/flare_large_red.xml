@@ -1,0 +1,10 @@
+<material>
+	<texture>effects/flare_large.png</texture>
+	<blendmode>plus</blendmode>
+	<opacity>1.0</opacity>
+	<tint>
+		<r>255</r>
+		<g>120</g>
+		<b>90</b>
+	</tint>
+</material>

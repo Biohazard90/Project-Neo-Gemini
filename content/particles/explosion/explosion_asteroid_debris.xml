@@ -1,0 +1,92 @@
+<system>
+	<emitters>
+		<emitinstantaneously>
+			<amount_min>3</amount_min>
+			<amount_max>5</amount_max>
+		</emitinstantaneously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>0</distance_min>
+			<distance_max>10</distance_max>
+			<velocity_min>30</velocity_min>
+			<velocity_max>80</velocity_max>
+			<velocity_exponent>1</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>7</size_min>
+			<size_max>13</size_max>
+		</initsizerandom>
+		
+		<initanglerandom>
+			<angle_min>0</angle_min>
+			<angle_max>360</angle_max>
+		</initanglerandom>
+		
+		<initangularvelocityrandom>
+			<angularvelocity_min>10</angularvelocity_min>
+			<angularvelocity_max>100</angularvelocity_max>
+			<flipdirection>true</flipdirection>
+		</initangularvelocityrandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.3</lifetime_min>
+			<lifetime_max>0.5</lifetime_max>
+		</initlifetimerandom>
+		
+		<initvelocityrandom>
+			<velocity_min_y>100</velocity_min_y>
+			<velocity_max_y>200</velocity_max_y>
+			<localspace>true</localspace>
+			<flipdirection>true</flipdirection>
+		</initvelocityrandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>150</velocity_min_x>
+			<velocity_max_x>550</velocity_max_x>
+			<localspace>true</localspace>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.1</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.2</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>0.7</exponent>
+		</opalphafade>
+		
+		<opgravity>
+			<gravity_x>-150</gravity_x>
+		</opgravity>
+		
+		<opmovement>
+			<drag>0.04</drag>
+			<angulardrag>0.01</angulardrag>
+		</opmovement>
+	</operators>
+	
+	<renderers>
+		<drawmaterial>
+			<material>asteroids/asteroid_debris_0</material>
+			<material>asteroids/asteroid_debris_1</material>
+			<material>asteroids/asteroid_debris_2</material>
+			<material>asteroids/asteroid_debris_3</material>
+			<material>asteroids/asteroid_debris_4</material>
+		</drawmaterial>
+	</renderers>
+</system>

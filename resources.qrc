@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>content/particles/manifest.txt</file>
+        <file>content/particles/menu.xml</file>
+        <file>content/style.css</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,6 @@
+<system>
+	<children>
+		<child>explosion/explosion_boss_0_small_smoke.xml</child>
+		<child>explosion/explosion_fighter_0_glow.xml</child>
+	</children>
+</system>

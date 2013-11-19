@@ -1,0 +1,32 @@
+<system>
+	<children>
+		<child>
+			<name>player/player_smoke.xml</name>
+			<origin>
+				<x>-40</x>
+				<y>0</y>
+			</origin>
+		</child>
+		<child>
+			<name>player/player_smoke.xml</name>
+			<origin>
+				<x>-40</x>
+				<y>12</y>
+			</origin>
+		</child>
+		<child>
+			<name>player/player_smoke.xml</name>
+			<origin>
+				<x>-40</x>
+				<y>-12</y>
+			</origin>
+		</child>
+		<child>
+			<name>player/player_engine_start.xml</name>
+			<origin>
+				<x>-40</x>
+				<y>0</y>
+			</origin>
+		</child>
+	</children>
+</system>

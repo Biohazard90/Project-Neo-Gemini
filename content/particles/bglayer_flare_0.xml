@@ -1,0 +1,115 @@
+<system>
+	<emitters>
+		<emitcontinuously>
+			<delay_min>25</delay_min>
+			<delay_max>40</delay_max>
+			<initial_delay_min>0</initial_delay_min>
+			<initial_delay_max>0</initial_delay_max>
+			<duration>-1</duration>
+			<emit_children>true</emit_children>
+		</emitcontinuously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>100</distance_min>
+			<distance_max>250</distance_max>
+			<velocity_min>0</velocity_min>
+			<velocity_max>0</velocity_max>
+			<velocity_exponent>1</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>100</size_min>
+			<size_max>150</size_max>
+		</initsizerandom>
+		
+		<initanglerandom>
+			<angle_min>0</angle_min>
+			<angle_max>360</angle_max>
+		</initanglerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>6</lifetime_min>
+			<lifetime_max>6</lifetime_max>
+		</initlifetimerandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>-200</velocity_min_x>
+			<velocity_max_x>-100</velocity_max_x>
+			<velocity_min_y>0</velocity_min_y>
+			<velocity_max_y>0</velocity_max_y>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opnoise>
+			<noise_min>1</noise_min>
+			<noise_max>1</noise_max>
+			<field>alpha</field>
+		</opnoise>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.2</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.8</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<oposcillate>
+			<speed>50</speed>
+			<oscillate_min>0.5</oscillate_min>
+			<exponent>0.4</exponent>
+			<field>alpha</field>
+		</oposcillate>
+		
+		<opmovement>
+			<drag>0</drag>
+			<angulardrag>0.05</angulardrag>
+		</opmovement>
+		
+		<opsetcontrolpoint>
+			<controlpoint>0</controlpoint>
+			<field>origin</field>
+			<component_in>0</component_in>
+			<component_out>0</component_out>
+		</opsetcontrolpoint>
+		
+		<opsetcontrolpoint>
+			<controlpoint>0</controlpoint>
+			<field>origin</field>
+			<component_in>1</component_in>
+			<component_out>1</component_out>
+		</opsetcontrolpoint>
+		
+		<opsetcontrolpoint>
+			<controlpoint>1</controlpoint>
+			<field>alpha</field>
+		</opsetcontrolpoint>
+	</operators>
+	
+	<renderers>
+		<drawflare>
+			<material>effects/flare_large</material>
+			<face_center>true</face_center>
+			<position>0</position>
+			<alpha_module_min>0</alpha_module_min>
+		</drawflare>
+	</renderers>
+	
+	<children>
+		<child>bglayer_flare_0_child_0.xml</child>
+	</children>
+</system>

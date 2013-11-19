@@ -1,0 +1,25 @@
+<obstacles>
+	<obstacle>
+		<name>asteroid_large</name>
+		<material>asteroids/asteroid_2</material>
+		<material>asteroids/asteroid_3</material>
+		<health_min>2</health_min>
+		<health_max>2</health_max>
+		<score>5</score>
+		<particle_hit>explosion_asteroid_small</particle_hit>
+		<particle_destroy>explosion_asteroid_big</particle_destroy>
+		<size_min>40</size_min>
+		<size_max>80</size_max>
+		<angularvelocity_min>-40</angularvelocity_min>
+		<angularvelocity_max>40</angularvelocity_max>
+		<velocity_x_min>-150</velocity_x_min>
+		<velocity_x_max>-130</velocity_x_max>
+		<origin_x_offset>150</origin_x_offset>
+		<sound_hit>blast/blast_light_0.wav</sound_hit>
+		<sound_hit>blast/blast_light_1.wav</sound_hit>
+		<sound_hit>blast/blast_light_2.wav</sound_hit>
+		<sound_destroy>blast/blast_medium_0.wav</sound_destroy>
+		<sound_destroy>blast/blast_medium_1.wav</sound_destroy>
+		<sound_destroy>blast/blast_medium_2.wav</sound_destroy>
+	</obstacle>
+</obstacles>

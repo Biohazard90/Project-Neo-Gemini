@@ -1,0 +1,88 @@
+<system>
+	<emitters>
+		<emitinstantaneously>
+			<amount_min>20</amount_min>
+			<amount_max>40</amount_max>
+		</emitinstantaneously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>0</distance_min>
+			<distance_max>30</distance_max>
+			<velocity_min>10</velocity_min>
+			<velocity_max>600</velocity_max>
+			<velocity_exponent>2</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>1</size_min>
+			<size_max>2</size_max>
+		</initsizerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.2</lifetime_min>
+			<lifetime_max>0.7</lifetime_max>
+		</initlifetimerandom>
+		
+		<initcolorrandom>
+			<r_min>0.9</r_min>
+			<r_max>1.0</r_max>
+			<g_min>0.8</g_min>
+			<g_max>0.9</g_max>
+			<b_min>0.7</b_min>
+			<b_max>0.8</b_max>
+			<scale>0.5</scale>
+			<exponent>0.9</exponent>
+		</initcolorrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opnoise>
+			<noise_min>1</noise_min>
+			<noise_max>1</noise_max>
+			<field>alpha</field>
+		</opnoise>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.1</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.2</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>0.7</exponent>
+		</opalphafade>
+		
+		<oposcillate>
+			<oscillate_min>0.5</oscillate_min>
+			<oscillate_max>1</oscillate_max>
+			<speed>7</speed>
+			<exponent>4</exponent>
+			<field>alpha</field>
+		</oposcillate>
+		
+		<opgravity>
+			<gravity_x>-100</gravity_x>
+		</opgravity>
+		
+		<opmovement>
+			<drag>0.015</drag>
+			<angulardrag>0.01</angulardrag>
+		</opmovement>
+	</operators>
+	
+	<renderers>
+		<drawcircle>
+		</drawcircle>
+	</renderers>
+</system>

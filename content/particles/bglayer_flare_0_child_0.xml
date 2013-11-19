@@ -1,0 +1,48 @@
+<system>
+	<initializers>
+		<initsizerandom>
+			<size_min>100</size_min>
+			<size_max>150</size_max>
+		</initsizerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>6</lifetime_min>
+			<lifetime_max>6</lifetime_max>
+		</initlifetimerandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opremapcontrolpoint>
+			<controlpoint>0</controlpoint>
+			<field>origin</field>
+			<component_in>0</component_in>
+			<component_out>0</component_out>
+		</opremapcontrolpoint>
+		
+		<opremapcontrolpoint>
+			<controlpoint>0</controlpoint>
+			<field>origin</field>
+			<component_in>1</component_in>
+			<component_out>1</component_out>
+		</opremapcontrolpoint>
+		
+		<opremapcontrolpoint>
+			<controlpoint>1</controlpoint>
+			<field>alpha</field>
+		</opremapcontrolpoint>
+	</operators>
+	
+	<renderers>
+		<drawflare>
+			<material>effects/flare_1</material>
+			<face_center>true</face_center>
+			<position>1.5</position>
+			<angle_offset>90</angle_offset>
+			<alpha_module_min>0</alpha_module_min>
+			<size_module_min>0.5</size_module_min>
+		</drawflare>
+	</renderers>
+</system>

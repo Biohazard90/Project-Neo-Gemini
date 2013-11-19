@@ -1,0 +1,90 @@
+<system>
+	<emitters>
+		<emitinstantaneously>
+			<amount_min>5</amount_min>
+			<amount_max>10</amount_max>
+		</emitinstantaneously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>0</distance_min>
+			<distance_max>10</distance_max>
+			<velocity_min>10</velocity_min>
+			<velocity_max>450</velocity_max>
+			<velocity_exponent>1</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>3</size_min>
+			<size_max>8</size_max>
+		</initsizerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.1</lifetime_min>
+			<lifetime_max>1</lifetime_max>
+			<exponent>3</exponent>
+		</initlifetimerandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>0</velocity_min_x>
+			<velocity_max_x>50</velocity_max_x>
+			<localspace>true</localspace>
+		</initvelocityrandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>0</velocity_min_x>
+			<velocity_max_x>10</velocity_max_x>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opnoise>
+			<noise_min>1</noise_min>
+			<noise_max>1</noise_max>
+			<field>alpha</field>
+		</opnoise>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.1</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.2</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>0.7</exponent>
+		</opalphafade>
+		
+		<oposcillate>
+			<oscillate_min>0.2</oscillate_min>
+			<oscillate_max>1</oscillate_max>
+			<speed>15</speed>
+			<exponent>1.2</exponent>
+			<field>alpha</field>
+		</oposcillate>
+		
+		<opgravity>
+			<gravity_x>-100</gravity_x>
+		</opgravity>
+		
+		<opmovement>
+			<drag>0.015</drag>
+			<angulardrag>0.01</angulardrag>
+		</opmovement>
+	</operators>
+	
+	<renderers>
+		<drawmaterial>
+			<material>effects/glow_0_red</material>
+		</drawmaterial>
+	</renderers>
+</system>

@@ -1,0 +1,78 @@
+<projectiles>
+	<projectile>
+		<name>default</name>
+		<firerate>10</firerate>
+		<speed>650</speed>
+		<size>12</size>
+		<sound>laser/laser_short.wav</sound>
+		<particle_spawn>projectile_default_spawn</particle_spawn>
+		<particle_trail>projectile_default_idle</particle_trail>
+		<particle_hit>projectile_default_hit</particle_hit>
+	</projectile>
+	
+	<projectile>
+		<name>weak</name>
+		<firerate>2</firerate>
+		<speed>450</speed>
+		<size>12</size>
+		<sound>laser/laser_short_2.wav</sound>
+		<particle_spawn>projectile_weak_spawn</particle_spawn>
+		<particle_trail>projectile_weak_idle</particle_trail>
+		<particle_hit>projectile_weak_hit</particle_hit>
+	</projectile>
+	
+	<projectile>
+		<name>blue</name>
+		<firerate>15</firerate>
+		<speed>550</speed>
+		<size>12</size>
+		<sound>laser/laser_short_2.wav</sound>
+		<particle_spawn>projectile_blue_spawn</particle_spawn>
+		<particle_trail>projectile_blue_idle</particle_trail>
+		<particle_hit>projectile_blue_hit</particle_hit>
+	</projectile>
+	
+	<projectile>
+		<name>yellow</name>
+		<firerate>13</firerate>
+		<speed>550</speed>
+		<size>7</size>
+		<sound>laser/laser_short_3.wav</sound>
+		<particle_spawn>projectile_yellow_spawn</particle_spawn>
+		<particle_trail>projectile_yellow_idle</particle_trail>
+		<particle_hit>projectile_yellow_hit</particle_hit>
+	</projectile>
+	
+	<projectile>
+		<name>boss0fast</name>
+		<firerate>9</firerate>
+		<speed>650</speed>
+		<size>12</size>
+		<sound>laser/zap.wav</sound>
+		<particle_spawn>projectile_weak_spawn</particle_spawn>
+		<particle_trail>projectile_boss0fast_idle</particle_trail>
+		<particle_hit>projectile_weak_hit</particle_hit>
+	</projectile>
+	
+	<projectile>
+		<name>boss0slow</name>
+		<firerate>1</firerate>
+		<speed>600</speed>
+		<size>6</size>
+		<sound>laser/laser_short_3.wav</sound>
+		<particle_spawn>projectile_weak_spawn</particle_spawn>
+		<particle_trail>projectile_boss0slow_idle</particle_trail>
+		<particle_hit>projectile_weak_hit</particle_hit>
+	</projectile>
+	
+	<projectile>
+		<name>boss0spam</name>
+		<firerate>3</firerate>
+		<speed>400</speed>
+		<size>6</size>
+		<sound>laser/laser_short_3.wav</sound>
+		<particle_spawn>projectile_weak_spawn</particle_spawn>
+		<particle_trail>projectile_boss0slow_idle</particle_trail>
+		<particle_hit>projectile_weak_hit</particle_hit>
+	</projectile>
+</projectiles>

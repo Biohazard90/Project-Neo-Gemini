@@ -1,0 +1,5 @@
+<material>
+	<texture>effects/smoke_0.png</texture>
+	<blendmode>screen</blendmode>
+	<opacity>0.5</opacity>
+</material>

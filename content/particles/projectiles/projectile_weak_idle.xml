@@ -1,0 +1,68 @@
+<system>
+	<emitters>
+		<emitcontinuously>
+			<delay_min>0.06</delay_min>
+			<delay_max>0.08</delay_max>
+			<duration>-1</duration>
+		</emitcontinuously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>0</distance_min>
+			<distance_max>1</distance_max>
+			<velocity_min>0</velocity_min>
+			<velocity_max>0</velocity_max>
+			<velocity_exponent>1</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>3</size_min>
+			<size_max>15</size_max>
+			<exponent>0.8</exponent>
+		</initsizerandom>
+		
+		<initanglerandom>
+			<angle_min>0</angle_min>
+			<angle_max>360</angle_max>
+		</initanglerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.1</lifetime_min>
+			<lifetime_max>0.2</lifetime_max>
+		</initlifetimerandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.5</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.5</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<oplocktosystemorigin />
+	</operators>
+	
+	<renderers>
+		<drawmaterial>
+			<material>effects/glow_0_red</material>
+		</drawmaterial>
+	</renderers>
+	
+	<children>
+		<child>projectiles/projectile_weak_idle_outer.xml</child>
+	</children>
+</system>

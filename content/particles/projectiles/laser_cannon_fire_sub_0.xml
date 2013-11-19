@@ -1,0 +1,78 @@
+<system>
+	<emitters>
+		<emitcontinuously>
+			<delay_min>0.0005</delay_min>
+			<delay_max>0.001</delay_max>
+			<duration>0.1</duration>
+		</emitcontinuously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>1</distance_min>
+			<distance_max>6</distance_max>
+			<velocity_min>400</velocity_min>
+			<velocity_max>410</velocity_max>
+			<velocity_exponent>1</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>4</size_min>
+			<size_max>10</size_max>
+		</initsizerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.35</lifetime_min>
+			<lifetime_max>0.4</lifetime_max>
+			<exponent>1</exponent>
+		</initlifetimerandom>
+		
+		<initvelocityrandom>
+			<velocity_min_y>0</velocity_min_y>
+			<velocity_max_y>0</velocity_max_y>
+			<localspace>true</localspace>
+			<flipdirection>true</flipdirection>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.2</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.2</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opmovement>
+			<drag>0.1</drag>
+		</opmovement>
+		
+		<opsizescale>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<size_min>0.4</size_min>
+			<size_max>1</size_max>
+			<exponent>2</exponent>
+		</opsizescale>
+		
+		<oplocktosystemorigin />
+	</operators>
+	
+	<renderers>
+		<drawmaterial>
+			<material>effects/glow_0_green_1</material>
+		</drawmaterial>
+	</renderers>
+</system>

@@ -1,0 +1,5 @@
+<material>
+	<texture>effects/glow_0_orange.png</texture>
+	<blendmode>plus</blendmode>
+	<opacity>1.0</opacity>
+</material>

@@ -1,0 +1,101 @@
+<system>
+	<emitters>
+		<emitinstantaneously>
+			<amount_min>10</amount_min>
+			<amount_max>25</amount_max>
+		</emitinstantaneously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>5</distance_min>
+			<distance_max>15</distance_max>
+			<velocity_min>10</velocity_min>
+			<velocity_max>250</velocity_max>
+			<velocity_exponent>2</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>0.5</size_min>
+			<size_max>1</size_max>
+		</initsizerandom>
+		
+		<initlengthrandom>
+			<length_min>0.1</length_min>
+			<length_max>0.2</length_max>
+			<exponent>2</exponent>
+		</initlengthrandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.2</lifetime_min>
+			<lifetime_max>0.7</lifetime_max>
+		</initlifetimerandom>
+		
+		<initcolorrandom>
+			<r_min>0.9</r_min>
+			<r_max>1.0</r_max>
+			<g_min>0.5</g_min>
+			<g_max>0.6</g_max>
+			<b_min>0.4</b_min>
+			<b_max>0.5</b_max>
+			<scale>0.85</scale>
+			<exponent>0.9</exponent>
+		</initcolorrandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>50</velocity_min_x>
+			<velocity_max_x>250</velocity_max_x>
+			<localspace>true</localspace>
+		</initvelocityrandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>100</velocity_min_x>
+			<velocity_max_x>150</velocity_max_x>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.1</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.2</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>0.7</exponent>
+		</opalphafade>
+		
+		<oplengthscale>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<length_min>1</length_min>
+			<length_max>0</length_max>
+			<exponent>2</exponent>
+		</oplengthscale>
+		
+		<opgravity>
+			<gravity_x>-500</gravity_x>
+			<indirect>true</indirect>
+		</opgravity>
+		
+		<opmovement>
+			<drag>0.015</drag>
+			<angulardrag>0.01</angulardrag>
+		</opmovement>
+	</operators>
+	
+	<renderers>
+		<drawline>
+			<screenspace_scale>true</screenspace_scale>
+		</drawline>
+	</renderers>
+</system>

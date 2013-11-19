@@ -1,0 +1,7 @@
+<system>
+	<children>
+		<child>explosion/explosion_fighter_2_smoke.xml</child>
+		<child>explosion/explosion_fighter_2_debris.xml</child>
+		<child>explosion/explosion_fighter_2_glow.xml</child>
+	</children>
+</system>

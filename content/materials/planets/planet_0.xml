@@ -1,0 +1,5 @@
+<material>
+	<texture>planets/planet_0.png</texture>
+	<blendmode>sourceover</blendmode>
+	<opacity>1.0</opacity>
+</material>

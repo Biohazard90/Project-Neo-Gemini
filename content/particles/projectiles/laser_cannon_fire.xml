@@ -1,0 +1,73 @@
+<system>
+	<emitters>
+		<emitcontinuously>
+			<delay_min>0.005</delay_min>
+			<delay_max>0.008</delay_max>
+			<duration>0.4</duration>
+		</emitcontinuously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>1</distance_min>
+			<distance_max>6</distance_max>
+			<velocity_min>0</velocity_min>
+			<velocity_max>0</velocity_max>
+			<velocity_exponent>1</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>10</size_min>
+			<size_max>30</size_max>
+		</initsizerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.1</lifetime_min>
+			<lifetime_max>0.4</lifetime_max>
+			<exponent>1</exponent>
+		</initlifetimerandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>100</velocity_min_x>
+			<velocity_max_x>1200</velocity_max_x>
+			<localspace>true</localspace>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.05</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>0.2</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opmovement>
+			<drag>-0.001</drag>
+		</opmovement>
+		
+		<opsizescale>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<size_min>1</size_min>
+			<size_max>0</size_max>
+			<exponent>2</exponent>
+		</opsizescale>
+		
+		<oplocktosystemorigin />
+	</operators>
+	
+	<renderers>
+		<drawmaterial>
+			<material>effects/glow_0_green_1</material>
+		</drawmaterial>
+	</renderers>
+	
+	<children>
+		<child>projectiles/laser_cannon_fire_sub_0.xml</child>
+	</children>
+</system>

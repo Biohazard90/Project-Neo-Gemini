@@ -1,0 +1,10 @@
+<material>
+	<texture>effects/glow_0.png</texture>
+	<blendmode>plus</blendmode>
+	<opacity>1.0</opacity>
+	<tint>
+		<r>255</r>
+		<g>230</g>
+		<b>0</b>
+	</tint>
+</material>
