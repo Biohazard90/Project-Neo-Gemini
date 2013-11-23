@@ -5,7 +5,7 @@
 
 
 ParticleView::ParticleView(QWidget *parent) :
-    QWidget(parent)
+    QObject(parent)
 {
     particleRoot = new ParticleRoot();
 
@@ -20,24 +20,11 @@ ParticleView::~ParticleView()
 void ParticleView::OnSimulate(float frametime)
 {
     particleRoot->OnSimulate(frametime);
-
-    update();
 }
 
-void ParticleView::paintEvent(QPaintEvent *)
+void ParticleView::paintEvent(render_context_t &context)
 {
-    QPainter painter(this);
-    PassthroughPainter passthrough(painter);
-
-    render_context_t c;
-    c.painter = &passthrough;
-    //c.painter = &painter;
-    c.x = x();
-    c.y = y();
-    c.w = width();
-    c.h = height();
-
-    particleRoot->OnRender(c);
+    particleRoot->OnRender(context);
 }
 
 void ParticleView::resizeEvent(QResizeEvent *e)

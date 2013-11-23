@@ -8,7 +8,7 @@ Globals::Globals()
     curtime = 0.0f;
     frametime = 0.0f;
     antialiasing = true;
-    parallelrendering = true;
+    parallelrendering = false;
     showfps = false;
     musicenabled = true;
 

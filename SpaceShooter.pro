@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml qml declarative quick widgets
+QT       += core gui xml qml declarative quick widgets opengl
 
 
 TARGET = SpaceShooter
@@ -127,7 +127,6 @@ SOURCES += main.cpp\
     game/entity.cpp \
     game/player.cpp \
     widgets/particleview.cpp \
-    widgets/gameview.cpp \
     material/materialprecache.cpp \
     game/layer.cpp \
     game/map.cpp \
@@ -217,7 +216,6 @@ HEADERS  += mainwindow.h \
     game/entity.h \
     game/player.h \
     widgets/particleview.h \
-    widgets/gameview.h \
     material/materialprecache.h \
     game/layer.h \
     game/map.h \

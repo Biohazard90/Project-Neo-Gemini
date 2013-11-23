@@ -2,23 +2,25 @@
 #define MENUROOT_H
 
 #include "macros.h"
-#include <QWidget>
+#include "isimulated.h"
+#include <QGLWidget>
 
 class ParticleSystem;
 class QDeclarativeView;
 class QAudioOutput;
 class QGraphicsObject;
 class ParticleView;
-class GameView;
+class Game;
+class MenuBackground;
 
 #include <QDebug>
 namespace Ui {
 class menuroot;
 }
 
-class RootView : public QWidget
+class RootView : public QGLWidget, public ISimulated
 {
-    DECLARE_CLASS(RootView, QWidget);
+    DECLARE_CLASS(RootView, QGLWidget);
 
     Q_OBJECT
     Q_PROPERTY(bool AAEnabled READ getAAEnabled WRITE setAAEnabled NOTIFY AAEnabledChanged)
@@ -34,6 +36,8 @@ public:
 
     virtual void resizeEvent(QResizeEvent *);
 
+    virtual void OnSimulate(float frametime);
+
     bool getAAEnabled(){ return AAEnabled; }
     void setAAEnabled(bool enabled);
     bool getParallelRenderingEnabled(){ return ParallelRenderingEnabled; }
@@ -45,8 +49,11 @@ public:
     QString getLevelName(){ return LevelName; }
     void setLevelName(QString name);
 
+    virtual void paintEvent(QPaintEvent *event);
+
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 
 public slots:
     void onButtonHover(QGraphicsObject *caller, bool containsMouse);
@@ -91,12 +98,12 @@ private:
 
     void EscapePressed();
 
-    QWidget *background;
+    MenuBackground *background;
     ParticleView *particleView;
     QDeclarativeView *mainQml;
     QDeclarativeView *hudQml;
 
-    GameView *gameView;
+    Game *game;
 
     bool AAEnabled;
     bool ParallelRenderingEnabled;

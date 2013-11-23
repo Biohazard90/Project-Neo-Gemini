@@ -251,7 +251,7 @@ void Player::OnKilled(const Damage_t *damage)
 
     GetGameContext()->GetParticleRoot()->CreateParticles("explosion_player_0", GetOrigin(), -GetForward());
 
-    AudioManager::GetInstance()->PlaySound("blast/blast_player_0.wav", 0.7f);
+    AudioManager::GetInstance()->PlaySoundSample("blast/blast_player_0.wav", 0.7f);
 
     SetVelocity(vec2_origin);
 

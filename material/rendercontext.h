@@ -5,8 +5,8 @@
 
 struct render_context_t
 {
-    IPainter *painter;
-    //QPainter *painter;
+    //IPainter *painter;
+    QPainter *painter;
 
     int x, y, w, h;
 };

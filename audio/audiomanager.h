@@ -5,6 +5,7 @@
 #include <QString>
 #include <QHash>
 
+
 namespace sf
 {
     class SoundBuffer;
@@ -28,7 +29,7 @@ public:
     virtual void OnSimulate(float frametime);
 
     void PrecacheSound(const char *path);
-    void PlaySound(const char *path, float volume = 1.0f);
+    void PlaySoundSample(const char *path, float volume = 1.0f);
 
     void PlayMusic(const char *path, float volume = 1.0f, bool looped = true);
     void StopMusic();

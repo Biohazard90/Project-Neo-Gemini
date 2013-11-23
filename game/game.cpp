@@ -17,7 +17,7 @@ Game::Game(QObject *parent) :
   , livesChangedTime( 0.0f )
 {
     if (pGlobals->parallelrendering)
-        parallelRenderer = new ParallelRenderer();
+        parallelRenderer = NULL; //new ParallelRenderer();
     else
         parallelRenderer = NULL;
 
@@ -100,23 +100,23 @@ void Game::OnSimulate(float frametime)
 
     if (parallelRenderer != NULL)
     {
-        render_context_t parallel_context;
-        parallel_context.x = parallel_context.y = 0;
-        parallel_context.w = pGlobals->screen_width;
-        parallel_context.h = pGlobals->screen_height;
-        parallel_context.painter = parallelRenderer->BeginJob();
+//        render_context_t parallel_context;
+//        parallel_context.x = parallel_context.y = 0;
+//        parallel_context.w = pGlobals->screen_width;
+//        parallel_context.h = pGlobals->screen_height;
+//        parallel_context.painter = parallelRenderer->BeginJob();
 
-        PaintGame(parallel_context);
+//        PaintGame(parallel_context);
 
-        parallelRenderer->EndJob();
+//        parallelRenderer->EndJob();
     }
 }
 
 void Game::OnRender(const render_context_t &context)
 {
-    if (parallelRenderer != NULL)
-        PaintParallelResult(context);
-    else
+//    if (parallelRenderer != NULL)
+//        PaintParallelResult(context);
+//    else
         PaintGame(context);
 
     if (pGlobals->showfps)

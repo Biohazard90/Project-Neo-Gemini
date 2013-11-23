@@ -19,6 +19,13 @@ void CenterOnScreen(QWidget *pWidget)
 
 QPainter::CompositionMode StringToCompositionMode(const QString &string)
 {
+    //OpenGL compatible modes
+    if (string.compare("sourceover") == 0
+            || string.isEmpty())
+        return QPainter::CompositionMode_SourceOver;
+
+    return QPainter::CompositionMode_Plus;
+
     // svg blend modes
     if (string.compare("plus", Qt::CaseInsensitive) == 0)
         return QPainter::CompositionMode_Plus;

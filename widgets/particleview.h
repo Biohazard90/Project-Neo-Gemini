@@ -1,12 +1,13 @@
 #ifndef PARTICLEVIEW_H
 #define PARTICLEVIEW_H
 
-#include <QWidget>
+#include <QGLWidget>
 #include "isimulated.h"
+#include "rendercontext.h"
 
 class ParticleRoot;
 
-class ParticleView : public QWidget, ISimulated
+class ParticleView : public QObject, ISimulated
 {
     Q_OBJECT
 public:
@@ -14,7 +15,7 @@ public:
     ~ParticleView();
 
     virtual void OnSimulate(float frametime);
-    virtual void paintEvent(QPaintEvent *);
+    virtual void paintEvent(render_context_t &context);
     virtual void resizeEvent(QResizeEvent *);
 
     ParticleRoot *GetParticleRoot();

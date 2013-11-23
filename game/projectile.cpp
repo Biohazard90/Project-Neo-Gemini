@@ -68,7 +68,7 @@ void Projectile::Launch(const Vector2D &direction, const float &volume)
     SetVelocity(directionNormalized);
 
     if (!data.sound.empty())
-        AudioManager::GetInstance()->PlaySound(data.sound.c_str(), volume);
+        AudioManager::GetInstance()->PlaySoundSample(data.sound.c_str(), volume);
 }
 
 void Projectile::OnSimulate(float frametime)

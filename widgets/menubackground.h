@@ -2,16 +2,17 @@
 #define MENUBACKGROUND_H
 
 #include "../isimulated.h"
-#include <QWidget>
+#include "rendercontext.h"
+#include <QGLWidget>
 
-class MenuBackground : public QWidget, ISimulated
+class MenuBackground : public QObject, ISimulated
 {
     Q_OBJECT
 public:
     explicit MenuBackground(QWidget *parent = 0);
     ~MenuBackground();
 
-    virtual void paintEvent(QPaintEvent *);
+    virtual void paintEvent(render_context_t &context);
 
     virtual void OnSimulate(float frametime);
     

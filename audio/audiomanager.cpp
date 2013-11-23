@@ -79,7 +79,7 @@ void AudioManager::OnSimulate(float frametime)
     UpdateMusic(frametime);
 }
 
-void AudioManager::PlaySound(const char *path, float volume)
+void AudioManager::PlaySoundSample(const char *path, float volume)
 {
     if (shutdown)
         return;

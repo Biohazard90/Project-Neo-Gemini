@@ -4,7 +4,7 @@
 #include "menubackground.h"
 #include "particlebase.h"
 #include "particleview.h"
-#include "gameview.h"
+#include "gamebase.h"
 #include "game.h"
 #include "score.h"
 #include "ranking.h"
@@ -21,7 +21,7 @@
 
 
 RootView::RootView(QWidget *parent) :
-    QWidget(parent)
+    QGLWidget(parent)
 {
     AAEnabled = pGlobals->antialiasing;
     ParallelRenderingEnabled = pGlobals->parallelrendering;
@@ -30,18 +30,23 @@ RootView::RootView(QWidget *parent) :
 
     background = NULL;
     particleView = NULL;
-    gameView = NULL;
+    game = NULL;
     mainQml = NULL;
     hudQml = NULL;
 
     setFocusPolicy(Qt::StrongFocus);
 
+    SimulationList::GetInstance()->AddSimulationObject(this);
+
     ShowBackground();
     ShowMenu();
+
+    //CreateGame("space", true);
 }
 
 RootView::~RootView()
 {
+    SimulationList::GetInstance()->RemoveSimulationObject(this);
 }
 
 void RootView::resizeEvent(QResizeEvent *e)
@@ -51,12 +56,46 @@ void RootView::resizeEvent(QResizeEvent *e)
     int w = e->size().width();
     int h = e->size().height();
 
-    if (background != NULL)
-        background->setFixedSize(w, h);
-    if (particleView != NULL)
-        particleView->setFixedSize(w, h);
     if (mainQml != NULL)
         mainQml->setFixedSize(w, h);
+}
+
+void RootView::OnSimulate(float frametime)
+{
+    if (game != NULL)
+    {
+        game->OnSimulate(frametime);
+    }
+
+    update();
+}
+
+void RootView::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+
+    render_context_t c;
+    c.painter = &painter;
+
+    c.x = 0;
+    c.y = 0;
+    c.w = width();
+    c.h = height();
+
+    if (game != NULL)
+    {
+        game->OnRender(c);
+    }
+
+    if (background != NULL)
+    {
+        background->paintEvent(c);
+    }
+
+    if (particleView != NULL)
+    {
+        particleView->paintEvent(c);
+    }
 }
 
 void RootView::keyPressEvent(QKeyEvent *event)
@@ -70,20 +109,33 @@ void RootView::keyPressEvent(QKeyEvent *event)
         ShowGameOver();
         break;
     case Qt::Key_P:
-    {
-        if (gameView != NULL)
-            gameView->GetGame()->GetParticleRoot()->CreateParticles("explosion_fighter_3_hit", Vector2D(320, 0), Vector2D(1, 0));
+        {
+            if (game != NULL)
+                game->GetParticleRoot()->CreateParticles("explosion_fighter_3_hit", Vector2D(320, 0), Vector2D(1, 0));
+        }
         break;
-    }
     default:
-        BaseClass::keyPressEvent(event);
+        {
+            if (game != NULL)
+                Input::GetInstance()->OnKeyPressed(event);
+
+            BaseClass::keyPressEvent(event);
+        }
         break;
     }
 }
 
+void RootView::keyReleaseEvent(QKeyEvent *event)
+{
+    if (game != NULL)
+        Input::GetInstance()->OnKeyReleased(event);
+
+    BaseClass::keyReleaseEvent(event);
+}
+
 void RootView::EscapePressed()
 {
-    if (gameView != NULL
+    if (game != NULL
             && mainQml == NULL)
     {
         ShowMenu(MENU_Ingame);
@@ -94,18 +146,14 @@ void RootView::ShowBackground()
 {
     if (background != NULL)
         background->deleteLater();
+
     if (particleView != NULL)
         particleView->deleteLater();
 
     background = new MenuBackground(this);
     particleView = new ParticleView(this);
+
     particleView->GetParticleRoot()->CreateParticles("menu", Vector2D(320,240));
-
-    background->setFixedSize(width(), height());
-    particleView->setFixedSize(width(), height());
-
-    background->show();
-    particleView->show();
 
     if (mainQml != NULL)
         mainQml->raise();
@@ -126,8 +174,8 @@ void RootView::HideBackground()
 
 void RootView::ShowMenu(MenuMode_e mode)
 {
-    if (gameView != NULL)
-        gameView->GetGame()->SetPaused(true);
+    if (game != NULL)
+        game->SetPaused(true);
 
     if (mainQml != NULL)
         mainQml->deleteLater();
@@ -166,15 +214,15 @@ void RootView::HideMenu()
 
     mainQml = NULL;
 
-    if (gameView != NULL)
-        gameView->setFocus();
-    else
+   // if (gameView != NULL)
+    //    gameView->setFocus();
+   // else
         setFocus();
 }
 
 void RootView::ShowGameOver()
 {
-    if (gameView != NULL)
+    if (game != NULL)
     {
         ShowMenu(MENU_Gameover);
     }
@@ -182,7 +230,7 @@ void RootView::ShowGameOver()
 
 void RootView::ShowScore()
 {
-    if (gameView != NULL
+    if (game != NULL
             && mainQml == NULL)
     {
         ShowMenu(MENU_Score);
@@ -197,23 +245,26 @@ void RootView::CreateGame(const char *mapname, bool newGame)
     if (hudQml != NULL)
         hudQml->deleteLater();
 
-    if (gameView != NULL)
-        gameView->deleteLater();
+    if (game != NULL)
+        game->deleteLater();
 
-    gameView = new GameView(this);
-    QObject::connect(gameView->GetGame(), SIGNAL(GameEnded()), this, SLOT(onGameOver()));
+    game = new Game(this);
+    QObject::connect(game, SIGNAL(GameEnded()), this, SLOT(onGameOver()));
 
-    gameView->setGeometry(geometry());
+   // gameView->setGeometry(geometry());
+    //gameView->setGeometry(0, 0, 1920, 1080);
 
-    gameView->GetGame()->LoadMap(mapname);
+    game->LoadMap(mapname);
 
-    gameView->show();
+    //gameView->show();
+
+    return;
 
     hudQml = new QDeclarativeView(this);
     hudQml->setStyleSheet(QString("background: transparent"));
     hudQml->rootContext()->setContextProperty("menuController", this);
     hudQml->rootContext()->setContextProperty("scoreController", Score::GetInstance());
-    hudQml->rootContext()->setContextProperty("gameController", gameView->GetGame());
+    hudQml->rootContext()->setContextProperty("gameController", game);
     hudQml->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     hudQml->setSource(QUrl::fromLocalFile(OSLocalPath("qml/Hud.qml")));
     hudQml->setFixedSize(width(), height());
@@ -231,11 +282,11 @@ void RootView::DestroyGame()
     if (hudQml != NULL)
         hudQml->deleteLater();
 
-    if (gameView != NULL)
-        gameView->deleteLater();
+    if (game != NULL)
+        game->deleteLater();
 
     hudQml = NULL;
-    gameView = NULL;
+    game = NULL;
 }
 
 void RootView::setAAEnabled(bool enabled)
@@ -277,12 +328,12 @@ void RootView::setLevelName(QString name)
 void RootView::onButtonHover(QGraphicsObject *caller, bool containsMouse)
 {
     if (containsMouse)
-        AudioManager::GetInstance()->PlaySound("menu/rollover_1.wav");
+        AudioManager::GetInstance()->PlaySoundSample("menu/rollover_1.wav");
 }
 
 void RootView::onButtonClick()
 {
-    AudioManager::GetInstance()->PlaySound("menu/rollover_2.wav");
+    AudioManager::GetInstance()->PlaySoundSample("menu/rollover_2.wav");
 }
 
 void RootView::onStartGame(QString mapname, bool newGame)
@@ -310,8 +361,8 @@ void RootView::onMenuFadedOut()
 {
     HideMenu();
 
-    if (gameView != NULL)
-        gameView->GetGame()->SetPaused(false);
+    if (game != NULL)
+        game->SetPaused(false);
 }
 
 void RootView::onShowBackground()

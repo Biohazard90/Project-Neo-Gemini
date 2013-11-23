@@ -96,7 +96,7 @@ public:
                 particlesFire->SetParticleParent(GetShip());
             }
 
-            AudioManager::GetInstance()->PlaySound("laser/laser_cannon_shoot.wav", 0.45f);
+            AudioManager::GetInstance()->PlaySoundSample("laser/laser_cannon_shoot.wav", 0.45f);
             playerLastDirectionSign = playerDirectionSign;
             return;
         }
@@ -120,7 +120,7 @@ public:
         waitTime = gameTime + 1.45f;
         chargeTime = gameTime + 0.7f;
 
-        AudioManager::GetInstance()->PlaySound("laser/laser_cannon_charge.wav", 0.45f);
+        AudioManager::GetInstance()->PlaySoundSample("laser/laser_cannon_charge.wav", 0.45f);
 
         particlesCharge = GetGameContext()->GetParticleRoot()->CreateParticles("laser_charge_green", Vector2D(8, 0));
         if (!particlesCharge.isNull())

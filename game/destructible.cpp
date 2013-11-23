@@ -26,7 +26,7 @@ void Destructible::OnDamage(const Damage_t &damage)
     {
         int index = qrand(data.sound_hit_count - 1);
         Q_ASSERT(index >= 0 && index < data.sound_hit_count);
-        AudioManager::GetInstance()->PlaySound(data.sound_hit[index].c_str(), qfrand() * 0.2f + 0.3f);
+        AudioManager::GetInstance()->PlaySoundSample(data.sound_hit[index].c_str(), qfrand() * 0.2f + 0.3f);
     }
 }
 
@@ -52,7 +52,7 @@ void Destructible::OnKilled(const Damage_t *damage)
     {
         int index = qrand(data.sound_destroy_count - 1);
         Q_ASSERT(index >= 0 && index < data.sound_destroy_count);
-        AudioManager::GetInstance()->PlaySound(data.sound_destroy[index].c_str(), qfrand() * 0.3f + 0.2f);
+        AudioManager::GetInstance()->PlaySoundSample(data.sound_destroy[index].c_str(), qfrand() * 0.3f + 0.2f);
     }
 }
 

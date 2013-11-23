@@ -65,7 +65,7 @@ void BossShip::OnSimulate(float frametime)
             };
             const int deathFXCount = QARRAYSIZE(deathFXSounds);
 
-            AudioManager::GetInstance()->PlaySound(deathFXSounds[qrand(deathFXCount - 1)], 0.2f + qfrand() * 0.2f);
+            AudioManager::GetInstance()->PlaySoundSample(deathFXSounds[qrand(deathFXCount - 1)], 0.2f + qfrand() * 0.2f);
 
             const char *particleHit = "explosion_boss_0_small"; //GetFighterData().particle_hit.c_str();
             if (particleHit && *particleHit)
