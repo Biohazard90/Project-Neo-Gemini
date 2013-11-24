@@ -20,7 +20,6 @@ public:
     Vector2D screen_center;
 
     bool antialiasing;
-    bool parallelrendering;
     bool showfps;
     bool musicenabled;
 };

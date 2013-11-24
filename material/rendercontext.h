@@ -9,6 +9,8 @@ struct render_context_t
     QPainter *painter;
 
     int x, y, w, h;
+
+    int mx, my;
 };
 
 

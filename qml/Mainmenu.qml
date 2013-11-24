@@ -1,4 +1,5 @@
 import QtQuick 1.1
+import CustomComponents 1.0
 
 Item {
     id: root
@@ -14,6 +15,7 @@ Item {
     Connections {
         target: menuController
         onPrepareIngameMenu: {
+            showMenu();
             menu_main.opacity = 0
             menu_main.scale = 0
             ingame_fade.visible = true
@@ -21,6 +23,7 @@ Item {
             root.state = "INGAME"
         }
         onPrepareGameoverMenu: {
+            showMenu();
             menu_main.opacity = 0
             menu_main.scale = 0
             highscoreName.playerName = ""
@@ -93,6 +96,11 @@ Item {
     Keys.onDigit3Pressed: if (state === "MAIN") startLevel("dev_fighter_1")
     Keys.onDigit4Pressed: if (state === "MAIN") startLevel("dev_fighter_2")
     Keys.onDigit5Pressed: if (state === "MAIN") startLevel("dev_fighter_3")
+
+    GameView {
+        id: game
+        anchors.fill: parent
+    }
 
     Item {
         id: menu_root
@@ -214,17 +222,6 @@ Item {
                 checked: menuController.AAEnabled
                 onCheckChanged: {
                     menuController.AAEnabled = enabled;
-                }
-            }
-            Menucheckbox {
-                width: buttonW + 50
-                height: buttonH
-                enabled: !isIngame
-                anchors.horizontalCenter: parent.horizontalCenter
-                buttonText: "Parallel rendering:"
-                checked: menuController.ParallelRenderingEnabled
-                onCheckChanged: {
-                    menuController.ParallelRenderingEnabled = enabled;
                 }
             }
             Menucheckbox {

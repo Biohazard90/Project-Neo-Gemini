@@ -13,7 +13,6 @@ void Config::LoadConfig(Globals *globals)
         return;
 
     globals->antialiasing = root.firstChildElement("antialiasing").toElement().text().toInt() != 0;
-    globals->parallelrendering = root.firstChildElement("parallelrendering").toElement().text().toInt() != 0;
     globals->showfps = root.firstChildElement("showfps").toElement().text().toInt() != 0;
     globals->musicenabled = root.firstChildElement("musicenabled").toElement().text().toInt() != 0;
     globals->screen_width = root.firstChildElement("screen_width").toElement().text().toInt();
@@ -31,10 +30,6 @@ void Config::SaveConfig(Globals *globals)
     QDomElement eAntialiasing = doc.createElement("antialiasing");
     eAntialiasing.appendChild(doc.createTextNode(QString::number(globals->antialiasing ? 1 : 0)));
     root.appendChild(eAntialiasing);
-
-    QDomElement eParallelrendering = doc.createElement("parallelrendering");
-    eParallelrendering.appendChild(doc.createTextNode(QString::number(globals->parallelrendering ? 1 : 0)));
-    root.appendChild(eParallelrendering);
 
     QDomElement eShowfps = doc.createElement("showfps");
     eShowfps.appendChild(doc.createTextNode(QString::number(globals->showfps ? 1 : 0)));

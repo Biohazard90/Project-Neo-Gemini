@@ -3,7 +3,9 @@
 
 #include "macros.h"
 #include "isimulated.h"
-#include <QGLWidget>
+#include <QWidget>
+
+#include <QtDeclarative/QDeclarativeView>
 
 class ParticleSystem;
 class QDeclarativeView;
@@ -18,14 +20,12 @@ namespace Ui {
 class menuroot;
 }
 
-class RootView : public QGLWidget, public ISimulated
+class RootView : public QWidget, public ISimulated
 {
-    DECLARE_CLASS(RootView, QGLWidget);
+    DECLARE_CLASS(RootView, QWidget);
 
     Q_OBJECT
     Q_PROPERTY(bool AAEnabled READ getAAEnabled WRITE setAAEnabled NOTIFY AAEnabledChanged)
-    Q_PROPERTY(bool ParallelRenderingEnabled READ getParallelRenderingEnabled
-               WRITE setParallelRenderingEnabled NOTIFY ParallelRenderingEnabledChanged)
     Q_PROPERTY(bool FPSEnabled READ getFPSEnabled WRITE setFPSEnabled NOTIFY FPSEnabledChanged)
     Q_PROPERTY(bool MusicEnabled READ getMusicEnabled WRITE setMusicEnabled NOTIFY MusicEnabledChanged)
     Q_PROPERTY(QString LevelName READ getLevelName WRITE setLevelName NOTIFY LevelNameChanged)
@@ -40,8 +40,6 @@ public:
 
     bool getAAEnabled(){ return AAEnabled; }
     void setAAEnabled(bool enabled);
-    bool getParallelRenderingEnabled(){ return ParallelRenderingEnabled; }
-    void setParallelRenderingEnabled(bool enabled);
     bool getFPSEnabled(){ return FPSEnabled; }
     void setFPSEnabled(bool enabled);
     bool getMusicEnabled(){ return MusicEnabled; }
@@ -49,7 +47,7 @@ public:
     QString getLevelName(){ return LevelName; }
     void setLevelName(QString name);
 
-    virtual void paintEvent(QPaintEvent *event);
+    virtual void externalPaintEvent(QPainter *painter);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -67,7 +65,6 @@ public slots:
 
 signals:
     void AAEnabledChanged(bool);
-    void ParallelRenderingEnabledChanged(bool);
     void FPSEnabledChanged(bool);
     void MusicEnabledChanged(bool);
     void LevelNameChanged(QString);
@@ -77,6 +74,7 @@ signals:
     void prepareGameoverMenu();
     
 private:
+
     enum MenuMode_e
     {
         MENU_Main = 0,
@@ -84,11 +82,11 @@ private:
         MENU_Gameover, // highscore submission
         MENU_Score
     };
+    void ShowMenu(MenuMode_e mode = MENU_Main);
 
     void ShowBackground();
     void HideBackground();
 
-    void ShowMenu(MenuMode_e mode = MENU_Main);
     void HideMenu();
     void ShowGameOver();
     void ShowScore();
@@ -106,7 +104,6 @@ private:
     Game *game;
 
     bool AAEnabled;
-    bool ParallelRenderingEnabled;
     bool FPSEnabled;
     bool MusicEnabled;
     QString LevelName;

@@ -62,7 +62,6 @@ public slots:
 private:
     void PaintGame(const render_context_t &context);
     void PaintDebug(const render_context_t &context);
-    void PaintParallelResult(const render_context_t &context);
 
     void UpdateGameTime(float frametime);
     void DeleteEntity(Entity *entity);
@@ -75,7 +74,6 @@ private:
     int LiveCount;
     float livesChangedTime;
 
-    ParallelRenderer *parallelRenderer;
     CollisionManager *collisionManager;
 
     bool paused;

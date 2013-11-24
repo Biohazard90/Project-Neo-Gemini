@@ -36,7 +36,7 @@ void MenuBackground::paintEvent(render_context_t &context)
     int w2 = context.w / 2;
     int h2 = context.h / 2;
 
-    Vector2D cursor = Vector2D(QCursor::pos())
+    Vector2D cursor = Vector2D(context.mx, context.my)
             - Vector2D(w2,h2);
     cursor *= -1;
 

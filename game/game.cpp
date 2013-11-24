@@ -16,11 +16,6 @@ Game::Game(QObject *parent) :
   , LiveCount( 0 )
   , livesChangedTime( 0.0f )
 {
-    if (pGlobals->parallelrendering)
-        parallelRenderer = NULL; //new ParallelRenderer();
-    else
-        parallelRenderer = NULL;
-
     collisionManager = new CollisionManager();
 
     particleroot = new ParticleRoot();
@@ -40,8 +35,6 @@ Game::~Game()
     delete particleroot;
 
     delete collisionManager;
-
-    delete parallelRenderer;
 }
 
 bool Game::IsPaused()
@@ -97,27 +90,11 @@ void Game::OnSimulate(float frametime)
             EndMap();
         }
     }
-
-    if (parallelRenderer != NULL)
-    {
-//        render_context_t parallel_context;
-//        parallel_context.x = parallel_context.y = 0;
-//        parallel_context.w = pGlobals->screen_width;
-//        parallel_context.h = pGlobals->screen_height;
-//        parallel_context.painter = parallelRenderer->BeginJob();
-
-//        PaintGame(parallel_context);
-
-//        parallelRenderer->EndJob();
-    }
 }
 
 void Game::OnRender(const render_context_t &context)
 {
-//    if (parallelRenderer != NULL)
-//        PaintParallelResult(context);
-//    else
-        PaintGame(context);
+    PaintGame(context);
 
     if (pGlobals->showfps)
         PaintDebug(context);
@@ -125,9 +102,6 @@ void Game::OnRender(const render_context_t &context)
 
 void Game::PaintGame(const render_context_t &context)
 {
-    context.painter->setRenderHint(QPainter::Antialiasing, pGlobals->antialiasing);
-    context.painter->setRenderHint(QPainter::SmoothPixmapTransform, pGlobals->antialiasing);
-
     FOREACH_QLIST(entities, Entity*, e)
     {
         if (!e->IsPlayer())
@@ -150,48 +124,19 @@ void Game::PaintGame(const render_context_t &context)
     }
 }
 
-void Game::PaintParallelResult(const render_context_t &context)
-{
-    parallelRenderer->SwapBuffers();
-
-    context.painter->setRenderHint(QPainter::Antialiasing, false);
-    context.painter->setRenderHint(QPainter::HighQualityAntialiasing, false);
-    context.painter->setRenderHint(QPainter::TextAntialiasing, false);
-    context.painter->setRenderHint(QPainter::SmoothPixmapTransform, false);
-
-    int c = parallelRenderer->GetBufferCount();
-    for (int i = 0; i < c; i++)
-    {
-        context.painter->drawImage(parallelRenderer->GetBufferOffset(i),
-                                   0,
-                                   *parallelRenderer->GetBuffer(i));
-    }
-}
-
 void Game::PaintDebug(const render_context_t &context)
 {
     context.painter->setPen(Qt::red);
     context.painter->setFont(QFont("calibri", 12));
 
-    if (parallelRenderer != NULL)
-    {
-        QString fps = QString("fps swap: %1").arg(1.0f / parallelRenderer->GetFrametimeSwap());
-        QString fps1 = QString("fps render: %1").arg(1.0f / parallelRenderer->GetFrametimeRender());
-        QString fps2 = QString("fps simulation: %1").arg((pGlobals->frametime > 0) ? (1.0f / pGlobals->frametime) : 0);
-
-        context.painter->drawText(0, 15, fps);
-        context.painter->drawText(0, 30, fps1);
-        context.painter->drawText(0, 45, fps2);
-    }
-    else
     {
         QString fps = QString("fps: %1").arg((pGlobals->frametime > 0) ? (1.0f / pGlobals->frametime) : 0);
         context.painter->drawText(0, 15, fps);
     }
 
-    context.painter->drawText(0, 70, QString("time: %1").arg(GetGameTime()));
+    context.painter->drawText(0, 30, QString("time: %1").arg(GetGameTime()));
 
-    //collisionManager->PaintCollisions(context);
+    collisionManager->PaintCollisions(context);
 }
 
 void Game::LoadMap(const char *mapname)

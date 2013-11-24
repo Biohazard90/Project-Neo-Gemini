@@ -9,7 +9,6 @@
 #include "score.h"
 #include "ranking.h"
 
-#include <QtDeclarative/QDeclarativeView>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeContext>
 #include <QVBoxLayout>
@@ -19,12 +18,14 @@
 
 #include <QDir>
 
+RootView *VIEW;
 
 RootView::RootView(QWidget *parent) :
-    QGLWidget(parent)
+    BaseClass(parent)
 {
+    VIEW = this;
+
     AAEnabled = pGlobals->antialiasing;
-    ParallelRenderingEnabled = pGlobals->parallelrendering;
     FPSEnabled = pGlobals->showfps;
     MusicEnabled = pGlobals->musicenabled;
 
@@ -58,6 +59,9 @@ void RootView::resizeEvent(QResizeEvent *e)
 
     if (mainQml != NULL)
         mainQml->setFixedSize(w, h);
+    //mainQml->setViewport(this);
+
+    //setFixedSize(w, h);
 }
 
 void RootView::OnSimulate(float frametime)
@@ -66,21 +70,24 @@ void RootView::OnSimulate(float frametime)
     {
         game->OnSimulate(frametime);
     }
-
-    update();
 }
 
-void RootView::paintEvent(QPaintEvent *event)
+void RootView::externalPaintEvent(QPainter *painter)
 {
-    QPainter painter(this);
+   // {
 
     render_context_t c;
-    c.painter = &painter;
+    c.painter = painter;
 
     c.x = 0;
     c.y = 0;
     c.w = width();
     c.h = height();
+
+    QPoint mousePos = mapFromGlobal(QCursor::pos());
+
+    c.mx = mousePos.x();
+    c.my = mousePos.y();
 
     if (game != NULL)
     {
@@ -96,6 +103,12 @@ void RootView::paintEvent(QPaintEvent *event)
     {
         particleView->paintEvent(c);
     }
+
+    //qDebug() << "sddffd";
+
+    //BaseClass::paintEvent(event);
+//}
+    //((RootView*)mainQml)->paintEvent(event);
 }
 
 void RootView::keyPressEvent(QKeyEvent *event)
@@ -135,9 +148,9 @@ void RootView::keyReleaseEvent(QKeyEvent *event)
 
 void RootView::EscapePressed()
 {
-    if (game != NULL
-            && mainQml == NULL)
+    if (game != NULL)
     {
+        mainQml->setFocus();
         ShowMenu(MENU_Ingame);
     }
 }
@@ -177,20 +190,28 @@ void RootView::ShowMenu(MenuMode_e mode)
     if (game != NULL)
         game->SetPaused(true);
 
-    if (mainQml != NULL)
-        mainQml->deleteLater();
+    if (mainQml == NULL)
+    {
+        QGLWidget *glTarget = new QGLWidget(this);
 
-    mainQml = new QDeclarativeView(this);
-    mainQml->setStyleSheet(QString("background: transparent"));
-    mainQml->rootContext()->setContextProperty("menuController", this);
-    mainQml->rootContext()->setContextProperty("scoreController", Score::GetInstance());
-    mainQml->rootContext()->setContextProperty("rankingController", Ranking::GetInstance());
-    mainQml->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    mainQml->setSource(QUrl::fromLocalFile(OSLocalPath("qml/Mainmenu.qml")));
+        mainQml = new QDeclarativeView(this);
+        mainQml->setViewport(glTarget);
 
-    QObject::connect(mainQml->engine(), SIGNAL(quit()), parent(), SLOT(close()));
+        mainQml->rootContext()->setContextProperty("menuController", this);
+        mainQml->rootContext()->setContextProperty("scoreController", Score::GetInstance());
+        mainQml->rootContext()->setContextProperty("rankingController", Ranking::GetInstance());
+        mainQml->setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
-    mainQml->setFixedSize(width(), height());
+        mainQml->setSource(QUrl::fromLocalFile(OSLocalPath("qml/Mainmenu.qml")));
+
+        QObject::connect(mainQml->engine(), SIGNAL(quit()), parent(), SLOT(close()));
+
+        mainQml->setFixedSize(width(), height());
+        mainQml->show();
+    }
+
+    mainQml->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    mainQml->setFocusPolicy(Qt::StrongFocus);
 
     switch (mode)
     {
@@ -202,22 +223,18 @@ void RootView::ShowMenu(MenuMode_e mode)
         break;
     }
 
-    mainQml->show();
-
     Ranking::GetInstance()->Update();
 }
 
 void RootView::HideMenu()
 {
     if (mainQml != NULL)
-        mainQml->deleteLater();
+    {
+        mainQml->setFocusPolicy(Qt::NoFocus);
+        mainQml->setAttribute(Qt::WA_TransparentForMouseEvents);
+    }
 
-    mainQml = NULL;
-
-   // if (gameView != NULL)
-    //    gameView->setFocus();
-   // else
-        setFocus();
+    setFocus();
 }
 
 void RootView::ShowGameOver()
@@ -275,6 +292,8 @@ void RootView::CreateGame(const char *mapname, bool newGame)
 
     if (mainQml != NULL)
         mainQml->raise();
+
+    //hudQml->raise();
 }
 
 void RootView::DestroyGame()
@@ -294,13 +313,6 @@ void RootView::setAAEnabled(bool enabled)
     AAEnabled = enabled;
     pGlobals->antialiasing = enabled;
     emit AAEnabledChanged(enabled);
-}
-
-void RootView::setParallelRenderingEnabled(bool enabled)
-{
-    ParallelRenderingEnabled = enabled;
-    pGlobals->parallelrendering = enabled;
-    emit ParallelRenderingEnabledChanged(enabled);
 }
 
 void RootView::setFPSEnabled(bool enabled)

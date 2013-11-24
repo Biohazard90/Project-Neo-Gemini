@@ -186,7 +186,8 @@ SOURCES += main.cpp\
     game/event/musicevent.cpp \
     game/bossship.cpp \
     game/event/bossevent.cpp \
-    game/ai/boss0ai.cpp
+    game/ai/boss0ai.cpp \
+    widgets/gameview.cpp
 
 HEADERS  += mainwindow.h \
     util/util.h \
@@ -269,7 +270,8 @@ HEADERS  += mainwindow.h \
     game/ai/iai.h \
     game/ai/abstractai.h \
     game/laserbeam.h \
-    game/bossship.h
+    game/bossship.h \
+    widgets/gameview.h
 
 FORMS    += mainwindow.ui \
     widgets/rootview.ui

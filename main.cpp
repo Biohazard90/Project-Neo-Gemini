@@ -18,10 +18,11 @@
 #include "precache.h"
 #include "input.h"
 #include "ranking.h"
+#include "gameview.h"
 
 
 MainWindow *mainWindow;
-QWidget *mainWidget;
+RootView *mainWidget;
 
 void ResizeView(int w, int h)
 {
@@ -49,9 +50,10 @@ static MainCleanup mainCleanup;
 
 int main(int argc, char *argv[])
 {
-    int initRandom = QTime::currentTime().msec();
-    for (int i = 0; i < initRandom; i++)
-        qrand();
+    qsrand(QTime::currentTime().second() * 1000
+                + QTime::currentTime().msec());
+
+    qmlRegisterType<GameView>("CustomComponents", 1, 0, "GameView");
 
     Precache::GetInstance()->PrecacheAll();
     AudioManager::GetInstance()->Init();
@@ -83,7 +85,7 @@ int main(int argc, char *argv[])
     w.setWindowTitle("Shazam");
     //w.setAttribute(Qt::WA_TranslucentBackground);
 
-#if 1
+#if 0
     w.setWindowFlags((w.windowFlags()
                       | Qt::FramelessWindowHint
                       | Qt::WindowStaysOnTopHint)
