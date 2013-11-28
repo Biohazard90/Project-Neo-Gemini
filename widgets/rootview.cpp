@@ -22,6 +22,7 @@ RootView *VIEW;
 
 RootView::RootView(QWidget *parent) :
     BaseClass(parent)
+  , GameVisible(false)
 {
     VIEW = this;
 
@@ -72,43 +73,22 @@ void RootView::OnSimulate(float frametime)
     }
 }
 
-void RootView::externalPaintEvent(QPainter *painter)
+void RootView::externalPaintEvent(render_context_t &context)
 {
-   // {
-
-    render_context_t c;
-    c.painter = painter;
-
-    c.x = 0;
-    c.y = 0;
-    c.w = width();
-    c.h = height();
-
-    QPoint mousePos = mapFromGlobal(QCursor::pos());
-
-    c.mx = mousePos.x();
-    c.my = mousePos.y();
-
     if (game != NULL)
     {
-        game->OnRender(c);
+        game->OnRender(context);
     }
 
     if (background != NULL)
     {
-        background->paintEvent(c);
+        background->paintEvent(context);
     }
 
     if (particleView != NULL)
     {
-        particleView->paintEvent(c);
+        particleView->paintEvent(context);
     }
-
-    //qDebug() << "sddffd";
-
-    //BaseClass::paintEvent(event);
-//}
-    //((RootView*)mainQml)->paintEvent(event);
 }
 
 void RootView::keyPressEvent(QKeyEvent *event)
@@ -124,7 +104,7 @@ void RootView::keyPressEvent(QKeyEvent *event)
     case Qt::Key_P:
         {
             if (game != NULL)
-                game->GetParticleRoot()->CreateParticles("explosion_fighter_3_hit", Vector2D(320, 0), Vector2D(1, 0));
+                game->GetParticleRoot()->CreateParticles("player_shield_damage", Vector2D(320, 0), Vector2D(1, 0));
         }
         break;
     default:
@@ -193,6 +173,7 @@ void RootView::ShowMenu(MenuMode_e mode)
     if (mainQml == NULL)
     {
         QGLWidget *glTarget = new QGLWidget(this);
+        glTarget->setFormat(QGLFormat(QGL::SampleBuffers));
 
         mainQml = new QDeclarativeView(this);
         mainQml->setViewport(glTarget);
@@ -272,6 +253,8 @@ void RootView::CreateGame(const char *mapname, bool newGame)
     //gameView->setGeometry(0, 0, 1920, 1080);
 
     game->LoadMap(mapname);
+    mainQml->rootContext()->setContextProperty("gameController", game);
+    setGameVisible(true);
 
     //gameView->show();
 
@@ -298,6 +281,8 @@ void RootView::CreateGame(const char *mapname, bool newGame)
 
 void RootView::DestroyGame()
 {
+    setGameVisible(false);
+
     if (hudQml != NULL)
         hudQml->deleteLater();
 
@@ -328,6 +313,12 @@ void RootView::setMusicEnabled(bool enabled)
     pGlobals->musicenabled = enabled;
     AudioManager::GetInstance()->SetMusicEnabled(enabled);
     emit MusicEnabledChanged(enabled);
+}
+
+void RootView::setGameVisible(bool visible)
+{
+    GameVisible = visible;
+    emit GameVisibleChanged(visible);
 }
 
 void RootView::setLevelName(QString name)

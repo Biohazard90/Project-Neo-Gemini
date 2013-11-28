@@ -1,0 +1,108 @@
+<system>
+	<emitters>
+		<emitinstantaneously>
+			<amount_min>45</amount_min>
+			<amount_max>60</amount_max>
+		</emitinstantaneously>
+	</emitters>
+	
+	<initializers>
+		<initsphere>
+			<distance_min>0</distance_min>
+			<distance_max>50</distance_max>
+			<velocity_min>0</velocity_min>
+			<velocity_max>200</velocity_max>
+			<velocity_exponent>1</velocity_exponent>
+		</initsphere>
+		
+		<initsizerandom>
+			<size_min>5</size_min>
+			<size_max>30</size_max>
+			<exponent>7</exponent>
+		</initsizerandom>
+		
+		<initanglerandom>
+			<angle_min>0</angle_min>
+			<angle_max>360</angle_max>
+		</initanglerandom>
+		
+		<initlifetimerandom>
+			<lifetime_min>0.5</lifetime_min>
+			<lifetime_max>1.4</lifetime_max>
+		</initlifetimerandom>
+		
+		<initvelocityrandom>
+			<velocity_min_y>350</velocity_min_y>
+			<velocity_max_y>550</velocity_max_y>
+			<localspace>true</localspace>
+			<flipdirection>true</flipdirection>
+		</initvelocityrandom>
+		
+		<initvelocityrandom>
+			<velocity_min_x>-50</velocity_min_x>
+			<velocity_max_x>350</velocity_max_x>
+			<localspace>true</localspace>
+		</initvelocityrandom>
+	</initializers>
+	
+	<operators>
+		<oplifetimedecay>
+		</oplifetimedecay>
+		
+		<opnoise>
+			<noise_min>1</noise_min>
+			<noise_max>1</noise_max>
+			<field>alpha</field>
+		</opnoise>
+		
+		<opalphafade>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>0.1</lifetimefraction_max>
+			<alpha_min>0</alpha_min>
+			<alpha_max>1</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<opalphafade>
+			<lifetimefraction_min>0.9</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<alpha_min>1</alpha_min>
+			<alpha_max>0</alpha_max>
+			<exponent>1</exponent>
+		</opalphafade>
+		
+		<oposcillate>
+			<oscillate_min>0</oscillate_min>
+			<oscillate_max>1</oscillate_max>
+			<speed>12</speed>
+			<exponent>3</exponent>
+			<field>alpha</field>
+		</oposcillate>
+		
+		<opsizescale>
+			<lifetimefraction_min>0</lifetimefraction_min>
+			<lifetimefraction_max>1</lifetimefraction_max>
+			<size_min>1</size_min>
+			<size_max>0.1</size_max>
+			<exponent>0.6</exponent>
+		</opsizescale>
+		
+		<opgravity>
+			<gravity_x>-150</gravity_x>
+		</opgravity>
+		
+		<opmovement>
+			<drag>0.2</drag>
+		</opmovement>
+	</operators>
+	
+	<renderers>
+		<drawmaterial>
+			<material>effects/glow_0_blue</material>
+		</drawmaterial>
+	</renderers>
+	
+	<children>
+		<child>player/player_shield_damage_glow.xml</child>
+	</children>
+</system>

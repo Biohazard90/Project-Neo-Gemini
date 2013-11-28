@@ -102,6 +102,11 @@ Item {
         anchors.fill: parent
     }
 
+    Hud {
+        visible: menuController.GameVisible
+        anchors.fill: parent
+    }
+
     Item {
         id: menu_root
         width: parent.width

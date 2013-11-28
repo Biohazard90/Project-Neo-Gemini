@@ -29,6 +29,7 @@ class RootView : public QWidget, public ISimulated
     Q_PROPERTY(bool FPSEnabled READ getFPSEnabled WRITE setFPSEnabled NOTIFY FPSEnabledChanged)
     Q_PROPERTY(bool MusicEnabled READ getMusicEnabled WRITE setMusicEnabled NOTIFY MusicEnabledChanged)
     Q_PROPERTY(QString LevelName READ getLevelName WRITE setLevelName NOTIFY LevelNameChanged)
+    Q_PROPERTY(bool GameVisible READ getGameVisible WRITE setGameVisible NOTIFY GameVisibleChanged)
 
 public:
     explicit RootView(QWidget *parent = 0);
@@ -44,10 +45,12 @@ public:
     void setFPSEnabled(bool enabled);
     bool getMusicEnabled(){ return MusicEnabled; }
     void setMusicEnabled(bool enabled);
+    bool getGameVisible(){ return GameVisible; }
+    void setGameVisible(bool visible);
     QString getLevelName(){ return LevelName; }
     void setLevelName(QString name);
 
-    virtual void externalPaintEvent(QPainter *painter);
+    virtual void externalPaintEvent(render_context_t &context);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -67,6 +70,7 @@ signals:
     void AAEnabledChanged(bool);
     void FPSEnabledChanged(bool);
     void MusicEnabledChanged(bool);
+    void GameVisibleChanged(bool);
     void LevelNameChanged(QString);
     void SelectedResolutionChanged(QString);
 
@@ -106,6 +110,7 @@ private:
     bool AAEnabled;
     bool FPSEnabled;
     bool MusicEnabled;
+    bool GameVisible;
     QString LevelName;
 };
 

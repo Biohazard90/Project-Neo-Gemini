@@ -26,9 +26,14 @@ public:
     virtual bool ShouldCollide(ICollidable *) const;
 
     virtual float GetOpacity() const;
+    virtual void OnRender(const render_context_t &context);
 
     virtual bool IsAlive() const;
+    virtual void TakeDamage(const Damage_t &damage);
+    virtual void OnDamage(const Damage_t &damage);
     virtual void OnKilled(const Damage_t *damage);
+
+    void SetPlayerSprite(const char *spriteName);
 
 private:
 
@@ -52,6 +57,9 @@ private:
     float respawnDelay;
 
     bool spawnFinished;
+
+    Material *shieldMaterial;
+    float shieldTime;
 
 };
 

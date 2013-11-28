@@ -7,19 +7,23 @@
 #define IMMUNITY_DURATION 4.0f
 #define PLAYER_AXIS_SPEED 200.0f
 #define PLAYER_SIZE_X 85.0f
+#define SHIELD_FADE_DURATION 7.0f
 
 REGISTER_ENTITY_CLASS(Player, player);
 
 Player::Player()
+    : shieldMaterial(nullptr)
 {
     spawnTimer = 0;
     immunityTimer = 0;
     spawnFinished = false;
     respawnDelay = 0.0f;
+    shieldTime = 0.0f;
 
     SetAutoRemoveEnabled(false);
 
-    SetMaterial("player/player_0");
+    SetPlayerSprite("player/player_0");
+
     SetSize(Vector2D(PLAYER_SIZE_X, PLAYER_SIZE_X * 0.666666f));
     SetOrigin(Vector2D(0, 0));
     SetAngle(0);
@@ -28,6 +32,8 @@ Player::Player()
 void Player::Spawn()
 {
     BaseClass::Spawn();
+
+    SetHealth(4);
 
     ResetSpawnAnimation();
 }
@@ -46,6 +52,9 @@ bool Player::IsSolid() const
         return false;
 
     if (!IsVisible())
+        return false;
+
+    if (shieldTime > 0.0f)
         return false;
 
     return BaseClass::IsSolid();
@@ -242,6 +251,25 @@ bool Player::IsAlive() const
     return BaseClass::IsAlive();
 }
 
+void Player::TakeDamage(const Damage_t &damage)
+{
+    if (shieldTime <= 0.0f)
+    {
+        BaseClass::TakeDamage(damage);
+    }
+}
+
+void Player::OnDamage(const Damage_t &damage)
+{
+    BaseClass::OnDamage(damage);
+
+    shieldTime = SHIELD_FADE_DURATION + C_PI_F * 5.0f;
+
+    GetGameContext()->GetParticleRoot()->CreateParticles("player_shield_damage", GetOrigin(), GetForward());
+
+    AudioManager::GetInstance()->PlaySoundSample("misc/shield_hit.wav");
+}
+
 void Player::OnKilled(const Damage_t *damage)
 {
     respawnDelay = GetGameContext()->GetGameTime() + RESPAWN_DELAY;
@@ -256,4 +284,56 @@ void Player::OnKilled(const Damage_t *damage)
     SetVelocity(vec2_origin);
 
     GetGameContext()->PlayerDied();
+}
+
+void Player::OnRender(const render_context_t &context)
+{
+    BaseClass::OnRender(context);
+
+    if (IsVisible()
+            && shieldTime > 0.0f)
+    {
+        float shieldOpacity;
+        if (shieldTime >SHIELD_FADE_DURATION)
+        {
+            float remappedTime = shieldTime - SHIELD_FADE_DURATION - C_PI_F * 0.5f;
+            shieldOpacity = sin(remappedTime) * 0.5f + 0.5f;
+        }
+        else
+        {
+            shieldOpacity = shieldTime / SHIELD_FADE_DURATION;
+            shieldOpacity *= shieldOpacity;
+        }
+
+        shieldTime -= pGlobals->frametime * 9.0f;
+
+        if (shieldTime < 0.0f)
+        {
+            shieldTime = 0.0f;
+        }
+
+        Vector2D sizeScaled = GetSize() * 1.1f;
+        Vector2D originAdjusted = GetOrigin();
+
+        Camera::GetInstance()->Scale(sizeScaled);
+        Camera::GetInstance()->ToScreen(originAdjusted);
+
+        float oldOpacity = context.painter->opacity();
+        context.painter->setOpacity(oldOpacity * shieldOpacity);
+
+        shieldMaterial->Render(originAdjusted, GetAngle(), sizeScaled, context);
+        shieldMaterial->Render(originAdjusted, GetAngle(), sizeScaled, context);
+
+        context.painter->setOpacity(oldOpacity);
+    }
+}
+
+void Player::SetPlayerSprite(const char *spriteName)
+{
+    QString shieldMaterialName = spriteName;
+    shieldMaterialName += "_shield";
+
+    SetMaterial(spriteName);
+
+    shieldMaterial = MaterialPrecache::GetInstance()->GetMaterial(shieldMaterialName.toStdString().c_str());
 }

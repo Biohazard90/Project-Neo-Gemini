@@ -4,9 +4,10 @@
 #include "platform.h"
 
 #define C_PI 3.14159265
+#define C_PI_F 3.14159265f
 
 #define GAME_SPEED_SCALE 1.0f
-#define PLAYER_DEFAULT_LIVE_COUNT 3
+#define PLAYER_DEFAULT_LIVE_COUNT 1
 
 #define DBG_ENABLE 1
 
