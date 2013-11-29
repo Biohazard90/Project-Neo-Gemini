@@ -38,7 +38,7 @@ void Player::Spawn()
 {
     BaseClass::Spawn();
 
-    SetHealth(2);
+    SetHealth(4);
 
     ResetSpawnAnimation();
 }
