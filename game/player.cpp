@@ -273,7 +273,13 @@ void Player::OnDamage(const Damage_t &damage)
 
     shieldTime = SHIELD_FADE_DURATION + C_PI_F * 5.0f;
 
-    GetGameContext()->GetParticleRoot()->CreateParticles("player_shield_damage", GetOrigin(), GetForward());
+    if (!shieldParticle.isNull())
+        shieldParticle->StopEmission();
+
+    shieldParticle = GetGameContext()->GetParticleRoot()->CreateParticles("player_shield_damage");
+
+    if (!shieldParticle.isNull())
+        shieldParticle->SetParticleParent(this);
 
     AudioManager::GetInstance()->PlaySoundSample("misc/shield_hit.wav");
 

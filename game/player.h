@@ -51,6 +51,7 @@ private:
     void ResetSpawnAnimation();
 
     QPointer<ParticleSystem> idleParticle;
+    QPointer<ParticleSystem> shieldParticle;
 
     float immunityTimer;
     float spawnTimer;

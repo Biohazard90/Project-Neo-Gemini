@@ -1,24 +1,25 @@
 <system>
 	<emitters>
-		<emitinstantaneously>
-			<amount_min>50</amount_min>
-			<amount_max>60</amount_max>
-		</emitinstantaneously>
+		<emitcontinuously>
+			<delay_min>0.002</delay_min>
+			<delay_max>0.006</delay_max>
+			<duration>1.5</duration>
+		</emitcontinuously>
 	</emitters>
 	
 	<initializers>
 		<initsphere>
 			<distance_min>0</distance_min>
-			<distance_max>60</distance_max>
-			<velocity_min>0</velocity_min>
-			<velocity_max>200</velocity_max>
+			<distance_max>20</distance_max>
+			<velocity_min>-100</velocity_min>
+			<velocity_max>300</velocity_max>
 			<velocity_exponent>1</velocity_exponent>
 		</initsphere>
 		
 		<initsizerandom>
-			<size_min>5</size_min>
-			<size_max>30</size_max>
-			<exponent>7</exponent>
+			<size_min>3.5</size_min>
+			<size_max>5.5</size_max>
+			<exponent>8</exponent>
 		</initsizerandom>
 		
 		<initanglerandom>
@@ -104,6 +105,5 @@
 	
 	<children>
 		<child>player/player_shield_damage_glow.xml</child>
-		<child>player/player_shield_damage_cont.xml</child>
 	</children>
 </system>
