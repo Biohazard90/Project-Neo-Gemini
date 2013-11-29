@@ -17,6 +17,7 @@ void Config::LoadConfig(Globals *globals)
     globals->musicenabled = root.firstChildElement("musicenabled").toElement().text().toInt() != 0;
     globals->screen_width = root.firstChildElement("screen_width").toElement().text().toInt();
     globals->screen_height = root.firstChildElement("screen_height").toElement().text().toInt();
+    globals->fullscreen = root.firstChildElement("fullscreen").toElement().text().toInt() != 0;
 
     AudioManager::GetInstance()->SetMusicEnabled(globals->musicenabled);
 }
@@ -38,6 +39,10 @@ void Config::SaveConfig(Globals *globals)
     QDomElement eMusicenabled = doc.createElement("musicenabled");
     eMusicenabled.appendChild(doc.createTextNode(QString::number(globals->musicenabled ? 1 : 0)));
     root.appendChild(eMusicenabled);
+
+    QDomElement eFullscreenenabled = doc.createElement("fullscreen");
+    eFullscreenenabled.appendChild(doc.createTextNode(QString::number(globals->fullscreen ? 1 : 0)));
+    root.appendChild(eFullscreenenabled);
 
     QDomElement eScreenWidth = doc.createElement("screen_width");
     eScreenWidth.appendChild(doc.createTextNode(QString::number(globals->screen_width)));

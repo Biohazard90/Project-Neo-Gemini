@@ -210,13 +210,23 @@ Item {
             Menuoptionsbox {
                 options: parent.resOptions
                 selected: parent.resOptions.indexOf( root.width + "x" + root.height )
-                enabled: !isIngame
+                enabled: !isIngame && !menuController.FullscreenEnabled
                 width: buttonW + 50
                 height: buttonH
                 anchors.horizontalCenter: parent.horizontalCenter
                 buttonText: "Resolution:"
                 onOptionChanged: {
                     desiredResolution = option
+                }
+            }
+            Menucheckbox {
+                width: buttonW + 50
+                height: buttonH
+                anchors.horizontalCenter: parent.horizontalCenter
+                buttonText: "Fullscreen:"
+                checked: menuController.FullscreenEnabled
+                onCheckChanged: {
+                    menuController.FullscreenEnabled = enabled;
                 }
             }
             Menucheckbox {

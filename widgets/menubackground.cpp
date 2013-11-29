@@ -76,7 +76,7 @@ void MenuBackground::paintEvent(render_context_t &context)
                     context.h+flStart*2-flAdjust*2);
 
         QColor pencolor(220, 220, 220, 128 * flFractionSqr);
-        QPen pen(QBrush(pencolor),flFraction * 1.5f);
+        QPen pen(QBrush(pencolor),flFraction * 2.0f);
         painter.setPen(pen);
         painter.setBrush(Qt::transparent);
         painter.drawRoundRect(rect,

@@ -28,7 +28,7 @@
 		
 		<initlifetimerandom>
 			<lifetime_min>0.05</lifetime_min>
-			<lifetime_max>0.15</lifetime_max>
+			<lifetime_max>0.25</lifetime_max>
 		</initlifetimerandom>
 	</initializers>
 	
@@ -51,6 +51,14 @@
 			<alpha_max>0</alpha_max>
 			<exponent>1</exponent>
 		</opalphafade>
+		
+		<oposcillate>
+			<oscillate_min>0</oscillate_min>
+			<oscillate_max>1</oscillate_max>
+			<speed>35</speed>
+			<exponent>3</exponent>
+			<field>alpha</field>
+		</oposcillate>
 		
 		<opsizescale>
 			<lifetimefraction_min>0</lifetimefraction_min>

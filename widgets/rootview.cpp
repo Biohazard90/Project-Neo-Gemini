@@ -29,6 +29,7 @@ RootView::RootView(QWidget *parent) :
     AAEnabled = pGlobals->antialiasing;
     FPSEnabled = pGlobals->showfps;
     MusicEnabled = pGlobals->musicenabled;
+    FullscreenEnabled = pGlobals->fullscreen;
 
     background = NULL;
     particleView = NULL;
@@ -319,6 +320,15 @@ void RootView::setGameVisible(bool visible)
 {
     GameVisible = visible;
     emit GameVisibleChanged(visible);
+}
+
+void RootView::setFullscreenEnabled(bool enabled)
+{
+    FullscreenEnabled = enabled;
+    pGlobals->fullscreen = enabled;
+    emit FullscreenEnabledChanged(enabled);
+
+    ResizeView(pGlobals->screen_width, pGlobals->screen_height);
 }
 
 void RootView::setLevelName(QString name)

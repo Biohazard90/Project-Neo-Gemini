@@ -28,6 +28,7 @@ class RootView : public QWidget, public ISimulated
     Q_PROPERTY(bool AAEnabled READ getAAEnabled WRITE setAAEnabled NOTIFY AAEnabledChanged)
     Q_PROPERTY(bool FPSEnabled READ getFPSEnabled WRITE setFPSEnabled NOTIFY FPSEnabledChanged)
     Q_PROPERTY(bool MusicEnabled READ getMusicEnabled WRITE setMusicEnabled NOTIFY MusicEnabledChanged)
+    Q_PROPERTY(bool FullscreenEnabled READ getFullscreenEnabled WRITE setFullscreenEnabled NOTIFY FullscreenEnabledChanged)
     Q_PROPERTY(QString LevelName READ getLevelName WRITE setLevelName NOTIFY LevelNameChanged)
     Q_PROPERTY(bool GameVisible READ getGameVisible WRITE setGameVisible NOTIFY GameVisibleChanged)
 
@@ -47,6 +48,8 @@ public:
     void setMusicEnabled(bool enabled);
     bool getGameVisible(){ return GameVisible; }
     void setGameVisible(bool visible);
+    bool getFullscreenEnabled(){ return FullscreenEnabled; }
+    void setFullscreenEnabled(bool enabled);
     QString getLevelName(){ return LevelName; }
     void setLevelName(QString name);
 
@@ -71,6 +74,7 @@ signals:
     void FPSEnabledChanged(bool);
     void MusicEnabledChanged(bool);
     void GameVisibleChanged(bool);
+    void FullscreenEnabledChanged(bool);
     void LevelNameChanged(QString);
     void SelectedResolutionChanged(QString);
 
@@ -111,6 +115,7 @@ private:
     bool FPSEnabled;
     bool MusicEnabled;
     bool GameVisible;
+    bool FullscreenEnabled;
     QString LevelName;
 };
 

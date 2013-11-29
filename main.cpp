@@ -2,6 +2,7 @@
 #include "main.h"
 
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QTimer>
 #include <QStatusBar>
 #include <QVBoxLayout>
@@ -26,15 +27,42 @@ RootView *mainWidget;
 
 void ResizeView(int w, int h)
 {
+    const bool isFullscreen = pGlobals->fullscreen;
+
+    if (isFullscreen)
+    {
+        QRect desktop = QApplication::desktop()->screenGeometry();
+        w = desktop.width();
+        h = desktop.height();
+
+        mainWindow->setWindowFlags((mainWindow->windowFlags()
+                          | Qt::FramelessWindowHint)
+                         & ~Qt::WindowMinMaxButtonsHint);
+    }
+    else
+    {
+        mainWindow->setWindowFlags(mainWindow->windowFlags() & ~(Qt::WindowMinMaxButtonsHint
+                                                                 | Qt::FramelessWindowHint));
+    }
+
     pGlobals->SetScreen(w, h);
 
-    mainWindow->setFixedSize(w,h);
+    mainWindow->setFixedSize(w, h);
+    mainWindow->setGeometry(0, 0, w, h);
+
     mainWidget->setFixedSize(w, h);
-    mainWidget->setGeometry(0,0,w,h);
+    mainWidget->setGeometry(0, 0, w, h);
 
-    //mainWidget->setMask(mainWidget->geometry());
+    if (isFullscreen)
+    {
+        mainWindow->showFullScreen();
+    }
+    else
+    {
+        mainWindow->show();
 
-    CenterOnScreen(mainWindow);
+        CenterOnScreen(mainWindow);
+    }
 }
 
 MainCleanup::MainCleanup(QWidget *){}
@@ -70,9 +98,8 @@ int main(int argc, char *argv[])
     //QByteArray data = "1";
     //qputenv("QML_IMPORT_TRACE", data);
 
-    MainWindow w;
-    mainWindow = &w;
-    mainWidget = new RootView(&w);
+    mainWindow = new MainWindow();
+    mainWidget = new RootView(mainWindow);
 
     QTimer simulationTimer;
     simulationTimer.setInterval(DEFAULT_FRAMESPEED_MS);
@@ -82,31 +109,30 @@ int main(int argc, char *argv[])
                      SimulationList::GetInstance(), SLOT(OnFrame()));
     simulationTimer.start();
     
-    w.setWindowTitle("Project Neo Gemini");
+    mainWindow->setWindowTitle("Project Neo Gemini");
     //w.setAttribute(Qt::WA_TranslucentBackground);
 
 #if 0
-    w.setWindowFlags((w.windowFlags()
+    mainWindow->setWindowFlags((mainWindow->windowFlags()
                       | Qt::FramelessWindowHint
                       | Qt::WindowStaysOnTopHint)
                      & ~Qt::WindowMinMaxButtonsHint);
 #else
-    w.setWindowFlags(w.windowFlags() & ~Qt::WindowMinMaxButtonsHint);
+    mainWindow->setWindowFlags(mainWindow->windowFlags() & ~Qt::WindowMinMaxButtonsHint);
 #endif
 
     int desiredWidth = MAX(640, pGlobals->screen_width);
     int desiredHeight = MAX(480, pGlobals->screen_height);
 
-    ResizeView(desiredWidth,desiredHeight);
+    ResizeView(desiredWidth, desiredHeight);
 
     QObject::connect(&a, SIGNAL(aboutToQuit()), &mainCleanup, SLOT(OnShutdown()));
-    w.show();
-    CenterOnScreen(&w);
+    mainWindow->show();
+    CenterOnScreen(mainWindow);
 
     int ret = a.exec();
 
-    mainWidget = NULL;
-    mainWindow = NULL;
+    delete mainWindow;
 
     return ret;
 }

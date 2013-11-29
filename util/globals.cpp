@@ -10,6 +10,7 @@ Globals::Globals()
     antialiasing = true;
     showfps = false;
     musicenabled = true;
+    fullscreen = false;
 
     SetScreen(640, 480);
 }

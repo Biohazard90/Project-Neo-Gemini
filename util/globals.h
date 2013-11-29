@@ -22,6 +22,7 @@ public:
     bool antialiasing;
     bool showfps;
     bool musicenabled;
+    bool fullscreen;
 };
 
 extern Globals *pGlobals;
