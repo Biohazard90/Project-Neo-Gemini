@@ -3,7 +3,7 @@ import CustomComponents 1.0
 
 Item {
     id: root
-    property bool isDebugging: false
+    property bool isDebugging: true
     property bool isIngame: false
     property bool isNavigationEnabled: true
     property int buttonW: 200
@@ -224,6 +224,7 @@ Item {
                 height: buttonH
                 anchors.horizontalCenter: parent.horizontalCenter
                 buttonText: "Fullscreen:"
+                enabled: !isIngame
                 checked: menuController.FullscreenEnabled
                 onCheckChanged: {
                     menuController.FullscreenEnabled = enabled;

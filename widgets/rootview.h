@@ -107,7 +107,6 @@ private:
     MenuBackground *background;
     ParticleView *particleView;
     QDeclarativeView *mainQml;
-    QDeclarativeView *hudQml;
 
     Game *game;
 

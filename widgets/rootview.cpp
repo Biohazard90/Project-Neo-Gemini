@@ -35,7 +35,6 @@ RootView::RootView(QWidget *parent) :
     particleView = NULL;
     game = NULL;
     mainQml = NULL;
-    hudQml = NULL;
 
     setFocusPolicy(Qt::StrongFocus);
 
@@ -178,6 +177,7 @@ void RootView::ShowMenu(MenuMode_e mode)
 
         mainQml = new QDeclarativeView(this);
         mainQml->setViewport(glTarget);
+        mainQml->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
         mainQml->rootContext()->setContextProperty("menuController", this);
         mainQml->rootContext()->setContextProperty("scoreController", Score::GetInstance());
@@ -241,9 +241,6 @@ void RootView::CreateGame(const char *mapname, bool newGame)
     if (newGame)
         Score::GetInstance()->Reset();
 
-    if (hudQml != NULL)
-        hudQml->deleteLater();
-
     if (game != NULL)
         game->deleteLater();
 
@@ -257,40 +254,17 @@ void RootView::CreateGame(const char *mapname, bool newGame)
     mainQml->rootContext()->setContextProperty("gameController", game);
     setGameVisible(true);
 
-    //gameView->show();
 
-    return;
-
-    hudQml = new QDeclarativeView(this);
-    hudQml->setStyleSheet(QString("background: transparent"));
-    hudQml->rootContext()->setContextProperty("menuController", this);
-    hudQml->rootContext()->setContextProperty("scoreController", Score::GetInstance());
-    hudQml->rootContext()->setContextProperty("gameController", game);
-    hudQml->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    hudQml->setSource(QUrl::fromLocalFile(OSLocalPath("qml/Hud.qml")));
-    hudQml->setFixedSize(width(), height());
-
-    hudQml->show();
-
-    hudQml->setAttribute(Qt::WA_TransparentForMouseEvents);
-
-    if (mainQml != NULL)
-        mainQml->raise();
-
-    //hudQml->raise();
+   // hudQml->setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 void RootView::DestroyGame()
 {
     setGameVisible(false);
 
-    if (hudQml != NULL)
-        hudQml->deleteLater();
-
     if (game != NULL)
         game->deleteLater();
 
-    hudQml = NULL;
     game = NULL;
 }
 
