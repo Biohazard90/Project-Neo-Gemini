@@ -7,7 +7,7 @@
 QT       += core gui xml qml declarative quick widgets opengl
 
 
-TARGET = SpaceShooter
+TARGET = NeoGemini
 TEMPLATE = app
 
 RC_FILE = winres.rc

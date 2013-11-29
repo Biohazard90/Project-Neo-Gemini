@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
                      SimulationList::GetInstance(), SLOT(OnFrame()));
     simulationTimer.start();
     
-    w.setWindowTitle("Shazam");
+    w.setWindowTitle("Project Neo Gemini");
     //w.setAttribute(Qt::WA_TranslucentBackground);
 
 #if 0

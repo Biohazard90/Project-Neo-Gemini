@@ -66,7 +66,7 @@ Item {
         y: 0
     }
 
-    Item {
+   /* Item {
         anchors.horizontalCenter: parent.horizontalCenter
 
         width: lives_layout.width
@@ -103,6 +103,7 @@ Item {
             }
         }
     }
+    */
 
     //IngameCutscene {
 
