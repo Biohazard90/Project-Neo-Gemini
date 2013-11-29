@@ -251,6 +251,13 @@ void Player::ResetSpawnAnimation()
     SetAngle(0);
 }
 
+void Player::SetHealth(const int &health)
+{
+    BaseClass::SetHealth(health);
+
+    GetGameContext()->PlayerHealthChanged(health);
+}
+
 bool Player::IsAlive() const
 {
     if (IsSpawning())

@@ -28,6 +28,7 @@ public:
     virtual float GetOpacity() const;
     virtual void OnRender(const render_context_t &context);
 
+    virtual void SetHealth(const int &health);
     virtual bool IsAlive() const;
     virtual void TakeDamage(const Damage_t &damage);
     virtual void OnDamage(const Damage_t &damage);

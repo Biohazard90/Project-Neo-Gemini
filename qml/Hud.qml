@@ -154,6 +154,61 @@ Item {
         visible: true
     }
 
+    Image {
+        id: shieldImage
+        source: "shield_hud.png"
+        x: 0
+        y: 0
+    }
+
+    property string shieldShaderCode: "
+         varying highp vec2 qt_TexCoord0;
+         uniform sampler2D source;
+         void main(void)
+         {
+            vec4 color = texture2D(source, qt_TexCoord0);
+            color.a = color.g;
+            color.rgb = color.g * mix(vec3(0.5, 0.75, 1.0) * 1, vec3(0.7, 0.95, 1.0) * 1.5, color.r * color.r);
+            gl_FragColor = color;
+         }
+         "
+
+    ShaderEffectItem {
+        id: shieldShader0
+         property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+         x: score.x
+         y: score.y + score.height - 5
+         width: shieldImage.width
+         height: shieldImage.height
+         blending: true
+
+         fragmentShader: shieldShaderCode
+     }
+
+     ShaderEffectItem {
+        id: shieldShader1
+         property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+         x: score.x + 20
+         y: score.y + score.height - 5
+         width: shieldImage.width
+         height: shieldImage.height
+         blending: true
+
+         fragmentShader: shieldShaderCode
+     }
+
+     ShaderEffectItem {
+        id: shieldShader2
+         property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+         x: score.x + 40
+         y: score.y + score.height - 5
+         width: shieldImage.width
+         height: shieldImage.height
+         blending: true
+
+         fragmentShader: shieldShaderCode
+     }
+
    /* Item {
         anchors.horizontalCenter: parent.horizontalCenter
 

@@ -284,6 +284,11 @@ void Game::PlayerDied()
     }
 }
 
+void Game::PlayerHealthChanged(int health)
+{
+
+}
+
 void Game::EndMap()
 {
     emit GameEnded();

@@ -48,6 +48,7 @@ public:
     virtual Player *GetPlayer();
 
     virtual void PlayerDied();
+    virtual void PlayerHealthChanged(int health);
     virtual void EndMap();
 
     int getLiveCount(){ return LiveCount; }

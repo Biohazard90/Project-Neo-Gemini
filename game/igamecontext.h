@@ -24,6 +24,7 @@ public:
     virtual Player *GetPlayer() = 0;
 
     virtual void PlayerDied() = 0;
+    virtual void PlayerHealthChanged(int health) = 0;
     virtual void EndMap() = 0;
 };
 
