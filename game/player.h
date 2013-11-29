@@ -59,7 +59,9 @@ private:
     bool spawnFinished;
 
     Material *shieldMaterial;
+    Material *shieldDownMaterial;
     float shieldTime;
+    float shieldDownTime;
 
 };
 

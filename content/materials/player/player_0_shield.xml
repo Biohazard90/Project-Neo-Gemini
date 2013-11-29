@@ -1,7 +1,7 @@
 <material>
 	<texture>player/player_0_shield.png</texture>
 	<blendmode>plus</blendmode>
-	<opacity>0.5</opacity>
+	<opacity>1.0</opacity>
 	<tint>
 		<r>90</r>
 		<g>190</g>

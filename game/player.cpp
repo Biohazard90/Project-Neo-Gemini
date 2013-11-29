@@ -8,11 +8,16 @@
 #define PLAYER_AXIS_SPEED 200.0f
 #define PLAYER_SIZE_X 85.0f
 #define SHIELD_FADE_DURATION 7.0f
+#define SHIELD_DOWN_DURATION (C_PI_F * 6.0f)
+#define SHIELD_DOWN_DELAY 5.0f
+#define SHIELD_DOWN_SPEED 11.0f
 
 REGISTER_ENTITY_CLASS(Player, player);
 
 Player::Player()
     : shieldMaterial(nullptr)
+    , shieldDownMaterial(nullptr)
+    , shieldDownTime(0.0f)
 {
     spawnTimer = 0;
     immunityTimer = 0;
@@ -33,7 +38,7 @@ void Player::Spawn()
 {
     BaseClass::Spawn();
 
-    SetHealth(4);
+    SetHealth(2);
 
     ResetSpawnAnimation();
 }
@@ -86,15 +91,8 @@ void Player::OnSimulate(float frametime)
 
     UpdateShoot(frametime);
 
-    if (shieldTime > 0.0f)
-    {
-        shieldTime -= frametime * 12.0f;
-
-        if (shieldTime < 0.0f)
-        {
-            shieldTime = 0.0f;
-        }
-    }
+    shieldTime = qapproachlinear(0.0f, shieldTime, frametime * 12.0f);
+    shieldDownTime = qapproachlinear(0.0f, shieldDownTime, frametime * SHIELD_DOWN_SPEED);
 }
 
 void Player::OnMove(float frametime)
@@ -282,6 +280,8 @@ void Player::OnDamage(const Damage_t &damage)
     if (GetHealth() == 1)
     {
         AudioManager::GetInstance()->PlaySoundSample("misc/shield_alarm.wav", 0.8f);
+
+        shieldDownTime = SHIELD_DOWN_DELAY + SHIELD_DOWN_DURATION;
     }
 }
 
@@ -305,32 +305,51 @@ void Player::OnRender(const render_context_t &context)
 {
     BaseClass::OnRender(context);
 
+    const bool bShieldVisible = shieldTime > 0.0f;
+    const bool bShieldDownVisible = shieldDownTime > 0.0f;
+
     if (IsVisible()
-            && shieldTime > 0.0f)
+            && (bShieldVisible  || bShieldDownVisible))
     {
-        float shieldOpacity;
-        if (shieldTime >SHIELD_FADE_DURATION)
-        {
-            float remappedTime = shieldTime - SHIELD_FADE_DURATION - C_PI_F * 0.5f;
-            shieldOpacity = sin(remappedTime) * 0.5f + 0.5f;
-        }
-        else
-        {
-            shieldOpacity = shieldTime / SHIELD_FADE_DURATION;
-            shieldOpacity *= shieldOpacity;
-        }
-
-        Vector2D sizeScaled = GetSize() * 1.1f;
         Vector2D originAdjusted = GetOrigin();
-
-        Camera::GetInstance()->Scale(sizeScaled);
         Camera::GetInstance()->ToScreen(originAdjusted);
 
-        float oldOpacity = context.painter->opacity();
-        context.painter->setOpacity(oldOpacity * shieldOpacity);
+        const float oldOpacity = context.painter->opacity();
 
-        shieldMaterial->Render(originAdjusted, GetAngle(), sizeScaled, context);
-        shieldMaterial->Render(originAdjusted, GetAngle(), sizeScaled, context);
+        if (bShieldVisible)
+        {
+            float shieldOpacity;
+            if (shieldTime >SHIELD_FADE_DURATION)
+            {
+                float remappedTime = shieldTime - SHIELD_FADE_DURATION - C_PI_F * 0.5f;
+                shieldOpacity = sin(remappedTime) * 0.5f + 0.5f;
+            }
+            else
+            {
+                shieldOpacity = shieldTime / SHIELD_FADE_DURATION;
+                shieldOpacity *= shieldOpacity;
+            }
+
+            Vector2D sizeScaled = GetSize() * 1.1f;
+            Camera::GetInstance()->Scale(sizeScaled);
+
+            context.painter->setOpacity(oldOpacity * shieldOpacity);
+
+            shieldMaterial->Render(originAdjusted, GetAngle(), sizeScaled, context);
+        }
+
+        if (bShieldDownVisible
+                && shieldDownTime <= SHIELD_DOWN_DURATION)
+        {
+            float shieldDownOpacity = sin(shieldDownTime - C_PI_F * 0.5f) * 0.5f + 0.5f;
+
+            Vector2D sizeScaled = GetSize() * 1.05f;
+            Camera::GetInstance()->Scale(sizeScaled);
+
+            context.painter->setOpacity(oldOpacity * shieldDownOpacity);
+
+            shieldDownMaterial->Render(originAdjusted, GetAngle(), sizeScaled, context);
+        }
 
         context.painter->setOpacity(oldOpacity);
     }
@@ -338,10 +357,14 @@ void Player::OnRender(const render_context_t &context)
 
 void Player::SetPlayerSprite(const char *spriteName)
 {
-    QString shieldMaterialName = spriteName;
+    QString shieldMaterialName(spriteName);
     shieldMaterialName += "_shield";
+
+    QString shieldDownMaterialName(spriteName);
+    shieldDownMaterialName += "_shield_down";
 
     SetMaterial(spriteName);
 
     shieldMaterial = MaterialPrecache::GetInstance()->GetMaterial(shieldMaterialName.toStdString().c_str());
+    shieldDownMaterial = MaterialPrecache::GetInstance()->GetMaterial(shieldDownMaterialName.toStdString().c_str());
 }

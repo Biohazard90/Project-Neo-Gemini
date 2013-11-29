@@ -1,0 +1,9 @@
+<material>
+	<texture>player/player_0_shield_down.png</texture>
+	<opacity>1.0</opacity>
+	<tint>
+		<r>255</r>
+		<g>64</g>
+		<b>12</b>
+	</tint>
+</material>
