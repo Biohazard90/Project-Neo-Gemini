@@ -85,6 +85,16 @@ void Player::OnSimulate(float frametime)
     UpdateSway(frametime);
 
     UpdateShoot(frametime);
+
+    if (shieldTime > 0.0f)
+    {
+        shieldTime -= frametime * 12.0f;
+
+        if (shieldTime < 0.0f)
+        {
+            shieldTime = 0.0f;
+        }
+    }
 }
 
 void Player::OnMove(float frametime)
@@ -268,6 +278,11 @@ void Player::OnDamage(const Damage_t &damage)
     GetGameContext()->GetParticleRoot()->CreateParticles("player_shield_damage", GetOrigin(), GetForward());
 
     AudioManager::GetInstance()->PlaySoundSample("misc/shield_hit.wav");
+
+    if (GetHealth() == 1)
+    {
+        AudioManager::GetInstance()->PlaySoundSample("misc/shield_alarm.wav", 0.8f);
+    }
 }
 
 void Player::OnKilled(const Damage_t *damage)
@@ -303,13 +318,6 @@ void Player::OnRender(const render_context_t &context)
         {
             shieldOpacity = shieldTime / SHIELD_FADE_DURATION;
             shieldOpacity *= shieldOpacity;
-        }
-
-        shieldTime -= pGlobals->frametime * 9.0f;
-
-        if (shieldTime < 0.0f)
-        {
-            shieldTime = 0.0f;
         }
 
         Vector2D sizeScaled = GetSize() * 1.1f;
