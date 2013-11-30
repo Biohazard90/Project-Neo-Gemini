@@ -24,6 +24,7 @@ class Game : public QObject,
 {
     Q_OBJECT
     Q_PROPERTY(int LiveCount READ getLiveCount WRITE setLiveCount NOTIFY liveCountChanged)
+    Q_PROPERTY(int PlayerHealth READ getPlayerHealth WRITE setPlayerHealth NOTIFY playerHealthChanged)
 
 public:
     explicit Game(QObject *parent = 0);
@@ -52,13 +53,16 @@ public:
     virtual void EndMap();
 
     int getLiveCount(){ return LiveCount; }
+    int getPlayerHealth(){ return PlayerHealth; }
     
 signals:
     void GameEnded();
     void liveCountChanged(int);
+    void playerHealthChanged(int);
     
 public slots:
     void setLiveCount(int count);
+    void setPlayerHealth(int health);
 
 private:
     void PaintGame(const render_context_t &context);
@@ -74,6 +78,7 @@ private:
 
     int LiveCount;
     float livesChangedTime;
+    int PlayerHealth;
 
     CollisionManager *collisionManager;
 

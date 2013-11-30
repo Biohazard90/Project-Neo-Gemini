@@ -250,8 +250,9 @@ void RootView::CreateGame(const char *mapname, bool newGame)
    // gameView->setGeometry(geometry());
     //gameView->setGeometry(0, 0, 1920, 1080);
 
-    game->LoadMap(mapname);
     mainQml->rootContext()->setContextProperty("gameController", game);
+
+    game->LoadMap(mapname);
     setGameVisible(true);
 
 

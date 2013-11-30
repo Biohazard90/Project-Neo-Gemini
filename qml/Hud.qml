@@ -28,6 +28,7 @@ Item {
     Connections {
         target: gameController
         onLiveCountChanged: animate_lives.start()
+        onPlayerHealthChanged: playerHealthChangedCallback()
     }
 
     SequentialAnimation {
@@ -157,18 +158,129 @@ Item {
     Image {
         id: shieldImage
         source: "shield_hud.png"
-        x: 0
-        y: 0
     }
+
+    Image {
+        id: scanlinesImage
+        source: "scanlines.png"
+    }
+
+    property int lastShield: 0
+
+    function playerHealthChangedCallback() {
+        var isIncreasing = (gameController.PlayerHealth > lastShield) ? true : false;
+
+        while (gameController.PlayerHealth != lastShield) {
+
+            if (!isIncreasing)
+                lastShield--;
+
+            switch (lastShield) {
+            case 3:
+                if (isIncreasing)
+                {
+                    animate_shield_2_down.stop();
+                    animate_shield_2_up.restart();
+                }
+                else
+                {
+                    animate_shield_2_up.stop();
+                    animate_shield_2_down.restart();
+                }
+                break;
+            case 2:
+                if (isIncreasing)
+                {
+                    animate_shield_1_down.stop();
+                    animate_shield_1_up.restart();
+                }
+                else
+                {
+                    animate_shield_1_up.stop();
+                    animate_shield_1_down.restart();
+                }
+                break;
+            case 1:
+                if (isIncreasing)
+                {
+                    animate_shield_0_down.stop();
+                    animate_shield_0_up.restart();
+                }
+                else
+                {
+                    animate_shield_0_up.stop();
+                    animate_shield_0_down.restart();
+                }
+                break;
+            }
+
+            if (isIncreasing)
+                lastShield++;
+        }
+    }
+
+    SequentialAnimation {
+        id: animate_shield_2_down
+        running: false
+        NumberAnimation { target: shieldShader2; property: "darken"; easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
+    }
+
+    SequentialAnimation {
+        id: animate_shield_2_up
+        running: false
+        NumberAnimation { target: shieldShader2; property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
+    }
+
+    SequentialAnimation {
+        id: animate_shield_1_down
+        running: false
+        NumberAnimation { target: shieldShader1; property: "darken"; easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
+    }
+
+    SequentialAnimation {
+        id: animate_shield_1_up
+        running: false
+        NumberAnimation { target: shieldShader1; property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
+    }
+
+    SequentialAnimation {
+        id: animate_shield_0_down
+        running: false
+        NumberAnimation { target: shieldShader0; property: "darken"; easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
+    }
+
+    SequentialAnimation {
+        id: animate_shield_0_up
+        running: false
+        NumberAnimation { target: shieldShader0; property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
+    }
+
+    property real scanlinesTime: 0
+    Timer {
+        id: scanlinesTimer
+         interval: 33; running: true; repeat: true
+         onTriggered: scanlinesTime += 0.033
+     }
 
     property string shieldShaderCode: "
          varying highp vec2 qt_TexCoord0;
          uniform sampler2D source;
+         uniform sampler2D scanlinesSource;
+            uniform highp float darken;
+            uniform highp float time;
+        uniform highp float scanlineOffset;
          void main(void)
          {
+            vec4 scanlines = texture2D(scanlinesSource, qt_TexCoord0 * vec2(0.1, 0.15)
+                + vec2(0, time * 4) + vec2(scanlineOffset, 0));
             vec4 color = texture2D(source, qt_TexCoord0);
-            color.a = color.g;
-            color.rgb = color.g * mix(vec3(0.5, 0.75, 1.0) * 1, vec3(0.7, 0.95, 1.0) * 1.5, color.r * color.r);
+
+            color.a = color.g * mix(scanlines.r * 2.5, 1.0, min(1.0, darken + pow(1.0 - color.b, 4.0)));
+
+            color.rgb = mix(vec3(0.5, 0.7, 1.0), vec3(1,1,1), color.r * color.r);
+            color.rgb = mix(color.rgb, vec3(0.2, 0.27, 0.3), darken);
+
+            color.rgb *= color.a;
             gl_FragColor = color;
          }
          "
@@ -176,6 +288,10 @@ Item {
     ShaderEffectItem {
         id: shieldShader0
          property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+        property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
+        property real darken: 0.0
+        property real time: scanlinesTime
+        property real scanlineOffset: 0
          x: score.x
          y: score.y + score.height - 5
          width: shieldImage.width
@@ -188,6 +304,10 @@ Item {
      ShaderEffectItem {
         id: shieldShader1
          property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+        property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
+        property real darken: 0.0
+        property real time: scanlinesTime
+        property real scanlineOffset: 0.2
          x: score.x + 20
          y: score.y + score.height - 5
          width: shieldImage.width
@@ -200,6 +320,10 @@ Item {
      ShaderEffectItem {
         id: shieldShader2
          property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+        property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
+        property real darken: 0.0
+        property real time: scanlinesTime
+        property real scanlineOffset: 0.4
          x: score.x + 40
          y: score.y + score.height - 5
          width: shieldImage.width

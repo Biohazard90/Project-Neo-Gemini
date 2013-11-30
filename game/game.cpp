@@ -15,6 +15,7 @@ Game::Game(QObject *parent) :
   , gametickframe( 0.0f )
   , LiveCount( 0 )
   , livesChangedTime( 0.0f )
+  , PlayerHealth( 0 )
 {
     collisionManager = new CollisionManager();
 
@@ -286,7 +287,7 @@ void Game::PlayerDied()
 
 void Game::PlayerHealthChanged(int health)
 {
-
+    setPlayerHealth(health);
 }
 
 void Game::EndMap()
@@ -298,4 +299,10 @@ void Game::setLiveCount(int count)
 {
     LiveCount = count;
     emit liveCountChanged(count);
+}
+
+void Game::setPlayerHealth(int health)
+{
+    PlayerHealth = health;
+    emit playerHealthChanged(health);
 }

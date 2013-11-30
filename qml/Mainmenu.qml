@@ -3,7 +3,7 @@ import CustomComponents 1.0
 
 Item {
     id: root
-    property bool isDebugging: true
+    property bool isDebugging: false
     property bool isIngame: false
     property bool isNavigationEnabled: true
     property int buttonW: 200
