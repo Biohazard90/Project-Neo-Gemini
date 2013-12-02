@@ -2,6 +2,7 @@ import QtQuick 1.1
 import Qt.labs.shaders 1.0
 
 Item {
+    id: hudRoot
     property int scoreValue: scoreController.score
     property int livesValue: gameController.LiveCount
 
@@ -27,8 +28,8 @@ Item {
 
     Connections {
         target: gameController
-        onLiveCountChanged: animate_lives.start()
-        onPlayerHealthChanged: playerHealthChangedCallback()
+        //onLiveCountChanged: animate_lives.start()
+        onPlayerHealthChanged: { playerHealthChangedCallback(); }
     }
 
     SequentialAnimation {
@@ -43,15 +44,20 @@ Item {
         }
     }
 
-    SequentialAnimation {
-        id: animate_lives
-        running: false
-        ColorAnimation { target: lives_text; property: "color"; from: "#FF102A"; to: "#FFF"; duration: 1000 }
-    }
+   // SequentialAnimation {
+     //   id: animate_lives
+     //   running: false
+        //ColorAnimation { target: lives_text; property: "color"; from: "#FF102A"; to: "#FFF"; duration: 1000 }
+  //  }
 
     FontLoader {
         id: monofonto
         source: "monofonto.ttf"
+    }
+
+    FontLoader {
+        id: airstrike
+        source: "airstrike.ttf"
     }
 
     Text {
@@ -87,7 +93,7 @@ Item {
         id: blurPass0
          property variant source: ShaderEffectSource { sourceItem: scoreBlurContainer; hideSource: true }
          anchors.fill: scoreBlurContainer
-         property real blurWidth: 0.005
+         property real blurWidth: 1.0 / width
 
          fragmentShader: "
          #version 120
@@ -118,7 +124,7 @@ Item {
         id: blurPass1
          property variant source: ShaderEffectSource { sourceItem: blurPass0; hideSource: true }
          anchors.fill: blurPass0
-         property real blurHeight: 0.015
+         property real blurHeight: 1.0 / height
 
          fragmentShader: "
          varying highp vec2 qt_TexCoord0;
@@ -210,6 +216,7 @@ Item {
                 {
                     animate_shield_0_up.stop();
                     animate_shield_0_down.restart();
+                    animate_shield_warning.restart();
                 }
                 break;
             }
@@ -219,43 +226,46 @@ Item {
         }
     }
 
-    SequentialAnimation {
-        id: animate_shield_2_down
-        running: false
-        NumberAnimation { target: shieldShader2; property: "darken"; easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
-    }
+    NumberAnimation { id: animate_shield_2_down; target: shieldShader2; property: "darken";
+        easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce; running: false  }
+
+    NumberAnimation { id: animate_shield_2_up; running: false; target: shieldShader2;
+        property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
+
+    NumberAnimation { id: animate_shield_1_down; running: false; target: shieldShader1; property: "darken";
+        easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
+
+    NumberAnimation { id: animate_shield_1_up; running: false; target: shieldShader1;
+        property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
+
+    NumberAnimation { id: animate_shield_0_down; running: false; target: shieldShader0; property: "darken";
+        easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
+
+    NumberAnimation { id: animate_shield_0_up; running: false; target: shieldShader0;
+        property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
 
     SequentialAnimation {
-        id: animate_shield_2_up
+        id: animate_shield_warning
         running: false
-        NumberAnimation { target: shieldShader2; property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
-    }
-
-    SequentialAnimation {
-        id: animate_shield_1_down
-        running: false
-        NumberAnimation { target: shieldShader1; property: "darken"; easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
-    }
-
-    SequentialAnimation {
-        id: animate_shield_1_up
-        running: false
-        NumberAnimation { target: shieldShader1; property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
-    }
-
-    SequentialAnimation {
-        id: animate_shield_0_down
-        running: false
-        NumberAnimation { target: shieldShader0; property: "darken"; easing.amplitude: 5; from: 0; to: 1; duration: 400; easing.type: Easing.InOutBounce  }
-    }
-
-    SequentialAnimation {
-        id: animate_shield_0_up
-        running: false
-        NumberAnimation { target: shieldShader0; property: "darken"; from: 1; to: 0; duration: 400; easing.type: Easing.InQuad }
+        property real blinkSpeed: 900
+        PauseAnimation { duration: 550 }
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+            easing.type: Easing.InOutSine; from: 0.0; to: 1.0 }
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+            easing.type: Easing.InOutSine; from: 1.0; to: 0.0 }
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+            easing.type: Easing.InOutSine; from: 0.0; to: 1.0 }
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+            easing.type: Easing.InOutSine; from: 1.0; to: 0.0 }
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+            easing.type: Easing.InOutSine; from: 0.0; to: 1.0 }
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+            easing.type: Easing.InOutSine; from: 1.0; to: 0.0 }
     }
 
     property real scanlinesTime: 0
+    property real shieldIconsRedFlash: 0
+
     Timer {
         id: scanlinesTimer
          interval: 33; running: true; repeat: true
@@ -267,18 +277,22 @@ Item {
          uniform sampler2D source;
          uniform sampler2D scanlinesSource;
             uniform highp float darken;
+            uniform highp float redflash;
             uniform highp float time;
         uniform highp float scanlineOffset;
          void main(void)
          {
-            vec4 scanlines = texture2D(scanlinesSource, qt_TexCoord0 * vec2(0.1, 0.15)
-                + vec2(0, time * 4) + vec2(scanlineOffset, 0));
+            float scanlines = texture2D(scanlinesSource, qt_TexCoord0 * vec2(0.1, 0.15)
+                + vec2(0, time * 6) + vec2(scanlineOffset, 0)).r;
             vec4 color = texture2D(source, qt_TexCoord0);
 
-            color.a = color.g * mix(scanlines.r * 2.5, 1.0, min(1.0, darken + pow(1.0 - color.b, 4.0)));
+            scanlines *= sin(time * 50) * 0.1 + 0.9;
+
+            color.a = color.g * mix(scanlines * 3.5, 1.0, min(1.0, darken + 0.8 * pow(1.0 - pow(color.b, 0.5), 4.0)));
 
             color.rgb = mix(vec3(0.5, 0.7, 1.0), vec3(1,1,1), color.r * color.r);
             color.rgb = mix(color.rgb, vec3(0.2, 0.27, 0.3), darken);
+            color.rgb = mix(color.rgb, vec3(1.0, 0.25, 0.05), redflash);
 
             color.rgb *= color.a;
             gl_FragColor = color;
@@ -290,6 +304,7 @@ Item {
          property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
         property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
         property real darken: 0.0
+        property real redflash: shieldIconsRedFlash
         property real time: scanlinesTime
         property real scanlineOffset: 0
          x: score.x
@@ -306,6 +321,7 @@ Item {
          property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
         property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
         property real darken: 0.0
+        property real redflash: shieldIconsRedFlash
         property real time: scanlinesTime
         property real scanlineOffset: 0.2
          x: score.x + 20
@@ -322,6 +338,7 @@ Item {
          property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
         property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
         property real darken: 0.0
+        property real redflash: shieldIconsRedFlash
         property real time: scanlinesTime
         property real scanlineOffset: 0.4
          x: score.x + 40
@@ -375,4 +392,62 @@ Item {
     //IngameCutscene {
 
    // }
+
+     function playWarningAnim() {
+       // for (var i = 0; i < warningRepeater.count; i++) {
+       //     warningRepeater.itemAt(i).fadeIn((warningRepeater.count - i - 1) * 200 + 500);
+       // }
+     }
+
+     Row {
+         id: warningRoot
+         anchors.centerIn: parent
+         Repeater {
+             id: warningRepeater
+                model: ["W", "A", "R", "N", "I", "N", "G"]
+                Item {
+                    id: objRoot
+
+                    function fadeIn(delay) {
+                        objDelay.interval = delay;
+                        objDelay.start();
+                    }
+
+                    width: objContainer.width
+                    height: objContainer.height
+
+                    Timer {
+                        id: objDelay
+                        interval: 0
+                        repeat: false
+                        onTriggered: {
+                            objAnim.restart();
+                            objAnim2.restart();
+                            objAnim3.restart();
+                        }
+                    }
+
+                    Item {
+                        id: objContainer
+                        opacity: 0.0
+                        height: parent.parent.parent.parent.height * 0.2
+                        width: height
+
+                        Text {
+                            id: obj
+                            text: modelData
+                            font.family: airstrike.name
+                            font.pixelSize: parent.height
+                            color: "#F21"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    NumberAnimation { id: objAnim; target: objContainer; running: false; property: "opacity"; from: 0.0; to: 1.0; duration: 500; easing.type: Easing.InOutQuad }
+                    NumberAnimation { id: objAnim2; target: objContainer; running: false; property: "x"; from: -warningRoot.width; to: 0.0; duration: 500; easing.type: Easing.InOutQuad }
+                    NumberAnimation { id: objAnim3; target: obj; running: false; property: "font.pixelSize";
+                        from: 0; to: objContainer.height; duration: 500; easing.type: Easing.InOutQuad }
+                }
+
+         }
+     }
 }

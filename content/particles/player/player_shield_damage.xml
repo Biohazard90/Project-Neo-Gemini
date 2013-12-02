@@ -1,8 +1,8 @@
 <system>
 	<emitters>
 		<emitinstantaneously>
-			<amount_min>50</amount_min>
-			<amount_max>60</amount_max>
+			<amount_min>30</amount_min>
+			<amount_max>40</amount_max>
 		</emitinstantaneously>
 	</emitters>
 	
@@ -16,8 +16,8 @@
 		</initsphere>
 		
 		<initsizerandom>
-			<size_min>5</size_min>
-			<size_max>30</size_max>
+			<size_min>10</size_min>
+			<size_max>35</size_max>
 			<exponent>7</exponent>
 		</initsizerandom>
 		

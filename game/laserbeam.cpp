@@ -50,7 +50,14 @@ void LaserBeam::OnCollision(ICollidable *other)
 {
     Entity *entity = (Entity*)other;
 
-    entity->TakeDamage(entity->GetHealth(), GetOwner(), Vector2D(-1, 0));
+    int damage = entity->GetHealth();
+
+    if (entity->IsPlayer())
+    {
+        damage = 1;
+    }
+
+    entity->TakeDamage(damage, GetOwner(), Vector2D(-1, 0));
 
     Vector2D laserCenter = GetOrigin();
     laserCenter.x = entity->GetOrigin().x;
@@ -101,6 +108,8 @@ void LaserBeam::OnSimulate(float frametime)
 
 void LaserBeam::OnRender(const render_context_t &context)
 {
+    context.painter->save();
+
     float lifeFraction = 0.0f;
     if (lifetime > 0.0f)
     {
@@ -135,8 +144,6 @@ void LaserBeam::OnRender(const render_context_t &context)
     context.painter->setBrush(color);
     context.painter->drawRect(origin.x, origin.y, size.x, size.y);
 
-
-
     size = GetSize();
     size.y = fixedSize * baseAlpha;
     origin = GetOrigin() - size * 0.5f;
@@ -148,4 +155,5 @@ void LaserBeam::OnRender(const render_context_t &context)
 
     context.painter->setBrush(color);
     context.painter->drawRect(origin.x, origin.y, size.x, size.y);
+    context.painter->restore();
 }
