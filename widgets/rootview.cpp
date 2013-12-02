@@ -173,7 +173,12 @@ void RootView::ShowMenu(MenuMode_e mode)
     if (mainQml == NULL)
     {
         QGLWidget *glTarget = new QGLWidget(this);
-        glTarget->setFormat(QGLFormat(QGL::SampleBuffers));
+
+        QGLFormat format;
+        format.setSampleBuffers(true);
+        format.setVersion(3, 1);
+        format.setProfile(QGLFormat::CoreProfile);
+        glTarget->setFormat(format);
 
         mainQml = new QDeclarativeView(this);
         mainQml->setViewport(glTarget);
