@@ -127,8 +127,6 @@ int main(int argc, char *argv[])
     ResizeView(desiredWidth, desiredHeight);
 
     QObject::connect(&a, SIGNAL(aboutToQuit()), &mainCleanup, SLOT(OnShutdown()));
-    mainWindow->show();
-    CenterOnScreen(mainWindow);
 
     int ret = a.exec();
 
