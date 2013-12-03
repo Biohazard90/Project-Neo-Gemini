@@ -197,6 +197,7 @@ void RootView::ShowMenu(MenuMode_e mode)
         mainQml->show();
     }
 
+    mainQml->setAttribute(Qt::WA_OpaquePaintEvent, true);
     mainQml->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     mainQml->setFocusPolicy(Qt::StrongFocus);
 
@@ -211,6 +212,8 @@ void RootView::ShowMenu(MenuMode_e mode)
     }
 
     Ranking::GetInstance()->Update();
+
+    setCursor(QCursor());
 }
 
 void RootView::HideMenu()
@@ -261,6 +264,7 @@ void RootView::CreateGame(const char *mapname, bool newGame)
     setGameVisible(true);
 
 
+    setCursor(QCursor(Qt::BlankCursor));
    // hudQml->setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
@@ -356,6 +360,8 @@ void RootView::onMenuFadedOut()
 
     if (game != NULL)
         game->SetPaused(false);
+
+    setCursor(QCursor(Qt::BlankCursor));
 }
 
 void RootView::onShowBackground()

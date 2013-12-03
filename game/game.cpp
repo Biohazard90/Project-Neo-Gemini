@@ -295,6 +295,11 @@ void Game::EndMap()
     emit GameEnded();
 }
 
+void Game::ShowWarningText()
+{
+    emit warningText();
+}
+
 void Game::setLiveCount(int count)
 {
     LiveCount = count;

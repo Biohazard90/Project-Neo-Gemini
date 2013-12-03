@@ -4,7 +4,7 @@
 
 class MusicEvent : public AbstractScriptEvent
 {
-    DECLARE_CLASS(ObstacleEvent, AbstractScriptEvent);
+    DECLARE_CLASS(MusicEvent, AbstractScriptEvent);
 
     bool looped;
     std::string filename;

@@ -52,11 +52,14 @@ public:
     virtual void PlayerHealthChanged(int health);
     virtual void EndMap();
 
+    virtual void ShowWarningText();
+
     int getLiveCount(){ return LiveCount; }
     int getPlayerHealth(){ return PlayerHealth; }
     
 signals:
     void GameEnded();
+    void warningText();
     void liveCountChanged(int);
     void playerHealthChanged(int);
     

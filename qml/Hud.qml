@@ -29,7 +29,8 @@ Item {
     Connections {
         target: gameController
         //onLiveCountChanged: animate_lives.start()
-        onPlayerHealthChanged: { playerHealthChangedCallback(); }
+        onPlayerHealthChanged: playerHealthChangedCallback();
+        onWarningText: playWarningAnim();
     }
 
     SequentialAnimation {
@@ -176,6 +177,9 @@ Item {
     function playerHealthChangedCallback() {
         var isIncreasing = (gameController.PlayerHealth > lastShield) ? true : false;
 
+        if (isIncreasing)
+            animate_shield_warning.stop();
+
         while (gameController.PlayerHealth != lastShield) {
 
             if (!isIncreasing)
@@ -247,19 +251,18 @@ Item {
     SequentialAnimation {
         id: animate_shield_warning
         running: false
-        property real blinkSpeed: 900
         PauseAnimation { duration: 550 }
-        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: 300
             easing.type: Easing.InOutSine; from: 0.0; to: 1.0 }
-        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: 300
             easing.type: Easing.InOutSine; from: 1.0; to: 0.0 }
-        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: 300
             easing.type: Easing.InOutSine; from: 0.0; to: 1.0 }
-        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: 300
             easing.type: Easing.InOutSine; from: 1.0; to: 0.0 }
-        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: 300
             easing.type: Easing.InOutSine; from: 0.0; to: 1.0 }
-        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: blinkSpeed
+        NumberAnimation { target: hudRoot; property: "shieldIconsRedFlash"; easing.amplitude: 4; duration: 300
             easing.type: Easing.InOutSine; from: 1.0; to: 0.0 }
     }
 
@@ -350,104 +353,148 @@ Item {
          fragmentShader: shieldShaderCode
      }
 
-   /* Item {
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        width: lives_layout.width
-
-        Grid {
-            id: lives_layout
-            columns: 2
-
-            Image {
-                id: lives_image
-                source: "player_lives_hud.png"
-            }
-            Item {
-                height: lives_image.height
-                width: lives_text.width
-
-                Text {
-                    id: lives_text_shadow
-                    text: "x" + pad(livesValue, 1)
-                    font.family: monofonto.name
-                    font.pixelSize: 26
-                    color: "#333"
-                    y: lives_image.height / 2 - lives_text.height / 2 + shadowOffsetSmall
-                    x: shadowOffsetSmall
-                }
-                Text {
-                    id: lives_text
-                    text: "x" + pad(livesValue, 1)
-                    font.family: monofonto.name
-                    font.pixelSize: 26
-                    color: "#FFF"
-                    y: lives_image.height / 2 - lives_text.height / 2
-                }
-            }
-        }
-    }
-    */
-
     //IngameCutscene {
 
    // }
 
      function playWarningAnim() {
-       // for (var i = 0; i < warningRepeater.count; i++) {
-       //     warningRepeater.itemAt(i).fadeIn((warningRepeater.count - i - 1) * 200 + 500);
-       // }
+        for (var i = 0; i < warningRepeater.count; i++) {
+            warningRepeater.itemAt(i).fadeIn((warningRepeater.count - i - 1) * 200 + 500);
+        }
+        warningRoot.visible = true;
+        lineAnimation.restart();
      }
 
      Row {
          id: warningRoot
          anchors.centerIn: parent
-         Repeater {
-             id: warningRepeater
-                model: ["W", "A", "R", "N", "I", "N", "G"]
-                Item {
-                    id: objRoot
+         visible: false
+         opacity: 0.5
 
-                    function fadeIn(delay) {
-                        objDelay.interval = delay;
-                        objDelay.start();
+         Column {
+
+             SequentialAnimation {
+                    id: lineAnimation
+                    ScriptAction {
+                        script: { border_top.x = -warningRoot.parent.width; border_bottom.x = -warningRoot.parent.width; }
                     }
-
-                    width: objContainer.width
-                    height: objContainer.height
-
-                    Timer {
-                        id: objDelay
-                        interval: 0
-                        repeat: false
-                        onTriggered: {
-                            objAnim.restart();
-                            objAnim2.restart();
-                            objAnim3.restart();
+                    PauseAnimation { duration: 1200 }
+                    ParallelAnimation {
+                        NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+                            from: -warningRoot.parent.width; to: 0 }
+                        SequentialAnimation {
+                            PauseAnimation { duration: 450 }
+                            NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+                                from: -warningRoot.parent.width; to: 0 }
                         }
                     }
-
-                    Item {
-                        id: objContainer
-                        opacity: 0.0
-                        height: parent.parent.parent.parent.height * 0.2
-                        width: height
-
-                        Text {
-                            id: obj
-                            text: modelData
-                            font.family: airstrike.name
-                            font.pixelSize: parent.height
-                            color: "#F21"
-                            anchors.centerIn: parent
+                    PauseAnimation { duration: 1800 }
+                    ParallelAnimation {
+                        NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+                            to: warningRoot.parent.width; from: 0 }
+                        SequentialAnimation {
+                            PauseAnimation { duration: 450 }
+                            NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+                                to: warningRoot.parent.width; from: 0 }
                         }
                     }
-                    NumberAnimation { id: objAnim; target: objContainer; running: false; property: "opacity"; from: 0.0; to: 1.0; duration: 500; easing.type: Easing.InOutQuad }
-                    NumberAnimation { id: objAnim2; target: objContainer; running: false; property: "x"; from: -warningRoot.width; to: 0.0; duration: 500; easing.type: Easing.InOutQuad }
-                    NumberAnimation { id: objAnim3; target: obj; running: false; property: "font.pixelSize";
-                        from: 0; to: objContainer.height; duration: 500; easing.type: Easing.InOutQuad }
-                }
+             }
 
+             Rectangle {
+                 id: border_top
+                 color: "#F21"
+                 width: warningRoot.parent.width * 0.8
+                 height: warningRoot.parent.height * 0.03
+                 x: 0
+                 y: 0
+             }
+
+             Rectangle {
+                 visible: false
+                 height: warningRoot.parent.height * 0.06
+             }
+
+             Row {
+
+                 Repeater {
+                     id: warningRepeater
+                        model: ["W", "A", "R", "N", "I", "N", "G"]
+                        Item {
+                            id: objRoot
+
+                            function fadeIn(delay) {
+                                objDelay.interval = delay;
+                                objDelay.restart();
+                                objColorAnim.restart();
+                            }
+
+                            width: objContainer.width
+                            height: objContainer.height
+
+                            Timer {
+                                id: objDelay
+                                interval: 0
+                                repeat: false
+                                onTriggered: {
+                                    objAnim.restart();
+                                    objAnim2.restart();
+                                    objAnim3.restart();
+                                }
+                            }
+
+                            Item {
+                                id: objContainer
+                                opacity: 0.0
+                                height: warningRoot.parent.height * 0.2
+                                width: height
+
+                                Text {
+                                    id: obj
+                                    text: modelData
+                                    font.family: airstrike.name
+                                    font.pixelSize: parent.height
+                                    color: "#F21"
+                                    anchors.centerIn: parent
+                                }
+                            }
+                            NumberAnimation { id: objAnim; target: objContainer; running: false; property: "opacity"; from: 0.0; to: 1.0; duration: 500; easing.type: Easing.InOutQuad }
+                            NumberAnimation { id: objAnim2; target: objContainer; running: false; property: "x"; from: -warningRoot.width; to: 0.0; duration: 500; easing.type: Easing.InOutQuad }
+                            NumberAnimation { id: objAnim3; target: obj; running: false; property: "font.pixelSize";
+                                from: 0; to: objContainer.height; duration: 500; easing.type: Easing.InOutQuad }
+                            SequentialAnimation {
+                                id: objColorAnim;
+                                running: false;
+                                PauseAnimation { duration: 2500 }
+                                ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                                ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                                ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                                ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                                ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                                ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                                PauseAnimation { duration: (6 - index) * 100 }
+                                NumberAnimation { target: objContainer; running: false; property: "x"; easing.overshoot: 2.752;
+                                    to: warningRoot.parent.width; from: 0.0; duration: 1200; easing.type: Easing.InBack }
+                                ScriptAction {
+                                    script: if (index == 0) warningRoot.visible = false;
+                                }
+                            }
+                        }
+                   }
+             }
+
+             Rectangle {
+                 visible: false
+                 height: warningRoot.parent.height * 0.06
+             }
+
+             Rectangle {
+                 id: border_bottom
+                 color: "#F21"
+                 width: warningRoot.parent.width * 0.8
+                 height: warningRoot.parent.height * 0.03
+                 x: 0
+                 y: 0
+             }
          }
      }
 }

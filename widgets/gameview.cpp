@@ -17,13 +17,26 @@ void GameView::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
 
     c.painter = painter;
 
-    painter->setRenderHint(QPainter::Antialiasing, pGlobals->antialiasing);
-    painter->setRenderHint(QPainter::TextAntialiasing, pGlobals->antialiasing);
-    painter->setRenderHint(QPainter::HighQualityAntialiasing, pGlobals->antialiasing);
-    painter->setRenderHint(QPainter::SmoothPixmapTransform, pGlobals->antialiasing);
+    if (pGlobals->antialiasing)
+    {
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        painter->setRenderHint(QPainter::TextAntialiasing, true);
+        painter->setRenderHint(QPainter::HighQualityAntialiasing, true);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-    glEnable(GL_MULTISAMPLE);
-    glEnable(GL_LINE_SMOOTH);
+        glEnable(GL_MULTISAMPLE);
+        glEnable(GL_LINE_SMOOTH);
+    }
+    else
+    {
+        painter->setRenderHint(QPainter::Antialiasing, false);
+        painter->setRenderHint(QPainter::TextAntialiasing, false);
+        painter->setRenderHint(QPainter::HighQualityAntialiasing, false);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform, false);
+
+        glDisable(GL_MULTISAMPLE);
+        glDisable(GL_LINE_SMOOTH);
+    }
 
     c.x = 0;
     c.y = 0;

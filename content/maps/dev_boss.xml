@@ -115,6 +115,12 @@
 		</event>
 		
 		<event type="instantaneous">
+			<delay>1.5</delay>
+			<event type="warningtext">
+			</event>
+		</event>
+		
+		<event type="instantaneous">
 			<delay>7.0</delay>
 			<event type="music">
 				<filename>level02.ogg</filename>

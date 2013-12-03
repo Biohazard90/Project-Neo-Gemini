@@ -1,8 +1,8 @@
 <system>
 	<emitters>
 		<emitcontinuously>
-			<delay_min>0.004</delay_min>
-			<delay_max>0.006</delay_max>
+			<delay_min>0.005</delay_min>
+			<delay_max>0.0065</delay_max>
 			<duration>-1</duration>
 		</emitcontinuously>
 	</emitters>

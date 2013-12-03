@@ -187,7 +187,8 @@ SOURCES += main.cpp\
     game/bossship.cpp \
     game/event/bossevent.cpp \
     game/ai/boss0ai.cpp \
-    widgets/gameview.cpp
+    widgets/gameview.cpp \
+    game/event/warningtextevent.cpp
 
 HEADERS  += mainwindow.h \
     util/util.h \
