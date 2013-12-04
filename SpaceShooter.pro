@@ -188,7 +188,8 @@ SOURCES += main.cpp\
     game/event/bossevent.cpp \
     game/ai/boss0ai.cpp \
     widgets/gameview.cpp \
-    game/event/warningtextevent.cpp
+    game/event/warningtextevent.cpp \
+    game/event/cutsceneevent.cpp
 
 HEADERS  += mainwindow.h \
     util/util.h \
@@ -272,7 +273,8 @@ HEADERS  += mainwindow.h \
     game/ai/abstractai.h \
     game/laserbeam.h \
     game/bossship.h \
-    widgets/gameview.h
+    widgets/gameview.h \
+    game/event/cutsceneevent.h
 
 FORMS    += mainwindow.ui \
     widgets/rootview.ui

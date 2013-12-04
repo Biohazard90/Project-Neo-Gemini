@@ -298,6 +298,15 @@ void Game::ShowWarningText()
     emit warningText();
 }
 
+void Game::ShowCutscene(QString portraitLeft,QString portraitRight,QString titel, QString message){
+    PortraitLeft = portraitLeft;
+    PortraitRight = portraitRight;
+    Titel = titel;
+    Message = message;
+
+    emit cutscene();
+}
+
 void Game::setLiveCount(int count)
 {
     LiveCount = count;

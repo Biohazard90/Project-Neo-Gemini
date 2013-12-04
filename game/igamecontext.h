@@ -28,6 +28,8 @@ public:
     virtual void EndMap() = 0;
 
     virtual void ShowWarningText() = 0;
+    virtual void ShowCutscene(QString portraitLeft, QString portraitRight, QString titel, QString message) = 0;
+
 };
 
 #endif // IGAMECONTEXT_H

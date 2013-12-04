@@ -31,6 +31,7 @@ Item {
         //onLiveCountChanged: animate_lives.start()
         onPlayerHealthChanged: playerHealthChangedCallback();
         onWarningText: playWarningAnim();
+        onCutscene: showCutscene();
     }
 
     SequentialAnimation {
@@ -41,15 +42,15 @@ Item {
                 properties: "blurWidth"; duration: 200; easing.type: Easing.InOutBack; from: 0.0065 ; to: 0.005 }
             NumberAnimation { target: blurPass1;
                 properties: "blurHeight"; duration: 200; easing.type: Easing.InOutBack; from: 0.022 ; to: 0.015 }
-        ColorAnimation { target: score; property: "color"; from: "#9BF"; to: "#FFF"; duration: 200 }
+            ColorAnimation { target: score; property: "color"; from: "#9BF"; to: "#FFF"; duration: 200 }
         }
     }
 
-   // SequentialAnimation {
-     //   id: animate_lives
-     //   running: false
-        //ColorAnimation { target: lives_text; property: "color"; from: "#FF102A"; to: "#FFF"; duration: 1000 }
-  //  }
+    // SequentialAnimation {
+    //   id: animate_lives
+    //   running: false
+    //ColorAnimation { target: lives_text; property: "color"; from: "#FF102A"; to: "#FFF"; duration: 1000 }
+    //  }
 
     FontLoader {
         id: monofonto
@@ -92,11 +93,11 @@ Item {
 
     ShaderEffectItem {
         id: blurPass0
-         property variant source: ShaderEffectSource { sourceItem: scoreBlurContainer; hideSource: true }
-         anchors.fill: scoreBlurContainer
-         property real blurWidth: 1.0 / width
+        property variant source: ShaderEffectSource { sourceItem: scoreBlurContainer; hideSource: true }
+        anchors.fill: scoreBlurContainer
+        property real blurWidth: 1.0 / width
 
-         fragmentShader: "
+        fragmentShader: "
          #version 120
          varying highp vec2 qt_TexCoord0;
          uniform highp float blurWidth;
@@ -119,15 +120,15 @@ Item {
                 gl_FragColor = color;
          }
          "
-     }
+    }
 
     ShaderEffectItem {
         id: blurPass1
-         property variant source: ShaderEffectSource { sourceItem: blurPass0; hideSource: true }
-         anchors.fill: blurPass0
-         property real blurHeight: 1.0 / height
+        property variant source: ShaderEffectSource { sourceItem: blurPass0; hideSource: true }
+        anchors.fill: blurPass0
+        property real blurHeight: 1.0 / height
 
-         fragmentShader: "
+        fragmentShader: "
          varying highp vec2 qt_TexCoord0;
          uniform sampler2D source;
          uniform highp float blurHeight;
@@ -149,7 +150,7 @@ Item {
                 gl_FragColor = color * 2;
          }
          "
-     }
+    }
 
     Text {
         id: score
@@ -271,9 +272,9 @@ Item {
 
     Timer {
         id: scanlinesTimer
-         interval: 33; running: true; repeat: true
-         onTriggered: scanlinesTime += 0.033
-     }
+        interval: 33; running: true; repeat: true
+        onTriggered: scanlinesTime += 0.033
+    }
 
     property string shieldShaderCode: "
          varying highp vec2 qt_TexCoord0;
@@ -304,201 +305,226 @@ Item {
 
     ShaderEffectItem {
         id: shieldShader0
-         property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+        property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
         property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
         property real darken: 0.0
         property real redflash: shieldIconsRedFlash
         property real time: scanlinesTime
         property real scanlineOffset: 0
-         x: score.x
-         y: score.y + score.height - 5
-         width: shieldImage.width
-         height: shieldImage.height
-         blending: true
+        x: score.x
+        y: score.y + score.height - 5
+        width: shieldImage.width
+        height: shieldImage.height
+        blending: true
 
-         fragmentShader: shieldShaderCode
-     }
+        fragmentShader: shieldShaderCode
+    }
 
-     ShaderEffectItem {
+    ShaderEffectItem {
         id: shieldShader1
-         property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+        property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
         property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
         property real darken: 0.0
         property real redflash: shieldIconsRedFlash
         property real time: scanlinesTime
         property real scanlineOffset: 0.2
-         x: score.x + 20
-         y: score.y + score.height - 5
-         width: shieldImage.width
-         height: shieldImage.height
-         blending: true
+        x: score.x + 20
+        y: score.y + score.height - 5
+        width: shieldImage.width
+        height: shieldImage.height
+        blending: true
 
-         fragmentShader: shieldShaderCode
-     }
+        fragmentShader: shieldShaderCode
+    }
 
-     ShaderEffectItem {
+    ShaderEffectItem {
         id: shieldShader2
-         property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
+        property variant source: ShaderEffectSource { sourceItem: shieldImage; hideSource: true }
         property variant scanlinesSource: ShaderEffectSource { sourceItem: scanlinesImage; hideSource: true; wrapMode: ShaderEffectSource.Repeat }
         property real darken: 0.0
         property real redflash: shieldIconsRedFlash
         property real time: scanlinesTime
         property real scanlineOffset: 0.4
-         x: score.x + 40
-         y: score.y + score.height - 5
-         width: shieldImage.width
-         height: shieldImage.height
-         blending: true
+        x: score.x + 40
+        y: score.y + score.height - 5
+        width: shieldImage.width
+        height: shieldImage.height
+        blending: true
 
-         fragmentShader: shieldShaderCode
-     }
+        fragmentShader: shieldShaderCode
+    }
 
-    //IngameCutscene {
+    function showCutscene(){
 
-   // }
+        cutscene.visible = true;
+        cutscene.stringTitle = gameController.cutsceneTitel;
+        cutscene.stringMessage = gameController.cutsceneMessage;
 
-     function playWarningAnim() {
+
+        if(gameController.cutscenePortraitRight.length === 0){
+            cutscene.boolPortraitRightVisible = false;
+        }else{
+            cutscene.boolPortraitRightVisible = true;
+            cutscene.stringPortraitRight = gameController.cutscenePortraitRight + ".jpg";
+        }
+
+        if(gameController.cutscenePortraitLeft.length === 0){
+            cutscene.boolPortraitLeftVisible = false;
+        }else{
+            cutscene.boolPortraitLeftVisible = true;
+            cutscene.stringPortraitLeft = gameController.cutscenePortraitLeft + ".jpg";
+        }
+
+    }
+
+    IngameCutscene {
+        id:cutscene
+        visible: false
+
+    }
+
+    function playWarningAnim() {
         for (var i = 0; i < warningRepeater.count; i++) {
             warningRepeater.itemAt(i).fadeIn((warningRepeater.count - i - 1) * 200 + 500);
         }
         warningRoot.visible = true;
         lineAnimation.restart();
-     }
+    }
 
-     Row {
-         id: warningRoot
-         anchors.centerIn: parent
-         visible: false
-         opacity: 0.5
-         property int warningRectWidth: hudRoot.width // parent.height * 0.2 * 7
-         property int warningRectMove: hudRoot.width
+    Row {
+        id: warningRoot
+        anchors.centerIn: parent
+        visible: false
+        opacity: 0.5
+        property int warningRectWidth: hudRoot.width // parent.height * 0.2 * 7
+        property int warningRectMove: hudRoot.width
 
-         Column {
+        Column {
 
-             SequentialAnimation {
-                    id: lineAnimation
-                    ScriptAction {
-                        script: { border_top.x = -warningRoot.warningRectMove; border_bottom.x = -warningRoot.warningRectMove; }
-                    }
-                    PauseAnimation { duration: 1200 }
-                    ParallelAnimation {
-                        NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+            SequentialAnimation {
+                id: lineAnimation
+                ScriptAction {
+                    script: { border_top.x = -warningRoot.warningRectMove; border_bottom.x = -warningRoot.warningRectMove; }
+                }
+                PauseAnimation { duration: 1200 }
+                ParallelAnimation {
+                    NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+                        from: -warningRoot.warningRectMove; to: 0 }
+                    SequentialAnimation {
+                        PauseAnimation { duration: 450 }
+                        NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
                             from: -warningRoot.warningRectMove; to: 0 }
-                        SequentialAnimation {
-                            PauseAnimation { duration: 450 }
-                            NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
-                                from: -warningRoot.warningRectMove; to: 0 }
-                        }
                     }
-                    PauseAnimation { duration: 1800 }
-                    ParallelAnimation {
-                        NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+                }
+                PauseAnimation { duration: 1800 }
+                ParallelAnimation {
+                    NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
+                        to: warningRoot.warningRectMove; from: 0 }
+                    SequentialAnimation {
+                        PauseAnimation { duration: 450 }
+                        NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
                             to: warningRoot.warningRectMove; from: 0 }
+                    }
+                }
+            }
+
+            Rectangle {
+                id: border_top
+                color: "#F21"
+                width: warningRoot.warningRectWidth
+                height: warningRoot.parent.height * 0.03
+                x: 0
+                y: 0
+            }
+
+            Rectangle {
+                visible: false
+                height: warningRoot.parent.height * 0.06
+            }
+
+            Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Repeater {
+                    id: warningRepeater
+                    model: ["W", "A", "R", "N", "I", "N", "G"]
+                    Item {
+                        id: objRoot
+
+                        function fadeIn(delay) {
+                            objDelay.interval = delay;
+                            objDelay.restart();
+                            objColorAnim.restart();
+                            objContainer.opacity = 0.0;
+                        }
+
+                        width: objContainer.width
+                        height: objContainer.height
+
+                        Timer {
+                            id: objDelay
+                            interval: 0
+                            repeat: false
+                            onTriggered: {
+                                objAnim.restart();
+                                objAnim2.restart();
+                                objAnim3.restart();
+                            }
+                        }
+
+                        Item {
+                            id: objContainer
+                            opacity: 0.0
+                            height: warningRoot.parent.height * 0.2
+                            width: height
+
+                            Text {
+                                id: obj
+                                text: modelData
+                                font.family: airstrike.name
+                                font.pixelSize: parent.height
+                                color: "#F21"
+                                anchors.centerIn: parent
+                            }
+                        }
+                        NumberAnimation { id: objAnim; target: objContainer; running: false; property: "opacity"; from: 0.0; to: 1.0; duration: 500; easing.type: Easing.InOutQuad }
+                        NumberAnimation { id: objAnim2; target: objContainer; running: false; property: "x"; from: -warningRoot.width; to: 0.0; duration: 500; easing.type: Easing.InOutQuad }
+                        NumberAnimation { id: objAnim3; target: obj; running: false; property: "font.pixelSize";
+                            from: 0; to: objContainer.height; duration: 500; easing.type: Easing.InOutQuad }
                         SequentialAnimation {
-                            PauseAnimation { duration: 450 }
-                            NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
-                                to: warningRoot.warningRectMove; from: 0 }
+                            id: objColorAnim;
+                            running: false;
+                            PauseAnimation { duration: 2500 }
+                            ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                            ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                            ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                            ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                            ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                            ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
+                            PauseAnimation { duration: (6 - index) * 100 }
+                            NumberAnimation { target: objContainer; running: false; property: "x"; easing.overshoot: 2.752;
+                                to: warningRoot.parent.width; from: 0.0; duration: 1200; easing.type: Easing.InBack }
+                            ScriptAction {
+                                script: if (index == 0) warningRoot.visible = false;
+                            }
                         }
                     }
-             }
+                }
+            }
 
-             Rectangle {
-                 id: border_top
-                 color: "#F21"
-                 width: warningRoot.warningRectWidth
-                 height: warningRoot.parent.height * 0.03
-                 x: 0
-                 y: 0
-             }
+            Rectangle {
+                visible: false
+                height: warningRoot.parent.height * 0.06
+            }
 
-             Rectangle {
-                 visible: false
-                 height: warningRoot.parent.height * 0.06
-             }
-
-             Row {
-                 anchors.horizontalCenter: parent.horizontalCenter
-
-                 Repeater {
-                     id: warningRepeater
-                        model: ["W", "A", "R", "N", "I", "N", "G"]
-                        Item {
-                            id: objRoot
-
-                            function fadeIn(delay) {
-                                objDelay.interval = delay;
-                                objDelay.restart();
-                                objColorAnim.restart();
-                                objContainer.opacity = 0.0;
-                            }
-
-                            width: objContainer.width
-                            height: objContainer.height
-
-                            Timer {
-                                id: objDelay
-                                interval: 0
-                                repeat: false
-                                onTriggered: {
-                                    objAnim.restart();
-                                    objAnim2.restart();
-                                    objAnim3.restart();
-                                }
-                            }
-
-                            Item {
-                                id: objContainer
-                                opacity: 0.0
-                                height: warningRoot.parent.height * 0.2
-                                width: height
-
-                                Text {
-                                    id: obj
-                                    text: modelData
-                                    font.family: airstrike.name
-                                    font.pixelSize: parent.height
-                                    color: "#F21"
-                                    anchors.centerIn: parent
-                                }
-                            }
-                            NumberAnimation { id: objAnim; target: objContainer; running: false; property: "opacity"; from: 0.0; to: 1.0; duration: 500; easing.type: Easing.InOutQuad }
-                            NumberAnimation { id: objAnim2; target: objContainer; running: false; property: "x"; from: -warningRoot.width; to: 0.0; duration: 500; easing.type: Easing.InOutQuad }
-                            NumberAnimation { id: objAnim3; target: obj; running: false; property: "font.pixelSize";
-                                from: 0; to: objContainer.height; duration: 500; easing.type: Easing.InOutQuad }
-                            SequentialAnimation {
-                                id: objColorAnim;
-                                running: false;
-                                PauseAnimation { duration: 2500 }
-                                ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
-                                ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
-                                ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
-                                ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
-                                ColorAnimation { target: obj; property: "color";  from: "#F21"; to: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
-                                ColorAnimation { target: obj; property: "color";  to: "#F21"; from: "#FD1"; duration: 300; easing.type: Easing.InOutQuad }
-                                PauseAnimation { duration: (6 - index) * 100 }
-                                NumberAnimation { target: objContainer; running: false; property: "x"; easing.overshoot: 2.752;
-                                    to: warningRoot.parent.width; from: 0.0; duration: 1200; easing.type: Easing.InBack }
-                                ScriptAction {
-                                    script: if (index == 0) warningRoot.visible = false;
-                                }
-                            }
-                        }
-                   }
-             }
-
-             Rectangle {
-                 visible: false
-                 height: warningRoot.parent.height * 0.06
-             }
-
-             Rectangle {
-                 id: border_bottom
-                 color: "#F21"
-                 width: warningRoot.warningRectWidth
-                 height: warningRoot.parent.height * 0.03
-                 x: 0
-                 y: 0
-             }
-         }
-     }
+            Rectangle {
+                id: border_bottom
+                color: "#F21"
+                width: warningRoot.warningRectWidth
+                height: warningRoot.parent.height * 0.03
+                x: 0
+                y: 0
+            }
+        }
+    }
 }

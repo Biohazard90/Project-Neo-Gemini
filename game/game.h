@@ -25,6 +25,10 @@ class Game : public QObject,
     Q_OBJECT
     Q_PROPERTY(int LiveCount READ getLiveCount WRITE setLiveCount NOTIFY liveCountChanged)
     Q_PROPERTY(int PlayerHealth READ getPlayerHealth WRITE setPlayerHealth NOTIFY playerHealthChanged)
+    Q_PROPERTY(QString cutsceneMessage MEMBER Message)
+    Q_PROPERTY(QString cutsceneTitel MEMBER Titel)
+    Q_PROPERTY(QString cutscenePortraitLeft MEMBER PortraitLeft)
+    Q_PROPERTY(QString cutscenePortraitRight MEMBER PortraitRight)
 
 public:
     explicit Game(QObject *parent = 0);
@@ -53,6 +57,8 @@ public:
     virtual void EndMap();
 
     virtual void ShowWarningText();
+    virtual void ShowCutscene(QString portraitLeft,QString portraitRight,QString titel,QString message);
+
 
     int getLiveCount(){ return LiveCount; }
     int getPlayerHealth(){ return PlayerHealth; }
@@ -60,6 +66,7 @@ public:
 signals:
     void GameEnded();
     void warningText();
+    void cutscene();
     void liveCountChanged(int);
     void playerHealthChanged(int);
     
@@ -82,6 +89,11 @@ private:
     int LiveCount;
     float livesChangedTime;
     int PlayerHealth;
+
+    QString PortraitLeft;
+    QString PortraitRight;
+    QString Titel;
+    QString Message;
 
     CollisionManager *collisionManager;
 

@@ -1,1065 +1,1087 @@
 <map>
-	<layers>
-		<fill type="lineargradient">
-			<start>
-				<y>0</y>
-			</start>
-			<stop>
-				<y>480</y>
-			</stop>
-			<colors>
-				<color>
-					<r>10</r>
-					<g>11</g>
-					<b>13</b>
-					<fraction>0</fraction>
-				</color>
-				<color>
-					<r>15</r>
-					<g>25</g>
-					<b>40</b>
-					<fraction>0.5</fraction>
-				</color>
-				<color>
-					<r>10</r>
-					<g>11</g>
-					<b>13</b>
-					<fraction>1</fraction>
-				</color>
-			</colors>
-			<foreground>0</foreground>
-		</fill>
-		<particle>
-			<system>
-				<origin>
-					<x>750</x>
-					<y>240</y>
-				</origin>
-				<name>bglayer_nebula_0</name>
-			</system>
-		</particle>
-		<particle>
-			<system>
-				<origin>
-					<x>600</x>
-					<y>240</y>
-				</origin>
-				<name>bglayer_stars_far</name>
-			</system>
-		</particle>
-		<particle>
-			<system>
-				<origin>
-					<x>550</x>
-					<y>240</y>
-				</origin>
-				<name>bglayer_stars_close</name>
-			</system>
-		</particle>
-		<fill type="radialgradient">
-			<center>
-				<x>320</x>
-				<y>240</y>
-			</center>
-			<radius>400</radius>
-			<colors>
-				<color>
-					<r>0</r>
-					<g>0</g>
-					<b>0</b>
-					<a>255</a>
-					<fraction>1</fraction>
-				</color>
-				<color>
-					<r>0</r>
-					<g>0</g>
-					<b>0</b>
-					<a>0</a>
-					<fraction>0</fraction>
-				</color>
-			</colors>
-			<foreground>0</foreground>
-		</fill>
-	</layers>
-	<events>
-		<event type="continuous">
-			<delay>0.5</delay>
-			<duration>80</duration>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<event type="obstacle">
-				<class>asteroid_large</class>
-				<origin_y_min>0</origin_y_min>
-				<origin_y_max>1</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>2.5</delay>
-			<count_min>2</count_min>
-			<count_max>3</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.0</origin_y_min>
-				<origin_y_max>1.0</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>6.0</delay>
-			<interval_min>0.1</interval_min>
-			<interval_max>0.2</interval_max>
-			<count_max>5</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>9</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>11</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>13</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>15</delay>
-			<count_min>5</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>17</delay>
-			<count_min>1</count_min>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>20</delay>
-			<count_min>2</count_min>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>21</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>22.5</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>23.0</delay>
-			<interval_min>0.333</interval_min>
-			<interval_max>0.5</interval_max>
-			<count_max>3</count_max>
-			<distribution_mode>1</distribution_mode>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>25.0</delay>
-			<interval_min>0.333</interval_min>
-			<interval_max>0.333</interval_max>
-			<count_max>3</count_max>
-			<distribution_mode>0</distribution_mode>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>27.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<duration>6</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>34</delay>
-			<count_min>6</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.1</origin_y_min>
-				<origin_y_max>0.9</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>35</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>36</delay>
-			<count_min>6</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>38.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<count_max>2</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>39.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<count_max>2</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>40.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<count_max>2</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>42.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<duration>10</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.05</origin_y_min>
-				<origin_y_max>0.25</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>42.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<duration>10</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.75</origin_y_min>
-				<origin_y_max>0.95</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>50</delay>
-			<count_min>4</count_min>
-			<count_max>4</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>53</delay>
-			<count_min>4</count_min>
-			<count_max>6</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>55.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.5</interval_max>
-			<duration>5</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>56</delay>
-			<duration>6</duration>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<event type="obstacle">
-				<class>asteroid_large</class>
-				<origin_y_min>0</origin_y_min>
-				<origin_y_max>1</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>57</delay>
-			<count_min>1</count_min>
-			<count_max>2</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_3</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>58.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.5</interval_max>
-			<duration>4</duration>
-			<event type="fighter">
-				<class>fighter_3</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>60.0</delay>
-			<interval_min>0.8</interval_min>
-			<interval_max>1.4</interval_max>
-			<duration>10</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>63</delay>
-			<count_min>1</count_min>
-			<count_max>2</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>67</delay>
-			<count_min>1</count_min>
-			<count_max>2</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>72</delay>
-			<count_min>1</count_min>
-			<count_max>2</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>75</delay>
-			<count_min>2</count_min>
-			<count_max>4</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>79</delay>
-			<count_min>3</count_min>
-			<count_max>3</count_max>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>80</delay>
-			<duration>85</duration>
-			<interval_min>0.3</interval_min>
-			<interval_max>0.8</interval_max>
-			<event type="obstacle">
-				<class>asteroid_large</class>
-				<origin_y_min>0</origin_y_min>
-				<origin_y_max>1</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>82</delay>
-			<count_min>5</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>83</delay>
-			<count_min>6</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>84</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>87</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>90</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>93</delay>
-			<count_min>1</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.15</origin_y_min>
-				<origin_y_max>0.85</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>94</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.15</origin_y_min>
-				<origin_y_max>0.85</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>95</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.15</origin_y_min>
-				<origin_y_max>0.85</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>96</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.15</origin_y_min>
-				<origin_y_max>0.85</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>97</delay>
-			<count_min>5</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.15</origin_y_min>
-				<origin_y_max>0.85</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>100</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.05</origin_y_min>
-				<origin_y_max>0.2</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>100</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.8</origin_y_min>
-				<origin_y_max>0.95</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>101</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.05</origin_y_min>
-				<origin_y_max>0.2</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>101</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.8</origin_y_min>
-				<origin_y_max>0.95</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>102</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0</origin_y_min>
-				<origin_y_max>1</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>104</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.05</origin_y_min>
-				<origin_y_max>0.2</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>104</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.8</origin_y_min>
-				<origin_y_max>0.95</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>106</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0</origin_y_min>
-				<origin_y_max>1</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>108</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.05</origin_y_min>
-				<origin_y_max>0.2</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>108</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.8</origin_y_min>
-				<origin_y_max>0.95</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>111</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>112</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>115</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>116.5</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.5</interval_max>
-			<duration>5</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>119</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>122</delay>
-			<count_min>1</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.4</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>122</delay>
-			<count_min>1</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-				<origin_y_min>0.6</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>124.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>0.5</interval_max>
-			<count_max>5</count_max>
-			<distribution_mode>0</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>127.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>0.5</interval_max>
-			<count_max>5</count_max>
-			<distribution_mode>1</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>128</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>130.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>0.5</interval_max>
-			<count_max>5</count_max>
-			<distribution_mode>0</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>133.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>0.5</interval_max>
-			<count_max>5</count_max>
-			<distribution_mode>1</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>135.0</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>0.5</interval_max>
-			<count_max>8</count_max>
-			<distribution_mode>1</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.2</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>135.25</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>0.5</interval_max>
-			<count_max>8</count_max>
-			<distribution_mode>1</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.8</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>137</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>141.5</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.2</interval_max>
-			<duration>6</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>142</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.2</interval_max>
-			<count_max>5</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_3</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>145</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>147</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>147.5</delay>
-			<count_min>4</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.2</origin_y_min>
-				<origin_y_max>0.8</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>150</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.2</interval_max>
-			<duration>6</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>150</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_3</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>151.5</delay>
-			<count_min>3</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_1</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>153</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_3</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>155</delay>
-			<interval_min>0.3</interval_min>
-			<interval_max>0.3</interval_max>
-			<count_max>3</count_max>
-			<distribution_mode>0</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.1</origin_y_min>
-				<origin_y_max>0.9</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>156</delay>
-			<interval_min>0.3</interval_min>
-			<interval_max>0.3</interval_max>
-			<count_max>3</count_max>
-			<distribution_mode>1</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.1</origin_y_min>
-				<origin_y_max>0.9</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>157</delay>
-			<interval_min>0.3</interval_min>
-			<interval_max>0.3</interval_max>
-			<count_max>3</count_max>
-			<distribution_mode>0</distribution_mode>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.1</origin_y_min>
-				<origin_y_max>0.9</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>160</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.2</interval_max>
-			<count_max>4</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_3</class>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>161</delay>
-			<count_min>2</count_min>
-			<even_distribution>true</even_distribution>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>163</delay>
-			<interval_min>0.3</interval_min>
-			<interval_max>1.0</interval_max>
-			<count_max>3</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_1</class>
-				<origin_y_min>0.1</origin_y_min>
-				<origin_y_max>0.9</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>164</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<duration>5</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.0</origin_y_min>
-				<origin_y_max>1.0</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>166</delay>
-			<interval_min>0.3</interval_min>
-			<interval_max>1.0</interval_max>
-			<count_max>3</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_2</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>168</delay>
-			<interval_min>0.3</interval_min>
-			<interval_max>0.8</interval_max>
-			<count_max>4</count_max>
-			<distribution_mode>2</distribution_mode>
-			<event type="fighter">
-				<class>fighter_3</class>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>173.5</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<duration>5</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.1</origin_y_min>
-				<origin_y_max>0.2</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="continuous">
-			<delay>173.5</delay>
-			<interval_min>0.5</interval_min>
-			<interval_max>1.0</interval_max>
-			<duration>5</duration>
-			<event type="fighter">
-				<class>fighter_0</class>
-				<origin_y_min>0.8</origin_y_min>
-				<origin_y_max>0.9</origin_y_max>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>175.0</delay>
-			<event type="music">
-				<filename>warning.ogg</filename>
-				<looped>false</looped>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>180.0</delay>
-			<event type="music">
-				<filename>level02.ogg</filename>
-				<looped>false</looped>
-			</event>
-		</event>
-		
-		<event type="instantaneous">
-			<delay>180</delay>
-			<event type="boss">
-				<class>boss_0</class>
-			</event>
-		</event>
-	</events>
-	<music_idle>level01.ogg</music_idle>
+        <layers>
+                <fill type="lineargradient">
+                        <start>
+                                <y>0</y>
+                        </start>
+                        <stop>
+                                <y>480</y>
+                        </stop>
+                        <colors>
+                                <color>
+                                        <r>10</r>
+                                        <g>11</g>
+                                        <b>13</b>
+                                        <fraction>0</fraction>
+                                </color>
+                                <color>
+                                        <r>15</r>
+                                        <g>25</g>
+                                        <b>40</b>
+                                        <fraction>0.5</fraction>
+                                </color>
+                                <color>
+                                        <r>10</r>
+                                        <g>11</g>
+                                        <b>13</b>
+                                        <fraction>1</fraction>
+                                </color>
+                        </colors>
+                        <foreground>0</foreground>
+                </fill>
+                <particle>
+                        <system>
+                                <origin>
+                                        <x>750</x>
+                                        <y>240</y>
+                                </origin>
+                                <name>bglayer_nebula_0</name>
+                        </system>
+                </particle>
+                <particle>
+                        <system>
+                                <origin>
+                                        <x>600</x>
+                                        <y>240</y>
+                                </origin>
+                                <name>bglayer_stars_far</name>
+                        </system>
+                </particle>
+                <particle>
+                        <system>
+                                <origin>
+                                        <x>550</x>
+                                        <y>240</y>
+                                </origin>
+                                <name>bglayer_stars_close</name>
+                        </system>
+                </particle>
+                <fill type="radialgradient">
+                        <center>
+                                <x>320</x>
+                                <y>240</y>
+                        </center>
+                        <radius>400</radius>
+                        <colors>
+                                <color>
+                                        <r>0</r>
+                                        <g>0</g>
+                                        <b>0</b>
+                                        <a>255</a>
+                                        <fraction>1</fraction>
+                                </color>
+                                <color>
+                                        <r>0</r>
+                                        <g>0</g>
+                                        <b>0</b>
+                                        <a>0</a>
+                                        <fraction>0</fraction>
+                                </color>
+                        </colors>
+                        <foreground>0</foreground>
+                </fill>
+        </layers>
+        <events>
+                <event type="continuous">
+                        <delay>0.5</delay>
+                        <duration>80</duration>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>1.5</delay>
+                        <event type="cutscene">
+                        <portraitLeft>avatar1</portraitLeft>
+
+                        <titel>PENISPIRAT</titel>
+                        <message>ARRRGH</message>
+                        </event>
+                </event>
+
+
+                <event type="instantaneous">
+                        <delay>2.5</delay>
+                        <count_min>2</count_min>
+                        <count_max>3</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.0</origin_y_min>
+                                <origin_y_max>1.0</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>6.0</delay>
+                        <interval_min>0.1</interval_min>
+                        <interval_max>0.2</interval_max>
+                        <count_max>5</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+				       <event type="instantaneous">
+                        <delay>8</delay>
+                        <event type="cutscene">
+                        <portraitLeft>avatar2</portraitLeft>
+
+                        <titel>PENISPIRAT2</titel>
+                        <message>I like pirates</message>
+                        </event>
+                </event>
+
+				
+                <event type="instantaneous">
+                        <delay>9</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>11</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>13</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>15</delay>
+                        <count_min>5</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>17</delay>
+                        <count_min>1</count_min>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>20</delay>
+                        <count_min>2</count_min>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>21</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>22.5</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>23.0</delay>
+                        <interval_min>0.333</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <count_max>3</count_max>
+                        <distribution_mode>1</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>25.0</delay>
+                        <interval_min>0.333</interval_min>
+                        <interval_max>0.333</interval_max>
+                        <count_max>3</count_max>
+                        <distribution_mode>0</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>27.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <duration>6</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>34</delay>
+                        <count_min>6</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.1</origin_y_min>
+                                <origin_y_max>0.9</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>35</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>36</delay>
+                        <count_min>6</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>38.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <count_max>2</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>39.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <count_max>2</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>40.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <count_max>2</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>42.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <duration>10</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.05</origin_y_min>
+                                <origin_y_max>0.25</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>42.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <duration>10</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.75</origin_y_min>
+                                <origin_y_max>0.95</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>50</delay>
+                        <count_min>4</count_min>
+                        <count_max>4</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>53</delay>
+                        <count_min>4</count_min>
+                        <count_max>6</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>55.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.5</interval_max>
+                        <duration>5</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>56</delay>
+                        <duration>6</duration>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>57</delay>
+                        <count_min>1</count_min>
+                        <count_max>2</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_3</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>58.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.5</interval_max>
+                        <duration>4</duration>
+                        <event type="fighter">
+                                <class>fighter_3</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>60.0</delay>
+                        <interval_min>0.8</interval_min>
+                        <interval_max>1.4</interval_max>
+                        <duration>10</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>63</delay>
+                        <count_min>1</count_min>
+                        <count_max>2</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>67</delay>
+                        <count_min>1</count_min>
+                        <count_max>2</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>72</delay>
+                        <count_min>1</count_min>
+                        <count_max>2</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>75</delay>
+                        <count_min>2</count_min>
+                        <count_max>4</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>79</delay>
+                        <count_min>3</count_min>
+                        <count_max>3</count_max>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>80</delay>
+                        <duration>85</duration>
+                        <interval_min>0.3</interval_min>
+                        <interval_max>0.8</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>82</delay>
+                        <count_min>5</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>83</delay>
+                        <count_min>6</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>84</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>87</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>90</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>93</delay>
+                        <count_min>1</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.15</origin_y_min>
+                                <origin_y_max>0.85</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>94</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.15</origin_y_min>
+                                <origin_y_max>0.85</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>95</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.15</origin_y_min>
+                                <origin_y_max>0.85</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>96</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.15</origin_y_min>
+                                <origin_y_max>0.85</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>97</delay>
+                        <count_min>5</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.15</origin_y_min>
+                                <origin_y_max>0.85</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>100</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.05</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>100</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>0.95</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>101</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.05</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>101</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>0.95</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>102</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>104</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.05</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>104</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>0.95</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>106</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>108</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.05</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>108</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>0.95</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>111</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>112</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>115</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>116.5</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.5</interval_max>
+                        <duration>5</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>119</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>122</delay>
+                        <count_min>1</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.4</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>122</delay>
+                        <count_min>1</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                                <origin_y_min>0.6</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>124.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <count_max>5</count_max>
+                        <distribution_mode>0</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>127.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <count_max>5</count_max>
+                        <distribution_mode>1</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>128</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>130.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <count_max>5</count_max>
+                        <distribution_mode>0</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>133.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <count_max>5</count_max>
+                        <distribution_mode>1</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>135.0</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <count_max>8</count_max>
+                        <distribution_mode>1</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>135.25</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <count_max>8</count_max>
+                        <distribution_mode>1</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>137</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>141.5</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.2</interval_max>
+                        <duration>6</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>142</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.2</interval_max>
+                        <count_max>5</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_3</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>145</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>147</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>147.5</delay>
+                        <count_min>4</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.2</origin_y_min>
+                                <origin_y_max>0.8</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>150</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.2</interval_max>
+                        <duration>6</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>150</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_3</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>151.5</delay>
+                        <count_min>3</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>153</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_3</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>155</delay>
+                        <interval_min>0.3</interval_min>
+                        <interval_max>0.3</interval_max>
+                        <count_max>3</count_max>
+                        <distribution_mode>0</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.1</origin_y_min>
+                                <origin_y_max>0.9</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>156</delay>
+                        <interval_min>0.3</interval_min>
+                        <interval_max>0.3</interval_max>
+                        <count_max>3</count_max>
+                        <distribution_mode>1</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.1</origin_y_min>
+                                <origin_y_max>0.9</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>157</delay>
+                        <interval_min>0.3</interval_min>
+                        <interval_max>0.3</interval_max>
+                        <count_max>3</count_max>
+                        <distribution_mode>0</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.1</origin_y_min>
+                                <origin_y_max>0.9</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>160</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.2</interval_max>
+                        <count_max>4</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_3</class>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>161</delay>
+                        <count_min>2</count_min>
+                        <even_distribution>true</even_distribution>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>163</delay>
+                        <interval_min>0.3</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <count_max>3</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_1</class>
+                                <origin_y_min>0.1</origin_y_min>
+                                <origin_y_max>0.9</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>164</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <duration>5</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.0</origin_y_min>
+                                <origin_y_max>1.0</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>166</delay>
+                        <interval_min>0.3</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <count_max>3</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_2</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>168</delay>
+                        <interval_min>0.3</interval_min>
+                        <interval_max>0.8</interval_max>
+                        <count_max>4</count_max>
+                        <distribution_mode>2</distribution_mode>
+                        <event type="fighter">
+                                <class>fighter_3</class>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>173.5</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <duration>5</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.1</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="continuous">
+                        <delay>173.5</delay>
+                        <interval_min>0.5</interval_min>
+                        <interval_max>1.0</interval_max>
+                        <duration>5</duration>
+                        <event type="fighter">
+                                <class>fighter_0</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>0.9</origin_y_max>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>175.0</delay>
+                        <event type="music">
+                                <filename>warning.ogg</filename>
+                                <looped>false</looped>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>180.0</delay>
+                        <event type="music">
+                                <filename>level02.ogg</filename>
+                                <looped>false</looped>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>180</delay>
+                        <event type="boss">
+                                <class>boss_0</class>
+                        </event>
+                </event>
+        </events>
+        <music_idle>level01.ogg</music_idle>
 </map>
