@@ -15,4 +15,6 @@
 #include "particleroot.h"
 #include "particleprecache.h"
 
+#include <QtOpenGL>
+
 #endif // PARTICLEBASE_H

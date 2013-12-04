@@ -7,8 +7,12 @@
 
 GameView::GameView(QDeclarativeItem *parent) :
     QDeclarativeItem(parent)
+  , lastTime(0)
+  , accumulatedTime(0.0f)
+  , framecount(0)
 {
     setFlag(QGraphicsItem::ItemHasNoContents, false);
+    timer.start();
 }
 
 void GameView::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *widget)
@@ -48,7 +52,21 @@ void GameView::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
     c.mx = mousePos.x();
     c.my = mousePos.y();
 
-    extern RootView *VIEW;
-    VIEW->externalPaintEvent(c);
+    qint64 time = timer.nsecsElapsed();
+    qint64 delta = (time - lastTime) / 1000;
+    accumulatedTime += delta / 1000000.0f;
+    framecount++;
+
+    lastTime = time;
+
+    if (accumulatedTime > 1.0f)
+    {
+        pGlobals->fps = framecount;
+        accumulatedTime = 0.0f;
+        framecount = 0;
+    }
+
+    extern RootView *RootViewHack;
+    RootViewHack->externalPaintEvent(c);
     update();
 }

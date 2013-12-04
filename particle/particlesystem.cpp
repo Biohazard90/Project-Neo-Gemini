@@ -204,17 +204,26 @@ void ParticleSystem::OnRender(const render_context_t &context)
         context.painter->setOpacity(oldOpacity * parent->GetParticleOpacity());
     }
 
-    FOREACH_QLIST(particles, particle_t*, p)
+    if (!particles.empty())
     {
         FOREACH_QVECTOR_FAST(renderers, IParticleRenderer*, re)
         {
-            context.painter->save();
-            re->DrawParticle(context, *p);
-            context.painter->restore();
+            re->Begin(context);
+
+            FOREACH_QLIST(particles, particle_t*, p)
+            {
+                //context.painter->save();
+
+                re->DrawParticle(context, *p);
+
+                //context.painter->restore();
+            }
+            FOREACH_QLIST_END;
+
+            re->End(context);
         }
-        FOREACH_QVECTOR_FAST_END
+        FOREACH_QVECTOR_FAST_END;
     }
-    FOREACH_QLIST_END;
 
     FOREACH_QVECTOR_FAST(children, ParticleSystem*, s)
     {

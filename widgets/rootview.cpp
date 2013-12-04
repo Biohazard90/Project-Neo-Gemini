@@ -18,13 +18,13 @@
 
 #include <QDir>
 
-RootView *VIEW;
+RootView *RootViewHack;
 
 RootView::RootView(QWidget *parent) :
     BaseClass(parent)
   , GameVisible(false)
 {
-    VIEW = this;
+    RootViewHack = this;
 
     AAEnabled = pGlobals->antialiasing;
     FPSEnabled = pGlobals->showfps;
@@ -179,6 +179,8 @@ void RootView::ShowMenu(MenuMode_e mode)
         format.setVersion(3, 1);
         format.setProfile(QGLFormat::CoreProfile);
         glTarget->setFormat(format);
+
+        glPushAttrib(GL_ENABLE_BIT);
 
         mainQml = new QDeclarativeView(this);
         mainQml->setViewport(glTarget);

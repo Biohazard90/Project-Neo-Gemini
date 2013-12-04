@@ -370,32 +370,34 @@ Item {
          anchors.centerIn: parent
          visible: false
          opacity: 0.5
+         property int warningRectWidth: hudRoot.width // parent.height * 0.2 * 7
+         property int warningRectMove: hudRoot.width
 
          Column {
 
              SequentialAnimation {
                     id: lineAnimation
                     ScriptAction {
-                        script: { border_top.x = -warningRoot.parent.width; border_bottom.x = -warningRoot.parent.width; }
+                        script: { border_top.x = -warningRoot.warningRectMove; border_bottom.x = -warningRoot.warningRectMove; }
                     }
                     PauseAnimation { duration: 1200 }
                     ParallelAnimation {
                         NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
-                            from: -warningRoot.parent.width; to: 0 }
+                            from: -warningRoot.warningRectMove; to: 0 }
                         SequentialAnimation {
                             PauseAnimation { duration: 450 }
                             NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
-                                from: -warningRoot.parent.width; to: 0 }
+                                from: -warningRoot.warningRectMove; to: 0 }
                         }
                     }
                     PauseAnimation { duration: 1800 }
                     ParallelAnimation {
                         NumberAnimation { target: border_top; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
-                            to: warningRoot.parent.width; from: 0 }
+                            to: warningRoot.warningRectMove; from: 0 }
                         SequentialAnimation {
                             PauseAnimation { duration: 450 }
                             NumberAnimation { target: border_bottom; property: "x"; duration: 600; easing.type: Easing.InOutQuad;
-                                to: warningRoot.parent.width; from: 0 }
+                                to: warningRoot.warningRectMove; from: 0 }
                         }
                     }
              }
@@ -403,7 +405,7 @@ Item {
              Rectangle {
                  id: border_top
                  color: "#F21"
-                 width: warningRoot.parent.width * 0.8
+                 width: warningRoot.warningRectWidth
                  height: warningRoot.parent.height * 0.03
                  x: 0
                  y: 0
@@ -415,6 +417,7 @@ Item {
              }
 
              Row {
+                 anchors.horizontalCenter: parent.horizontalCenter
 
                  Repeater {
                      id: warningRepeater
@@ -426,6 +429,7 @@ Item {
                                 objDelay.interval = delay;
                                 objDelay.restart();
                                 objColorAnim.restart();
+                                objContainer.opacity = 0.0;
                             }
 
                             width: objContainer.width
@@ -490,7 +494,7 @@ Item {
              Rectangle {
                  id: border_bottom
                  color: "#F21"
-                 width: warningRoot.parent.width * 0.8
+                 width: warningRoot.warningRectWidth
                  height: warningRoot.parent.height * 0.03
                  x: 0
                  y: 0

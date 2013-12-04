@@ -2,6 +2,7 @@
 #define GAMEVIEW_H
 
 #include <QDeclarativeItem>
+#include <QElapsedTimer>
 
 class GameView : public QDeclarativeItem
 {
@@ -15,6 +16,12 @@ signals:
 
 public slots:
 
+private:
+    QElapsedTimer timer;
+    qint64 lastTime;
+
+    float accumulatedTime;
+    int framecount;
 };
 
 #endif // GAMEVIEW_H

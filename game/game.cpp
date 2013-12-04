@@ -130,14 +130,12 @@ void Game::PaintDebug(const render_context_t &context)
     context.painter->setPen(Qt::red);
     context.painter->setFont(QFont("calibri", 12));
 
-    {
-        QString fps = QString("fps: %1").arg((pGlobals->frametime > 0) ? (1.0f / pGlobals->frametime) : 0);
-        context.painter->drawText(0, 15, fps);
-    }
+    QString fps = QString("fps: %1").arg(pGlobals->fps);
+    context.painter->drawText(0, 15, fps);
 
     context.painter->drawText(0, 30, QString("time: %1").arg(GetGameTime()));
 
-    collisionManager->PaintCollisions(context);
+    //collisionManager->PaintCollisions(context);
 }
 
 void Game::LoadMap(const char *mapname)

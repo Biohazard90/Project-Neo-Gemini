@@ -10,6 +10,7 @@ class ParticleRenderLine : public ParticleRenderBase
     float length_max;
     float scale;
     bool fadeout;
+
 public:
     ParticleRenderLine()
     {
@@ -34,6 +35,35 @@ public:
             PARTICLE_PARAM_FLOAT(length_max);
             PARTICLE_PARAM_FLOAT(scale);
         PARTICLE_PARAMS_END;
+    }
+
+    virtual void Begin(const render_context_t &context)
+    {
+        context.painter->beginNativePainting();
+
+        glPopAttrib();
+
+//        glMatrixMode(GL_MODELVIEW);
+//        glLoadIdentity();
+//        glMatrixMode(GL_PROJECTION);
+//        glLoadIdentity();
+//        glOrtho(0.0, context.w, context.h, 0.0, -1.0, 1.0);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glDisable(GL_DEPTH_TEST);
+
+        glBegin(GL_LINES);
+    }
+
+    virtual void End(const render_context_t &context)
+    {
+        glEnd();
+
+        glPushAttrib(GL_ENABLE_BIT);
+
+        context.painter->endNativePainting();
     }
 
     virtual void DrawParticle(const render_context_t &context, particle_t &particle)
@@ -63,26 +93,45 @@ public:
             Camera::GetInstance()->ToScreen(p0);
         }
 
-        QPen pen = particle.GetColorPen();
-        pen.setWidthF(width);
+        //QPen pen = particle.GetColorPen();
+        //pen.setWidthF(width);
+
+        float endAlpha = 1.0f;
 
         if (fadeout)
         {
-            QLinearGradient g;
-            g.setColorAt(0, particle.GetColorBrush());
-            g.setColorAt(1.0f, Qt::transparent);
-            g.setStart(vec2_origin.AsQPointF());
-            g.setFinalStop(dir.AsQPointF());
-            pen.setBrush(QBrush(g));
+//            QLinearGradient g;
+//            g.setColorAt(0, particle.GetColorBrush());
+//            g.setColorAt(1.0f, Qt::transparent);
+//            g.setStart(vec2_origin.AsQPointF());
+//            g.setFinalStop(dir.AsQPointF());
+            //pen.setBrush(QBrush(g));
+
+            endAlpha = 0.0f;
         }
         else
         {
-            pen.setBrush(particle.GetColorBrush());
+            //pen.setBrush(particle.GetColorBrush());
         }
 
-        context.painter->setPen(pen);
-        context.painter->translate(p0.AsQPointF());
-        context.painter->drawLine(pointf_origin, dir.AsQPointF());
+        //context.painter->setPen(pen);
+        //context.painter->translate(p0.AsQPointF());
+        //context.painter->drawLine(pointf_origin, dir.AsQPointF());
+
+
+//        glPushMatrix();
+
+//        glTranslatef(p0.x, p0.y, 0);
+
+        glColor4f(particle.data_runtime.color[0], particle.data_runtime.color[1],
+                particle.data_runtime.color[2], particle.data_runtime.color[3]);
+        glVertex3f(p0.x + pointf_origin.x(), p0.y + pointf_origin.y(), 0.0f);
+
+        glColor4f(particle.data_runtime.color[0], particle.data_runtime.color[1],
+                particle.data_runtime.color[2], 0.0f);
+        glVertex3f(p0.x + dir.x, p0.y + dir.y, 0.0f);
+
+        //glPopMatrix();
     }
 };
 
