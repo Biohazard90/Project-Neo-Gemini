@@ -42,8 +42,6 @@ void ParticleRoot::OnSimulate(float frametime)
 void ParticleRoot::OnRender(const render_context_t &context)
 {
     context.painter->save();
-    context.painter->setRenderHint(QPainter::Antialiasing, pGlobals->antialiasing);
-    context.painter->setRenderHint(QPainter::SmoothPixmapTransform, pGlobals->antialiasing);
 
     FOREACH_QVECTOR_FAST(systems, ParticleSystem*, p)
     {

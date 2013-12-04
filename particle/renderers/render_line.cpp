@@ -53,6 +53,7 @@ public:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glDisable(GL_DEPTH_TEST);
+        glLineWidth(1.0f);
 
         glBegin(GL_LINES);
     }
@@ -125,11 +126,11 @@ public:
 
         glColor4f(particle.data_runtime.color[0], particle.data_runtime.color[1],
                 particle.data_runtime.color[2], particle.data_runtime.color[3]);
-        glVertex3f(p0.x + pointf_origin.x(), p0.y + pointf_origin.y(), 0.0f);
+        glVertex2f(p0.x + pointf_origin.x(), p0.y + pointf_origin.y());
 
         glColor4f(particle.data_runtime.color[0], particle.data_runtime.color[1],
                 particle.data_runtime.color[2], 0.0f);
-        glVertex3f(p0.x + dir.x, p0.y + dir.y, 0.0f);
+        glVertex2f(p0.x + dir.x, p0.y + dir.y);
 
         //glPopMatrix();
     }
