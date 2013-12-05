@@ -130,7 +130,7 @@
                         <event type="cutscene">
                         <portraitLeft>avatar1</portraitLeft>
                         <titel>Tom Taylor</titel>
-                        <message>Houston. I am near the asteroid field</message>
+                        <message>Houston. I am near the asteroid field.</message>
                         <soundclip>message_send.wav</soundclip>
                         </event>
                 </event>
@@ -140,7 +140,7 @@
                         <event type="cutscene">
                         <portraitRight>avatar2</portraitRight>
                         <titel>Houston</titel>
-                        <message>Roger, son. Try to avoid the asteroid. Use WSAD or the Arrow Keys to control your ship</message>
+                        <message>Roger, son. Try to avoid the asteroids. Use your WASD or arrow keys to maneuver your ship.</message>
                         <soundclip>message_received.wav</soundclip>
                      </event>
                 </event>
@@ -297,7 +297,7 @@
                         <event type="cutscene">
                         <portraitLeft>avatar1</portraitLeft>
                         <titel>Tom Taylor</titel>
-                        <message>Houston. I am deeper in it.</message>
+                        <message>Houston. The asteroids are getting dangerously close.</message>
                         <soundclip>message_send.wav</soundclip>
                         </event>
                 </event>
@@ -307,7 +307,7 @@
                         <event type="cutscene">
                         <portraitRight>avatar2</portraitRight>
                         <titel>Houston</titel>
-                        <message>Roger. If an obstacle is unavoidable use the gun with the SPACEBAR</message>
+                        <message>Roger. If an obstacle is unavoidable use your gun with the SPACEBAR to blast your way through!</message>
                         <soundclip>message_received.wav</soundclip>
                         </event>
                 </event>
@@ -384,7 +384,7 @@
                         <event type="cutscene">
                         <portraitLeft>avatar1</portraitLeft>
                         <titel>Tom Taylor</titel>
-                        <message>Oh, the STRG button has some use?</message>
+                        <message>Oh, it was bound to the CTRL key, right?</message>
                         <soundclip>message_send.wav</soundclip>
                         </event>
                 </event>
@@ -470,46 +470,8 @@
                         <event type="cutscene">
                         <portraitRight>avatar2</portraitRight>
                         <titel>Houston</titel>
-                        <message>You are leaving the asteroid field. It's now your change to use the FTL-Jump!</message>
+                        <message>You are leaving the asteroid field. Now is your chance to use the FTL-Jump!</message>
                         <soundclip>message_received.wav</soundclip>
-                        </event>
-                </event>
-
-
-
-                                <event type="instantaneous">
-                        <delay>82</delay>
-                        <duration>11</duration>
-                                                <count_min>2</count_min>
-                        <count_max>12</count_max>
-                        <event type="obstacle">
-                                <class>asteroid_large</class>
-                                <origin_y_min>0</origin_y_min>
-                                <origin_y_max>1</origin_y_max>
-                        </event>
-                </event>
-
-
-                <event type="instantaneous">
-                        <delay>175.0</delay>
-                        <event type="music">
-                                <filename>warning.ogg</filename>
-                                <looped>false</looped>
-                        </event>
-                </event>
-
-                <event type="instantaneous">
-                        <delay>180.0</delay>
-                        <event type="music">
-                                <filename>level02.ogg</filename>
-                                <looped>false</looped>
-                        </event>
-                </event>
-
-                <event type="instantaneous">
-                        <delay>180</delay>
-                        <event type="boss">
-                                <class>boss_0</class>
                         </event>
                 </event>
         </events>
