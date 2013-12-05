@@ -3,14 +3,9 @@
 
 #include <QtGlobal>
 #include <string>
+#include "util.h"
 
-inline char *_strcreatecpy(const char *str)
-{
-    size_t len = strlen(str);
-    char *ret = new char[len + 1];
-    strcpy_s(ret, len + 1, str);
-    return ret;
-}
+
 
 /// Implements implicit conversion between any data types
 /// and caches results for faster access
@@ -20,12 +15,16 @@ class VarData
 	{
 		DATATYPE_STRING = (1 << 0),
 		DATATYPE_INTEGER = (1 << 1),
+        DATATYPE_BOOL = (1 << 2),
+        DATATYPE_FLOAT = (1 << 3),
 	};
 
 public:
 	VarData()
 		: dataString(nullptr)
 		, dataInteger(0)
+        , dataBool(false)
+        , dataFloat(0.0f)
 		, cachedTypes(DATATYPE_INTEGER)
 		, currentType(DATATYPE_INTEGER)
 	{
@@ -42,18 +41,25 @@ public:
 		{
 			cachedTypes |= DATATYPE_STRING;
 
-			char tempString[32];
+            char tempString[32] = { 0 };
 			delete [] dataString;
 
 			switch (currentType)
 			{
 			case DATATYPE_INTEGER:
                 _snprintf_s(tempString, sizeof(tempString), sizeof(tempString), "%i", dataInteger);
-                dataString = _strcreatecpy(tempString);
 				break;
+            case DATATYPE_BOOL:
+                _snprintf_s(tempString, sizeof(tempString), sizeof(tempString), "%i", (dataBool ? 1 : 0));
+                break;
+            case DATATYPE_FLOAT:
+                _snprintf_s(tempString, sizeof(tempString), sizeof(tempString), "%f", dataFloat);
+                break;
 			default:
                 Q_ASSERT(0);
 			}
+
+            dataString = _strcreatecpy(tempString);
 		}
 
 		return (dataString != nullptr) ? dataString : "";
@@ -78,6 +84,12 @@ public:
 			case DATATYPE_STRING:
 				dataInteger = atoi(dataString);
 				break;
+            case DATATYPE_BOOL:
+                dataInteger = dataBool ? 1 : 0;
+                break;
+            case DATATYPE_FLOAT:
+                dataInteger = int(dataFloat);
+                break;
 			default:
                 Q_ASSERT(0);
 			}
@@ -93,6 +105,71 @@ public:
 		dataInteger = value;
 	}
 
+    inline bool GetBool()
+    {
+        if ((cachedTypes & DATATYPE_BOOL) == 0)
+        {
+            cachedTypes |= DATATYPE_BOOL;
+
+            switch (currentType)
+            {
+            case DATATYPE_STRING:
+                dataBool = _streq("true", dataString)
+                        || atoi(dataString) != 0;
+                break;
+            case DATATYPE_INTEGER:
+                dataBool = (dataInteger != 0);
+                break;
+            case DATATYPE_FLOAT:
+                dataBool = dataFloat != 0.0f;
+                break;
+            default:
+                Q_ASSERT(0);
+            }
+        }
+
+        return dataBool;
+    }
+
+    inline void SetBool(bool value)
+    {
+        ChangeType(DATATYPE_BOOL);
+
+        dataBool = value;
+    }
+
+    inline float GetFloat()
+    {
+        if ((cachedTypes & DATATYPE_FLOAT) == 0)
+        {
+            cachedTypes |= DATATYPE_FLOAT;
+
+            switch (currentType)
+            {
+            case DATATYPE_STRING:
+                dataFloat = atof(dataString);
+                break;
+            case DATATYPE_INTEGER:
+                dataFloat = float(dataInteger);
+                break;
+            case DATATYPE_BOOL:
+                dataFloat = dataBool ? 1.0f : 0.0f;
+                break;
+            default:
+                Q_ASSERT(0);
+            }
+        }
+
+        return dataFloat;
+    }
+
+    inline void SetFloat(float value)
+    {
+        ChangeType(DATATYPE_FLOAT);
+
+        dataFloat = value;
+    }
+
 private:
 	void ChangeType(int type)
 	{
@@ -105,6 +182,8 @@ private:
 
 	char *dataString;
 	int dataInteger;
+    bool dataBool;
+    float dataFloat;
 };
 
 /// Used to store a variable amount of data of any data type
@@ -190,6 +269,44 @@ public:
 	{
 		FindOrCreateChild(name)->value.SetInt(value);
 	}
+
+    inline int GetBool(const char *name = nullptr, bool defaultValue = false)
+    {
+        KeyValues *keyValues = FindChild(name);
+
+        if (keyValues != nullptr)
+        {
+            return keyValues->value.GetBool();
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
+    inline void SetBool(const char *name, bool value)
+    {
+        FindOrCreateChild(name)->value.SetBool(value);
+    }
+
+    inline float GetFloat(const char *name = nullptr, float defaultValue = 0.0f)
+    {
+        KeyValues *keyValues = FindChild(name);
+
+        if (keyValues != nullptr)
+        {
+            return keyValues->value.GetFloat();
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
+    inline void SetFloat(const char *name, float value)
+    {
+        FindOrCreateChild(name)->value.SetFloat(value);
+    }
 
 private:
 	~KeyValues()

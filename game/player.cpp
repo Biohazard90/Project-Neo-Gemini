@@ -253,10 +253,13 @@ void Player::ResetSpawnAnimation()
 
 void Player::SetHealth(const int &health)
 {
+    const bool isDecreasing = health < GetHealth();
+
     BaseClass::SetHealth(health);
 
     KeyValues *event = new KeyValues("player_health_changed");
     event->SetInt("health", health);
+    event->SetBool("decreasing", isDecreasing);
     Events::GetInstance()->FireEvent(event);
 }
 
