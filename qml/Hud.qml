@@ -356,10 +356,12 @@ Item {
 
     function showCutscene(){
 
-        cutscene.visible = true;
+        var component = Qt.createComponent("IngameCutscene.qml");
+        var cutscene = component.createObject(hudRoot);
+
         cutscene.stringTitle = gameController.cutsceneTitel;
         cutscene.stringMessage = gameController.cutsceneMessage;
-
+        cutscene.intDuration = 200 * gameController.cutsceneMessage.length + 1000;
 
         if(gameController.cutscenePortraitRight.length === 0){
             cutscene.boolPortraitRightVisible = false;
@@ -377,11 +379,11 @@ Item {
 
     }
 
-    IngameCutscene {
-        id:cutscene
-        visible: false
+//    IngameCutscene {
+//        id:cutscene
+//        visible: false
 
-    }
+//    }
 
     function playWarningAnim() {
         for (var i = 0; i < warningRepeater.count; i++) {
