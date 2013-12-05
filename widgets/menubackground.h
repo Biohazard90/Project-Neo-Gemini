@@ -22,6 +22,10 @@ public slots:
 
 private:
     float m_flPanels[10];
+
+    void DrawGLRoundedRect(const QRectF &rect, float roundPerc);
+    void DrawGLRoundedCorner(const Vector2D &center,float startDegrees, float endDegrees,
+                             float size, int subDiv);
     
 };
 

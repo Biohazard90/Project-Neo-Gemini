@@ -156,6 +156,8 @@ void Game::LoadMap(const char *mapname)
     SpawnEntity(map);
 
     player = (Player*)CreateEntity("player");
+
+    Input::GetInstance()->ResetButtons();
 }
 
 void Game::UpdateGameTime(float frametime)

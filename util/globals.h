@@ -24,6 +24,9 @@ public:
     bool showfps;
     bool musicenabled;
     bool fullscreen;
+
+    int mouse_x;
+    int mouse_y;
 };
 
 extern Globals *pGlobals;

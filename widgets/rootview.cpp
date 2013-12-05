@@ -23,6 +23,8 @@ RootView *RootViewHack;
 RootView::RootView(QWidget *parent) :
     BaseClass(parent)
   , GameVisible(false)
+  , MouseX(0.0)
+  , MouseY(0.0)
 {
     RootViewHack = this;
 
@@ -70,6 +72,20 @@ void RootView::OnSimulate(float frametime)
     if (game != NULL)
     {
         game->OnSimulate(frametime);
+    }
+
+    if (MouseX != pGlobals->mouse_x)
+    {
+        MouseX = pGlobals->mouse_x;
+
+        emit MouseXChanged(MouseX);
+    }
+
+    if (MouseY != pGlobals->mouse_y)
+    {
+        MouseY = pGlobals->mouse_y;
+
+        emit MouseYChanged(MouseY);
     }
 }
 

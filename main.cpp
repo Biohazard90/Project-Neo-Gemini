@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
 
     mainWindow = new MainWindow();
     mainWidget = new RootView(mainWindow);
+    a.installEventFilter(mainWindow);
 
     QTimer simulationTimer;
     simulationTimer.setInterval(DEFAULT_FRAMESPEED_MS);

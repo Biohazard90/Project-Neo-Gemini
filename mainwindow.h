@@ -3,9 +3,6 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-class MainWindow;
-}
 
 class MainWindow : public QMainWindow
 {
@@ -14,9 +11,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    bool eventFilter(QObject *o, QEvent *e);
     
 private:
-    Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H

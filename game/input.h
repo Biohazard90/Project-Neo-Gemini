@@ -34,6 +34,8 @@ public:
 
     bool IsButtonDown(Button_e button);
 
+    void ResetButtons();
+
 private:
 
     int buttonsDown;

@@ -31,6 +31,8 @@ class RootView : public QWidget, public ISimulated
     Q_PROPERTY(bool FullscreenEnabled READ getFullscreenEnabled WRITE setFullscreenEnabled NOTIFY FullscreenEnabledChanged)
     Q_PROPERTY(QString LevelName READ getLevelName WRITE setLevelName NOTIFY LevelNameChanged)
     Q_PROPERTY(bool GameVisible READ getGameVisible WRITE setGameVisible NOTIFY GameVisibleChanged)
+    Q_PROPERTY(qreal MouseX READ getMouseX NOTIFY MouseXChanged)
+    Q_PROPERTY(qreal MouseY READ getMouseY NOTIFY MouseYChanged)
 
 public:
     explicit RootView(QWidget *parent = 0);
@@ -52,6 +54,8 @@ public:
     void setFullscreenEnabled(bool enabled);
     QString getLevelName(){ return LevelName; }
     void setLevelName(QString name);
+    qreal getMouseX(){ return MouseX; }
+    qreal getMouseY(){ return MouseY; }
 
     virtual void externalPaintEvent(render_context_t &context);
 
@@ -77,6 +81,8 @@ signals:
     void FullscreenEnabledChanged(bool);
     void LevelNameChanged(QString);
     void SelectedResolutionChanged(QString);
+    void MouseXChanged(qreal);
+    void MouseYChanged(qreal);
 
     void prepareIngameMenu();
     void prepareGameoverMenu();
@@ -116,6 +122,8 @@ private:
     bool GameVisible;
     bool FullscreenEnabled;
     QString LevelName;
+    qreal MouseX;
+    qreal MouseY;
 };
 
 #endif // MENUROOT_H

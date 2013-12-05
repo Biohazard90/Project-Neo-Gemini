@@ -75,3 +75,8 @@ bool Input::IsButtonDown(Button_e button)
 {
     return (buttonsDown & button) != 0;
 }
+
+void Input::ResetButtons()
+{
+    buttonsDown = 0;
+}

@@ -49,6 +49,11 @@ void SimulationList::OnFrame()
         frametime = delta / 1000000.0f;
         m_iLastTime = time;
 
+        if (frametime > 0.1f)
+        {
+            frametime = 0.1f;
+        }
+
         pGlobals->frametime = frametime;
 
         tickframe += frametime;

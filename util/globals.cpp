@@ -5,6 +5,8 @@ Globals *pGlobals = &_globals;
 
 Globals::Globals()
     : fps(0.0f)
+    , mouse_x(0)
+    , mouse_y(0)
 {
     curtime = 0.0f;
     frametime = 0.0f;

@@ -9,58 +9,6 @@
 #include <QBrushData>
 #include <QCursor>
 
-void DrawGLRoundedCorner(const Vector2D &center, float startDegrees, float endDegrees, float size, int subDiv)
-{
-    float deltaDegrees = endDegrees - startDegrees;
-    deltaDegrees /= (subDiv - 1);
-
-    for (int i = 0; i < subDiv; i++)
-    {
-        Vector2D dir = Vector2D::AngleDirection(startDegrees) * size;
-        dir += center;
-
-        glVertex2f(dir.x, dir.y);
-
-        startDegrees += deltaDegrees;
-    }
-}
-
-void DrawGLRoundedRect(const QRectF &rect, float roundPerc)
-{
-    const float amt = roundPerc * rect.width();
-    const int subDiv = 13;
-
-    glPushMatrix();
-
-    glTranslatef(rect.x(), rect.y(), 0.0f);
-
-    glBegin(GL_LINE_LOOP);
-
-    glVertex2f(amt, 0.0f);
-    glVertex2f(rect.width() - amt, 0.0f);
-
-    DrawGLRoundedCorner(Vector2D(rect.width() - amt, amt), -90.0f, 0.0f, amt, subDiv);
-
-    glVertex2f(rect.width(), amt);
-    glVertex2f(rect.width(), rect.height() - amt);
-
-    DrawGLRoundedCorner(Vector2D(rect.width() - amt, rect.height() - amt), 0.0f, 90.0f, amt, subDiv);
-
-    glVertex2f(rect.width() - amt, rect.height());
-    glVertex2f(amt, rect.height());
-
-    DrawGLRoundedCorner(Vector2D(amt, rect.height() - amt), 90.0f, 180.0f, amt, subDiv);
-
-    glVertex2f(0.0f, rect.height() - amt);
-    glVertex2f(0.0f, amt);
-
-    DrawGLRoundedCorner(Vector2D(amt, amt), 180.0f, 270.0f, amt, subDiv);
-
-    glEnd();
-
-    glPopMatrix();
-}
-
 MenuBackground::MenuBackground(QWidget *parent) :
     QObject(parent)
 {
@@ -195,6 +143,58 @@ void MenuBackground::paintEvent(render_context_t &context)
         QPen penLine(QBrush(g), 1.0f);
         painter.setPen(penLine);
         painter.drawLine(topLeft.AsQPointF(),innerTopLeft.AsQPointF());
+    }
+}
+
+void MenuBackground::DrawGLRoundedRect(const QRectF &rect, float roundPerc)
+{
+    const float amt = roundPerc * rect.width();
+    const int subDiv = 13;
+
+    glPushMatrix();
+
+    glTranslatef(rect.x(), rect.y(), 0.0f);
+
+    glBegin(GL_LINE_LOOP);
+
+    glVertex2f(amt, 0.0f);
+    glVertex2f(rect.width() - amt, 0.0f);
+
+    DrawGLRoundedCorner(Vector2D(rect.width() - amt, amt), -90.0f, 0.0f, amt, subDiv);
+
+    glVertex2f(rect.width(), amt);
+    glVertex2f(rect.width(), rect.height() - amt);
+
+    DrawGLRoundedCorner(Vector2D(rect.width() - amt, rect.height() - amt), 0.0f, 90.0f, amt, subDiv);
+
+    glVertex2f(rect.width() - amt, rect.height());
+    glVertex2f(amt, rect.height());
+
+    DrawGLRoundedCorner(Vector2D(amt, rect.height() - amt), 90.0f, 180.0f, amt, subDiv);
+
+    glVertex2f(0.0f, rect.height() - amt);
+    glVertex2f(0.0f, amt);
+
+    DrawGLRoundedCorner(Vector2D(amt, amt), 180.0f, 270.0f, amt, subDiv);
+
+    glEnd();
+
+    glPopMatrix();
+}
+
+void MenuBackground::DrawGLRoundedCorner(const Vector2D &center, float startDegrees, float endDegrees, float size, int subDiv)
+{
+    float deltaDegrees = endDegrees - startDegrees;
+    deltaDegrees /= (subDiv - 1);
+
+    for (int i = 0; i < subDiv; i++)
+    {
+        Vector2D dir = Vector2D::AngleDirection(startDegrees) * size;
+        dir += center;
+
+        glVertex2f(dir.x, dir.y);
+
+        startDegrees += deltaDegrees;
     }
 }
 

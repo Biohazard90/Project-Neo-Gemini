@@ -116,370 +116,378 @@ Item {
             id: ingame_fade
         }
 
-        Grid {
-            id: menu_main
-            opacity: 0
-            scale: 0
+        Item {
 
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            columns: 1
-            spacing: verticalSpacing
+            x: (root.width * 0.5 - menuController.MouseX) * 0.04
+            y: (root.height * 0.5 - menuController.MouseY) * 0.04
+            width: parent.width
+            height: parent.height
 
-            Image {
-                id: title_image
-                source: "title.png"
-            }
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Play"
-                onClick: {
-                    if (!root.isNavigationEnabled) return;
-                    startLevel("Space")
-                }
+            Grid {
+                id: menu_main
+                opacity: 0
+                scale: 0
+
                 anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Highscores"
-                onClick: {
-                    if(!root.isNavigationEnabled) return;
-                    root.state = "SCORE"
-                }
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Options"
-                onClick: {
-                    if (!root.isNavigationEnabled) return;
-                    desiredResolution = ""
-                    root.state = "OPTIONS"
-                }
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Exit"
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClick:  {
-                    if (!root.isNavigationEnabled) return;
-                    if (isDebugging)
-                        Qt.quit()
-                    else
-                        exit_animation.start()
-                }
-            }
+                anchors.verticalCenter: parent.verticalCenter
+                columns: 1
+                spacing: verticalSpacing
 
-            SequentialAnimation {
-                id: exit_animation
-                running: false
-                onCompleted: Qt.quit()
-
-                ScriptAction {
-                    script: {
-                        resetLevelTransition()
-                        transition_game.visible = true
-                        transition_game.opacity = 0
-                    }
+                Image {
+                    id: title_image
+                    source: "title.png"
                 }
-                ParallelAnimation {
-                    NumberAnimation { target: menu_main;
-                        properties: "opacity, scale"; duration: 1000; easing.type: Easing.InOutBack; to: 0 }
-                    NumberAnimation { target: transition_game; property: "opacity";
-                        duration: 1000; easing.type: Easing.InQuad; to: 1 }
-                }
-            }
-        }
-
-        Grid {
-            id: menu_options
-            opacity: 0
-            scale: 0
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            columns: 1
-            spacing: verticalSpacing
-            property variant resOptions: ["640x480", "800x600", "1024x768", "1280x960", "1600x1200",
-                "852x480", "1280x720", "1600x900", "1920x1080"]
-
-            Menuoptionsbox {
-                options: parent.resOptions
-                selected: parent.resOptions.indexOf( root.width + "x" + root.height )
-                enabled: !isIngame && !menuController.FullscreenEnabled
-                width: buttonW + 50
-                height: buttonH
-                anchors.horizontalCenter: parent.horizontalCenter
-                buttonText: "Resolution:"
-                onOptionChanged: {
-                    desiredResolution = option
-                }
-            }
-            Menucheckbox {
-                width: buttonW + 50
-                height: buttonH
-                anchors.horizontalCenter: parent.horizontalCenter
-                buttonText: "Fullscreen:"
-                enabled: !isIngame
-                checked: menuController.FullscreenEnabled
-                onCheckChanged: {
-                    menuController.FullscreenEnabled = enabled;
-                }
-            }
-            Menucheckbox {
-                width: buttonW + 50
-                height: buttonH
-                anchors.horizontalCenter: parent.horizontalCenter
-                buttonText: "Antialiasing:"
-                checked: menuController.AAEnabled
-                onCheckChanged: {
-                    menuController.AAEnabled = enabled;
-                }
-            }
-            Menucheckbox {
-                width: buttonW + 50
-                height: buttonH
-                anchors.horizontalCenter: parent.horizontalCenter
-                buttonText: "Enable music:"
-                checked: menuController.MusicEnabled
-                onCheckChanged: {
-                    menuController.MusicEnabled = enabled;
-                }
-            }
-            Menucheckbox {
-                width: buttonW + 50
-                height: buttonH
-                anchors.horizontalCenter: parent.horizontalCenter
-                buttonText: "Show FPS:"
-                checked: menuController.FPSEnabled
-                onCheckChanged: {
-                    menuController.FPSEnabled = enabled;
-                }
-            }
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Back"
-                onClick: {
-                    if (desiredResolution.length > 0)
-                        menuController.onSetResolution(desiredResolution)
-                    root.state = isIngame ? "INGAME" : "MAIN"
-                }
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-        }
-
-        Grid {
-            id: menu_ingame
-            opacity: 0
-            scale: 0
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            columns: 1
-            spacing: verticalSpacing
-
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Return"
-                onClick: {
-                    if (!root.isNavigationEnabled) return;
-                    ingame_clearmenu.start()
-                }
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Options"
-                onClick: {
-                    if (!root.isNavigationEnabled) return;
-                    desiredResolution = ""
-                    root.state = "OPTIONSINGAME"
-                }
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Back to menu"
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClick:  {
-                    if (!root.isNavigationEnabled) return;
-                    ingame_return_to_main.start()
-                }
-            }
-
-            SequentialAnimation {
-                id: ingame_clearmenu
-                running: false
-
-                onCompleted: {
-                    menuController.onMenuFadedOut()
-                }
-
-                ScriptAction {
-                    script:{ root.state = "CLEAR"; root.isNavigationEnabled = false }
-                }
-                PauseAnimation { duration: 400; }
-            }
-
-            SequentialAnimation {
-                id: ingame_return_to_main
-                running: false
-
-                onCompleted: {
-                    root.isIngame = false
-                    transition_menu.visible = false
-                }
-
-                ScriptAction {
-                    script: {
-                        root.state = "CLEAR"
-                        transition_menu.visible = true
-                    }
-                }
-                NumberAnimation { target: transition_menu; property: "opacity";
-                    duration: 400; easing.type: Easing.InOutQuad; to: 1 }
-                ScriptAction {
-                    script: { menuController.onShowBackground();
-                        ingame_fade.visible = false;
-                        root.state = "MAIN"; }
-                }
-                NumberAnimation { target: transition_menu; property: "opacity";
-                    duration: 400; easing.type: Easing.InOutQuad; to: 0 }
-            }
-        }
-
-        Grid {
-            id: menu_gameover
-            opacity: 0
-            scale: 0
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            columns: 1
-            spacing: verticalSpacing
-
-            Row {
                 Menubutton {
-                    width: buttonW*2 + verticalSpacing
+                    width: buttonW
                     height: buttonH
-                    buttonText: "Your Score: " + scoreController.score
-                    mouseEnabled: false
+                    buttonText: "Play"
+                    onClick: {
+                        if (!root.isNavigationEnabled) return;
+                        startLevel("Space")
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Highscores"
+                    onClick: {
+                        if(!root.isNavigationEnabled) return;
+                        root.state = "SCORE"
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Options"
+                    onClick: {
+                        if (!root.isNavigationEnabled) return;
+                        desiredResolution = ""
+                        root.state = "OPTIONS"
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Exit"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    onClick:  {
+                        if (!root.isNavigationEnabled) return;
+                        if (isDebugging)
+                            Qt.quit()
+                        else
+                            exit_animation.start()
+                    }
+                }
+
+                SequentialAnimation {
+                    id: exit_animation
+                    running: false
+                    onCompleted: Qt.quit()
+
+                    ScriptAction {
+                        script: {
+                            resetLevelTransition()
+                            transition_game.visible = true
+                            transition_game.opacity = 0
+                        }
+                    }
+                    ParallelAnimation {
+                        NumberAnimation { target: menu_main;
+                            properties: "opacity, scale"; duration: 1000; easing.type: Easing.InOutBack; to: 0 }
+                        NumberAnimation { target: transition_game; property: "opacity";
+                            duration: 1000; easing.type: Easing.InQuad; to: 1 }
+                    }
                 }
             }
 
-            Row {
-                Menutextfield {
-                    id: highscoreName
-                    width: buttonW*2 + verticalSpacing
+            Grid {
+                id: menu_options
+                opacity: 0
+                scale: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                columns: 1
+                spacing: verticalSpacing
+                property variant resOptions: ["640x480", "800x600", "1024x768", "1280x960", "1600x1200",
+                    "852x480", "1280x720", "1600x900", "1920x1080"]
+
+                Menuoptionsbox {
+                    options: parent.resOptions
+                    selected: parent.resOptions.indexOf( root.width + "x" + root.height )
+                    enabled: !isIngame && !menuController.FullscreenEnabled
+                    width: buttonW + 50
                     height: buttonH
-                    buttonText: "Your name:"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    buttonText: "Resolution:"
+                    onOptionChanged: {
+                        desiredResolution = option
+                    }
+                }
+                Menucheckbox {
+                    width: buttonW + 50
+                    height: buttonH
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    buttonText: "Fullscreen:"
+                    enabled: !isIngame
+                    checked: menuController.FullscreenEnabled
+                    onCheckChanged: {
+                        menuController.FullscreenEnabled = enabled;
+                    }
+                }
+                Menucheckbox {
+                    width: buttonW + 50
+                    height: buttonH
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    buttonText: "Antialiasing:"
+                    checked: menuController.AAEnabled
+                    onCheckChanged: {
+                        menuController.AAEnabled = enabled;
+                    }
+                }
+                Menucheckbox {
+                    width: buttonW + 50
+                    height: buttonH
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    buttonText: "Enable music:"
+                    checked: menuController.MusicEnabled
+                    onCheckChanged: {
+                        menuController.MusicEnabled = enabled;
+                    }
+                }
+                Menucheckbox {
+                    width: buttonW + 50
+                    height: buttonH
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    buttonText: "Show FPS:"
+                    checked: menuController.FPSEnabled
+                    onCheckChanged: {
+                        menuController.FPSEnabled = enabled;
+                    }
+                }
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Back"
+                    onClick: {
+                        if (desiredResolution.length > 0)
+                            menuController.onSetResolution(desiredResolution)
+                        root.state = isIngame ? "INGAME" : "MAIN"
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
-            Row {
+            Grid {
+                id: menu_ingame
+                opacity: 0
+                scale: 0
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                columns: 1
                 spacing: verticalSpacing
 
                 Menubutton {
                     width: buttonW
                     height: buttonH
-                    buttonText: "Submit"
+                    buttonText: "Return"
                     onClick: {
                         if (!root.isNavigationEnabled) return;
-
-                        scoreController.name = highscoreName.getText()
-                        rankingController.onSubmit()
-
-                        root.state = "SCORE"
-                        root.focus = true
-                    }
-                }
-                Menubutton {
-                    width: buttonW
-                    height: buttonH
-                    buttonText: "Back to menu"
-                    onClick:  {
-                        if (!root.isNavigationEnabled) return;
-                        root.state = "MAIN"
-                    }
-                }
-            }
-        }
-
-        Grid {
-            id: menu_score
-            opacity: 0
-            scale: 0
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            columns: 1
-            spacing: verticalSpacing
-
-
-            Menubutton {
-                width: buttonW
-                height: buttonH
-                buttonText: "Highscore"
-                mouseEnabled: false
-                anchors.horizontalCenter: parent.horizontalCenter
-                borderDefaultColor: "#FFF"
-                borderDefaultWidth: 2
-            }
-            Grid {
-                columns: 1
-                spacing: verticalSpacing / 2
-                Menutext {
-                    id: scorePlayer0
-                    width: buttonW*2
-                    height: buttonH
-                    mouseEnabled: false
-                }
-                Menutext {
-                    id: scorePlayer1
-                    width: buttonW*2
-                    height: buttonH
-                    mouseEnabled: false
-                }
-                Menutext {
-                    id: scorePlayer2
-                    width: buttonW*2
-                    height: buttonH
-                    mouseEnabled: false
-                }
-                Menutext {
-                    id: scorePlayer3
-                    width: buttonW*2
-                    height: buttonH
-                    mouseEnabled: false
-                }
-                Menutext {
-                    id: scorePlayer4
-                    width: buttonW*2
-                    height: buttonH
-                    mouseEnabled: false
-                }
-            }
-
-                Menubutton {
-                    width: buttonW
-                    height: buttonH
-                    buttonText: "Back to menu"
-                    onClick:  {
-                        if (!root.isNavigationEnabled) return;
-                        root.state = "MAIN"
+                        ingame_clearmenu.start()
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Options"
+                    onClick: {
+                        if (!root.isNavigationEnabled) return;
+                        desiredResolution = ""
+                        root.state = "OPTIONSINGAME"
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Back to menu"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    onClick:  {
+                        if (!root.isNavigationEnabled) return;
+                        ingame_return_to_main.start()
+                    }
+                }
+
+                SequentialAnimation {
+                    id: ingame_clearmenu
+                    running: false
+
+                    onCompleted: {
+                        menuController.onMenuFadedOut()
+                    }
+
+                    ScriptAction {
+                        script:{ root.state = "CLEAR"; root.isNavigationEnabled = false }
+                    }
+                    PauseAnimation { duration: 400; }
+                }
+
+                SequentialAnimation {
+                    id: ingame_return_to_main
+                    running: false
+
+                    onCompleted: {
+                        root.isIngame = false
+                        transition_menu.visible = false
+                    }
+
+                    ScriptAction {
+                        script: {
+                            root.state = "CLEAR"
+                            transition_menu.visible = true
+                        }
+                    }
+                    NumberAnimation { target: transition_menu; property: "opacity";
+                        duration: 400; easing.type: Easing.InOutQuad; to: 1 }
+                    ScriptAction {
+                        script: { menuController.onShowBackground();
+                            ingame_fade.visible = false;
+                            root.state = "MAIN"; }
+                    }
+                    NumberAnimation { target: transition_menu; property: "opacity";
+                        duration: 400; easing.type: Easing.InOutQuad; to: 0 }
+                }
+            }
+
+            Grid {
+                id: menu_gameover
+                opacity: 0
+                scale: 0
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                columns: 1
+                spacing: verticalSpacing
+
+                Row {
+                    Menubutton {
+                        width: buttonW*2 + verticalSpacing
+                        height: buttonH
+                        buttonText: "Your Score: " + scoreController.score
+                        mouseEnabled: false
+                    }
+                }
+
+                Row {
+                    Menutextfield {
+                        id: highscoreName
+                        width: buttonW*2 + verticalSpacing
+                        height: buttonH
+                        buttonText: "Your name:"
+                    }
+                }
+
+                Row {
+                    spacing: verticalSpacing
+
+                    Menubutton {
+                        width: buttonW
+                        height: buttonH
+                        buttonText: "Submit"
+                        onClick: {
+                            if (!root.isNavigationEnabled) return;
+
+                            scoreController.name = highscoreName.getText()
+                            rankingController.onSubmit()
+
+                            root.state = "SCORE"
+                            root.focus = true
+                        }
+                    }
+                    Menubutton {
+                        width: buttonW
+                        height: buttonH
+                        buttonText: "Back to menu"
+                        onClick:  {
+                            if (!root.isNavigationEnabled) return;
+                            root.state = "MAIN"
+                        }
+                    }
+                }
+            }
+
+            Grid {
+                id: menu_score
+                opacity: 0
+                scale: 0
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                columns: 1
+                spacing: verticalSpacing
 
 
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Highscore"
+                    mouseEnabled: false
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    borderDefaultColor: "#FFF"
+                    borderDefaultWidth: 2
+                }
+                Grid {
+                    columns: 1
+                    spacing: verticalSpacing / 2
+                    Menutext {
+                        id: scorePlayer0
+                        width: buttonW*2
+                        height: buttonH
+                        mouseEnabled: false
+                    }
+                    Menutext {
+                        id: scorePlayer1
+                        width: buttonW*2
+                        height: buttonH
+                        mouseEnabled: false
+                    }
+                    Menutext {
+                        id: scorePlayer2
+                        width: buttonW*2
+                        height: buttonH
+                        mouseEnabled: false
+                    }
+                    Menutext {
+                        id: scorePlayer3
+                        width: buttonW*2
+                        height: buttonH
+                        mouseEnabled: false
+                    }
+                    Menutext {
+                        id: scorePlayer4
+                        width: buttonW*2
+                        height: buttonH
+                        mouseEnabled: false
+                    }
+                }
+
+                    Menubutton {
+                        width: buttonW
+                        height: buttonH
+                        buttonText: "Back to menu"
+                        onClick:  {
+                            if (!root.isNavigationEnabled) return;
+                            root.state = "MAIN"
+                        }
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+
+            }
         }
 
 
