@@ -190,7 +190,8 @@ SOURCES += main.cpp\
     widgets/gameview.cpp \
     game/event/warningtextevent.cpp \
     game/event/cutsceneevent.cpp \
-    stats/events.cpp
+    stats/events.cpp \
+    stats/statistics.cpp
 
 HEADERS  += mainwindow.h \
     util/util.h \
@@ -277,7 +278,8 @@ HEADERS  += mainwindow.h \
     widgets/gameview.h \
     game/event/cutsceneevent.h \
     util/keyvalues.h \
-    stats/events.h
+    stats/events.h \
+    stats/statistics.h
 
 FORMS    += mainwindow.ui \
     widgets/rootview.ui
