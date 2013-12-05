@@ -361,7 +361,7 @@ Item {
 
         cutscene.stringTitle = gameController.cutsceneTitel;
         cutscene.stringMessage = gameController.cutsceneMessage;
-        cutscene.intDurationOfCutscene = 200 * gameController.cutsceneMessage.length + 1000;
+        cutscene.intDurationOfCutscene = 50 * gameController.cutsceneMessage.length + 1000;
         cutscene.intDurationOfFadingIn = 400;
         cutscene.intDurationOfFadingOut = 100;
 

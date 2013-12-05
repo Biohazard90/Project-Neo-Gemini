@@ -27,6 +27,7 @@ public:
     virtual void FireEvent()
     {
         AudioManager::GetInstance()->PlayMusic(filename.c_str(), 1.0f, looped);
+
     }
 
     virtual bool IsAutoFireEnabled() const { return false; }

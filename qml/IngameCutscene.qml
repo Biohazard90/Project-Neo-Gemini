@@ -62,6 +62,7 @@ Item{
 
     Rectangle {
         id: recAvatarLeft
+        visible: cutSceneItem.boolPortraitLeftVisible
         color: "grey"
         opacity: 0.5
         anchors.right: message.left
