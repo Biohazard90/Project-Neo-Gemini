@@ -354,14 +354,19 @@ Item {
         fragmentShader: shieldShaderCode
     }
 
-    function showCutscene(){
+    function createCutscene(){
 
         var component = Qt.createComponent("IngameCutscene.qml");
         var cutscene = component.createObject(hudRoot);
 
         cutscene.stringTitle = gameController.cutsceneTitel;
         cutscene.stringMessage = gameController.cutsceneMessage;
-        cutscene.intDuration = 200 * gameController.cutsceneMessage.length + 1000;
+        cutscene.intDurationOfCutscene = 200 * gameController.cutsceneMessage.length + 1000;
+        cutscene.intDurationOfFadingIn = 400;
+        cutscene.intDurationOfFadingOut = 100;
+
+        var fSize = ((height * (15 * 100) / 480) / 150)
+        cutscene.intFontSize =  Math.max(15, fSize)
 
         if(gameController.cutscenePortraitRight.length === 0){
             cutscene.boolPortraitRightVisible = false;
@@ -376,16 +381,18 @@ Item {
             cutscene.boolPortraitLeftVisible = true;
             cutscene.stringPortraitLeft = gameController.cutscenePortraitLeft + ".jpg";
         }
+        return cutscene;
 
     }
 
-//    IngameCutscene {
-//        id:cutscene
-//        visible: false
+    function showCutscene(){
 
-//    }
+        createCutscene()
+    }
+
 
     function playWarningAnim() {
+
         for (var i = 0; i < warningRepeater.count; i++) {
             warningRepeater.itemAt(i).fadeIn((warningRepeater.count - i - 1) * 200 + 500);
         }

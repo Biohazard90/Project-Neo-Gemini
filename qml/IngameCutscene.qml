@@ -5,7 +5,7 @@ Item{
     id: cutSceneItem
 
     opacity: 0
-    //y: parent.height - parent.height / 4
+
     width: parent.width
     height: parent.height * 0.25
     anchors.bottom: parent.bottom
@@ -19,80 +19,46 @@ Item{
     property string stringPortraitRight
     property bool boolPortraitLeftVisible
     property bool boolPortraitRightVisible
-    property int intDuration
+    property int intDurationOfCutscene
+
+    //I cant use both variables for some reason
+    property int intDurationOfFadingIn
+    property int intDurationOfFadingOut
+
+    property int intFontSize
 
 
-
-    //TODO Why can I not pass the duration value. WHY?
-    //TODO It shows only one cutscene :\
     Component.onCompleted: {
-        //fadeAnimDuration.duration =  stringMessage.length * 2000
+     fadeAnim.restart()
+    }
 
-        ; fadeAnim.restart()}
-
-    property int animSpeed
-    animSpeed: 10;
     // stringTitle: "Frog"
     // stringMessage: "DO A BARREL ROLL! SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACE! I like turtles. Daniel is sleepy.  "
 
-
-
-    //    Timer {
-    //        id: cutsceneTimer
-    //        interval: stringMessage.length * 500; running: true;
-    //        onTriggered: cutSceneFadeOut.restart();
-
-    //    }
 
     SequentialAnimation {
         id: fadeAnim
 
         NumberAnimation {
+            id: penis;
             target: cutSceneItem;
             property: "opacity";
             from: 0; to: 1;
-            duration: 500
+            duration: 100;
         }
 
         PauseAnimation {
-            id:fadeAnimDuration;
-            duration:  intDuration;
+            duration:  intDurationOfCutscene;
         }
 
         NumberAnimation {
+            id:pirat;
             target: cutSceneItem;
             property: "opacity";
             from: 1; to: 0;
-            duration: 400;
+            duration: intDurationOfFadingOut;
         }
     }
-    //    NumberAnimation on opacity{
-    //        id: cutSceneFadeIn
-    //        from: 0
-    //        to: 1
-    //        duration: 2000
-    //        easing.type: Easing.InOutQuad
-    //    }
-
-    //    ParallelAnimation {
-    //        id: cutSceneFadeOut
-    //        running: false
-    //        NumberAnimation{
-    //            target: cutSceneItem
-    //            property: "opacity"
-    //            to: 0.5
-    //            duration: 400
-    //            easing.type: Easing.InOutQuad
-
-    //        }
-    //        NumberAnimation{
-    //            target: cutSceneItem
-    //            property: "y"
-    //            to: 1
-    //            duration: 1000
-    //            //   easing.type: Easing.InOutQuad
-    //        }
-    //}
 
     Rectangle {
         id: recAvatarLeft
@@ -175,7 +141,7 @@ Item{
                 text: cutSceneItem.stringTitle
                 color: "#467fb4"
                 font.family: "Calibri"
-                font.pixelSize:  22
+                font.pixelSize:  intFontSize + 3
                 font.bold: true
             }
 
@@ -187,7 +153,7 @@ Item{
                 wrapMode: Text.WordWrap
                 color: "white"
                 font.family: "Calibri"
-                font.pixelSize:  15
+                font.pixelSize:  intFontSize
 
             }
 
