@@ -21,6 +21,7 @@ Game::Game(QObject *parent) :
 
     particleroot = new ParticleRoot();
 
+    // this pointer leak but w/e
     IEventListener *thisListener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", thisListener);
     Events::GetInstance()->AddListener("player_health_changed", thisListener);
@@ -28,6 +29,9 @@ Game::Game(QObject *parent) :
 
 Game::~Game()
 {
+    // this pointer leak but w/e
+    Events::GetInstance()->RemoveListener(this);
+
     map = NULL;
     player = NULL;
 
