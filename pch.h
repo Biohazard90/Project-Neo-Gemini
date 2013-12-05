@@ -18,6 +18,7 @@
 #include "platform.h"
 #include "macros.h"
 
+#include "keyvalues.h"
 #include "vector2d.h"
 
 #include "irenderable.h"

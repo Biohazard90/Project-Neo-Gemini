@@ -8,6 +8,7 @@
 #include "isimulated.h"
 #include "irenderable.h"
 #include "igamecontext.h"
+#include "events.h"
 
 class ParticleRoot;
 struct render_context_t;
@@ -20,7 +21,8 @@ class CollisionManager;
 class Game : public QObject,
         public IGameContext,
         public ISimulated,
-        public IRenderable
+        public IRenderable,
+        public IEventListener
 {
     Q_OBJECT
     Q_PROPERTY(int LiveCount READ getLiveCount WRITE setLiveCount NOTIFY liveCountChanged)
@@ -52,12 +54,12 @@ public:
     virtual ParticleRoot *GetParticleRoot();
     virtual Player *GetPlayer();
 
-    virtual void PlayerDied();
-    virtual void PlayerHealthChanged(int health);
     virtual void EndMap();
 
     virtual void ShowWarningText();
     virtual void ShowCutscene(QString portraitLeft,QString portraitRight,QString titel,QString message);
+
+    virtual void OnEvent(const char *name, KeyValues *data);
 
 
     int getLiveCount(){ return LiveCount; }

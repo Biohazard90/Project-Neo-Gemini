@@ -253,9 +253,14 @@ void Player::ResetSpawnAnimation()
 
 void Player::SetHealth(const int &health)
 {
+    const bool isDecreasing = health < GetHealth();
+
     BaseClass::SetHealth(health);
 
-    GetGameContext()->PlayerHealthChanged(health);
+    KeyValues *event = new KeyValues("player_health_changed");
+    event->SetInt("health", health);
+    event->SetBool("decreasing", isDecreasing);
+    Events::GetInstance()->FireEvent(event);
 }
 
 bool Player::IsAlive() const
@@ -311,7 +316,8 @@ void Player::OnKilled(const Damage_t *damage)
 
     SetVelocity(vec2_origin);
 
-    GetGameContext()->PlayerDied();
+    KeyValues *event = new KeyValues("player_death");
+    Events::GetInstance()->FireEvent(event);
 }
 
 void Player::OnRender(const render_context_t &context)

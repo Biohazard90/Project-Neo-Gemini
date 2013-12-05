@@ -3,6 +3,7 @@
 
 #include "base.h"
 #include "particlebase.h"
+#include "events.h"
 
 #include "igamecontext.h"
 #include "icollidable.h"

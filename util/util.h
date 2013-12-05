@@ -164,5 +164,17 @@ inline bool qbrand()
     return qrand() > (RAND_MAX / 2);
 }
 
+inline char *_strcreatecpy(const char *str)
+{
+    size_t len = strlen(str);
+    char *ret = new char[len + 1];
+    strcpy_s(ret, len + 1, str);
+    return ret;
+}
+
+inline bool _streq(const char *str1, const char *str2)
+{
+    return _stricmp(str1, str2) == 0;
+}
 
 #endif // UTIL_H
