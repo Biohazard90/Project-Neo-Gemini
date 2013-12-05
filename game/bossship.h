@@ -5,7 +5,7 @@
 
 class BossShip : public EnemyShip
 {
-    DECLARE_CLASS(BossShip, EnemyShip);
+    DECLARE_ENTITY_CLASS(BossShip, EnemyShip);
 
 public:
     BossShip();

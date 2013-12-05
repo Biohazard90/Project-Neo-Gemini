@@ -18,7 +18,7 @@
 
 #include <QDir>
 
-RootView *RootViewHack;
+RootView *RootView::rootViewInstance = nullptr;
 
 RootView::RootView(QWidget *parent) :
     BaseClass(parent)
@@ -26,7 +26,7 @@ RootView::RootView(QWidget *parent) :
   , MouseX(0.0)
   , MouseY(0.0)
 {
-    RootViewHack = this;
+    rootViewInstance = this;
 
     AAEnabled = pGlobals->antialiasing;
     FPSEnabled = pGlobals->showfps;
@@ -50,7 +50,18 @@ RootView::RootView(QWidget *parent) :
 
 RootView::~RootView()
 {
+    Q_ASSERT(rootViewInstance == this);
+    if (rootViewInstance == this)
+    {
+        rootViewInstance = nullptr;
+    }
+
     SimulationList::GetInstance()->RemoveSimulationObject(this);
+}
+
+RootView *RootView::GetActiveRootView()
+{
+    return rootViewInstance;
 }
 
 void RootView::resizeEvent(QResizeEvent *e)
@@ -89,7 +100,7 @@ void RootView::OnSimulate(float frametime)
     }
 }
 
-void RootView::externalPaintEvent(render_context_t &context)
+void RootView::ExternalPaintEvent(render_context_t &context)
 {
     if (game != nullptr)
     {
@@ -386,6 +397,20 @@ void RootView::onShowBackground()
 {
     DestroyGame();
     ShowBackground();
+}
+
+void RootView::onAbortGame()
+{
+    if (game != nullptr)
+    {
+        KeyValues *event = new KeyValues("map_aborted");
+        event->SetFloat("time", game->GetGameTime());
+        if (game->GetPlayer() != nullptr)
+        {
+            event->SetInt("player_health", game->GetPlayer()->GetHealth());
+        }
+        Events::GetInstance()->FireEvent(event);
+    }
 }
 
 void RootView::onLevelIntro()

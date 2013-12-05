@@ -86,6 +86,8 @@ void Map::LoadFromXML(const char *path)
         return;
     }
 
+    name = path;
+
     QDomElement layerRoot = root.firstChildElement("layers");
     LoadLayers(layerRoot);
 

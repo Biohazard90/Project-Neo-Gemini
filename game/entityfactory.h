@@ -6,6 +6,7 @@
 #include "entity.h"
 
 #define REGISTER_ENTITY_CLASS(className, scriptName) \
+    const char *className::constClassName = #scriptName; \
     static Entity *__pfuncCreateEntity##className() \
     { \
         return new className(); \

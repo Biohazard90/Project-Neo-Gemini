@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include <QtDeclarative/QDeclarativeView>
+#include <QDebug>
 
 class ParticleSystem;
 class QDeclarativeView;
@@ -14,11 +15,6 @@ class QGraphicsObject;
 class ParticleView;
 class Game;
 class MenuBackground;
-
-#include <QDebug>
-namespace Ui {
-class menuroot;
-}
 
 class RootView : public QWidget, public ISimulated
 {
@@ -37,6 +33,8 @@ class RootView : public QWidget, public ISimulated
 public:
     explicit RootView(QWidget *parent = 0);
     ~RootView();
+
+    static RootView *GetActiveRootView();
 
     virtual void resizeEvent(QResizeEvent *);
 
@@ -57,7 +55,9 @@ public:
     qreal getMouseX(){ return MouseX; }
     qreal getMouseY(){ return MouseY; }
 
-    virtual void externalPaintEvent(render_context_t &context);
+    virtual void ExternalPaintEvent(render_context_t &context);
+
+    Game *GetGame() const { return game; }
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -70,6 +70,7 @@ public slots:
     void onSetResolution(QString key);
     void onMenuFadedOut();
     void onShowBackground();
+    void onAbortGame();
     void onLevelIntro();
     void onGameOver();
 
@@ -88,6 +89,7 @@ signals:
     void prepareGameoverMenu();
     
 private:
+    static RootView *rootViewInstance;
 
     enum MenuMode_e
     {

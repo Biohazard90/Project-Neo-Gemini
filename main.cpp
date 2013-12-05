@@ -20,6 +20,7 @@
 #include "input.h"
 #include "ranking.h"
 #include "gameview.h"
+#include "statistics.h"
 
 
 MainWindow *mainWindow;
@@ -93,6 +94,7 @@ int main(int argc, char *argv[])
     Resource::GetInstance()->Init();
     EntityFactory::GetInstance()->Init();
     AIFactory::GetInstance()->Init();
+    Statistics::GetInstance()->Init();
 
     QApplication a(argc, argv);
     //QByteArray data = "1";
@@ -130,6 +132,8 @@ int main(int argc, char *argv[])
     QObject::connect(&a, SIGNAL(aboutToQuit()), &mainCleanup, SLOT(OnShutdown()));
 
     int ret = a.exec();
+
+    Statistics::GetInstance()->Shutdown();
 
     delete mainWindow;
 

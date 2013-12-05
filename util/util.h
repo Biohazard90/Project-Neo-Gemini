@@ -30,6 +30,8 @@ FORCEINLINE QString OSLocalPath(const QString &path)
 #endif
 }
 
+extern QString OSUserName();
+
 template< class T >
 FORCEINLINE T sqr(const T &t)
 {

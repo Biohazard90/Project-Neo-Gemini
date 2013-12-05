@@ -11,10 +11,29 @@
 #include "particle.h"
 #include "util.h"
 
+#ifdef PLATFORM_WINDOWS
+#include <windows.h>
+#include <stdio.h>
+#include <lmcons.h>
+#endif
+
 void CenterOnScreen(QWidget *pWidget)
 {
    // pWidget->adjustSize();
     pWidget->move(QApplication::desktop()->screen()->rect().center() - pWidget->rect().center());
+}
+
+QString OSUserName()
+{
+#ifdef PLATFORM_WINDOWS
+    DWORD cchBuff = 256;
+    TCHAR tchBuffer[UNLEN + 1];
+    LPTSTR lpszSystemInfo = tchBuffer;
+
+    GetUserName(lpszSystemInfo, &cchBuff);
+
+    return QString::fromUtf16((const ushort*)lpszSystemInfo);
+#endif
 }
 
 QPainter::CompositionMode StringToCompositionMode(const QString &string)

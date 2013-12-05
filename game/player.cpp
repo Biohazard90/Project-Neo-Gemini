@@ -257,9 +257,26 @@ void Player::SetHealth(const int &health)
 
     BaseClass::SetHealth(health);
 
+    if (!isDecreasing)
+    {
+        SendHealthChangedEvent(health, isDecreasing, nullptr);
+    }
+}
+
+void Player::SendHealthChangedEvent(int health, bool isDecreasing, const Damage_t *damage)
+{
     KeyValues *event = new KeyValues("player_health_changed");
     event->SetInt("health", health);
     event->SetBool("decreasing", isDecreasing);
+    event->SetFloat("x", GetOrigin().x);
+    event->SetFloat("y", GetOrigin().y);
+
+    if (damage != nullptr
+            && damage->inflictor != nullptr)
+    {
+        event->SetString("inflictor_name", damage->inflictor->GetEntityClassName());
+    }
+
     Events::GetInstance()->FireEvent(event);
 }
 
@@ -282,6 +299,11 @@ void Player::TakeDamage(const Damage_t &damage)
 void Player::OnDamage(const Damage_t &damage)
 {
     BaseClass::OnDamage(damage);
+
+    if (damage.damage > 0)
+    {
+        SendHealthChangedEvent(GetHealth(), true, &damage);
+    }
 
     shieldTime = SHIELD_FADE_DURATION + C_PI_F * 5.0f;
 
@@ -317,6 +339,14 @@ void Player::OnKilled(const Damage_t *damage)
     SetVelocity(vec2_origin);
 
     KeyValues *event = new KeyValues("player_death");
+    event->SetFloat("x", GetOrigin().x);
+    event->SetFloat("y", GetOrigin().y);
+
+    if (damage->inflictor != nullptr)
+    {
+        event->SetString("inflictor_name", damage->inflictor->GetEntityClassName());
+    }
+
     Events::GetInstance()->FireEvent(event);
 }
 

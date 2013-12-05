@@ -3,7 +3,7 @@ import CustomComponents 1.0
 
 Item {
     id: root
-    property bool isDebugging: false
+    property bool isDebugging: true
     property bool isIngame: false
     property bool isNavigationEnabled: true
     property int buttonW: 200
@@ -355,7 +355,8 @@ Item {
                     NumberAnimation { target: transition_menu; property: "opacity";
                         duration: 400; easing.type: Easing.InOutQuad; to: 1 }
                     ScriptAction {
-                        script: { menuController.onShowBackground();
+                        script: { menuController.onAbortGame();
+                            menuController.onShowBackground();
                             ingame_fade.visible = false;
                             root.state = "MAIN"; }
                     }

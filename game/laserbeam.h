@@ -5,7 +5,7 @@
 
 class LaserBeam : public Entity
 {
-    DECLARE_CLASS(LaserBeam, Entity);
+    DECLARE_ENTITY_CLASS(LaserBeam, Entity);
 
 public:
     LaserBeam();

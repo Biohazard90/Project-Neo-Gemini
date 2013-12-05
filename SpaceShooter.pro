@@ -46,6 +46,8 @@ win32 {
         LIBS += $${SOURCE_PATH}/SFML/sfml-system-s.lib
         LIBS += $${SOURCE_PATH}/SFML/sfml-audio-s.lib
     }
+
+    LIBS += -lAdvapi32
     DEFINES += PLATFORM_WINDOWS
 
     # doesn't work

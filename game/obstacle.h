@@ -6,7 +6,7 @@
 
 class Obstacle : public Destructible
 {
-    DECLARE_CLASS(Obstacle, Destructible);
+    DECLARE_ENTITY_CLASS(Obstacle, Destructible);
 
 public:
     Obstacle();

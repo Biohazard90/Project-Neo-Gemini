@@ -66,7 +66,12 @@ void GameView::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
         framecount = 0;
     }
 
-    extern RootView *RootViewHack;
-    RootViewHack->externalPaintEvent(c);
+    RootView *rootView = RootView::GetActiveRootView();
+
+    if (rootView != nullptr)
+    {
+        rootView->ExternalPaintEvent(c);
+    }
+
     update();
 }

@@ -28,7 +28,20 @@
 #define QARRAYSIZE(x) (sizeof(x)/sizeof(x[0]))
 
 #define DECLARE_CLASS(name, base) \
+    typedef name ThisClass; \
     typedef base BaseClass
+
+#define DECLARE_ENTITY_CLASS(name, base) \
+    typedef name ThisClass; \
+    typedef base BaseClass; \
+    public: \
+    virtual const char *GetEntityClassName() { return constClassName; } \
+    private: \
+    static const char *constClassName
+
+#define DECLARE_ENTITY_CLASS_NOBASE(name) \
+    typedef name ThisClass; \
+    static const char *constClassName
 
 #define GET_QHASH(hash, key) \
     ((hash).contains((key)) ? (hash)[(key)] : nullptr)

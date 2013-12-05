@@ -8,7 +8,7 @@
 
 class EnemyShip : public Ship
 {
-    DECLARE_CLASS(EnemyShip, Ship);
+    DECLARE_ENTITY_CLASS(EnemyShip, Ship);
 public:
     EnemyShip();
 

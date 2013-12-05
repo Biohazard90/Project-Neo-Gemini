@@ -9,7 +9,7 @@ class ParticleSystem;
 
 class Player : public Ship
 {
-    DECLARE_CLASS(Player, Ship);
+    DECLARE_ENTITY_CLASS(Player, Ship);
 public:
     Player();
 
@@ -50,6 +50,8 @@ private:
 
     void CreateParticles();
     void ResetSpawnAnimation();
+
+    void SendHealthChangedEvent(int health, bool isDecreasing, const Damage_t *damage);
 
     QPointer<ParticleSystem> idleParticle;
     QPointer<ParticleSystem> shieldParticle;

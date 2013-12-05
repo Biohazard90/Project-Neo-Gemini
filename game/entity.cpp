@@ -19,6 +19,11 @@ Entity::~Entity()
 {
 }
 
+const char *Entity::GetEntityClassName()
+{
+    return "unknown_class";
+}
+
 void Entity::Spawn()
 {
     AddFlags(EF_TELEPORTED);

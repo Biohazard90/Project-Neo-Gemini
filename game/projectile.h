@@ -11,7 +11,7 @@ class ParticleSystem;
 
 class Projectile : public Entity
 {
-    DECLARE_CLASS(Projectile, Entity);
+    DECLARE_ENTITY_CLASS(Projectile, Entity);
 public:
     Projectile();
 

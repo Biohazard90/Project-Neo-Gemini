@@ -14,6 +14,8 @@ Events *Events::GetInstance()
 
 void Events::AddListener(const char *eventName, IEventListener *listener)
 {
+    Q_ASSERT(listener != nullptr);
+
     if (!listeners.contains(eventName))
     {
         listeners.insert(eventName, QList<IEventListener *>());
@@ -32,6 +34,8 @@ void Events::AddListener(const char *eventName, IEventListener *listener)
 
 void Events::RemoveListener(IEventListener *listener)
 {
+    Q_ASSERT(listener != nullptr);
+
     for (auto &list : listeners)
     {
         list.removeOne(listener);

@@ -23,6 +23,8 @@ public:
 
     void OnEntityRemoved(Entity *entity);
 
+    const char *GetName() { return name.c_str(); }
+
     static Map *CreateMapFromXML(const char *path);
 
 private:
@@ -36,6 +38,7 @@ private:
 
     ScriptEventManager *scriptEventManager;
 
+    std::string name;
     std::string musicIdle;
     std::string musicBoss;
 };

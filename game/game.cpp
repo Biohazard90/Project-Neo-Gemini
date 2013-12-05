@@ -30,16 +30,12 @@ Game::Game(QObject *parent) :
 Game::~Game()
 {
     // this pointer leak but w/e
-    Events::GetInstance()->RemoveListener(this);
+    Events::GetInstance()->RemoveListener(dynamic_cast<IEventListener *>(this));
 
     map = nullptr;
     player = nullptr;
 
-    FOREACH_QLIST(entities, Entity*, e)
-    {
-        DeleteEntity(e);
-    }
-    FOREACH_QLIST_END;
+    DeleteAllEntities();
 
     delete particleroot;
 
@@ -148,7 +144,7 @@ void Game::PaintDebug(const render_context_t &context)
 
 void Game::LoadMap(const char *mapname)
 {
-    DESTROY_QLIST(entities);
+    DeleteAllEntities();
 
     setLiveCount(PLAYER_DEFAULT_LIVE_COUNT);
 
@@ -166,6 +162,12 @@ void Game::LoadMap(const char *mapname)
     player = (Player*)CreateEntity("player");
 
     Input::GetInstance()->ResetButtons();
+
+    KeyValues *event = new KeyValues("map_started");
+    event->SetFloat("time", GetGameTime());
+    event->SetString("mapname", mapname);
+    event->SetInt("player_health", player->GetHealth());
+    Events::GetInstance()->FireEvent(event);
 }
 
 void Game::UpdateGameTime(float frametime)
@@ -274,6 +276,15 @@ void Game::DeleteEntity(Entity *entity)
     delete entity;
 }
 
+void Game::DeleteAllEntities()
+{
+    FOREACH_QLIST(entities, Entity*, e)
+    {
+        DeleteEntity(e);
+    }
+    FOREACH_QLIST_END;
+}
+
 ParticleRoot *Game::GetParticleRoot()
 {
     return particleroot;
@@ -287,6 +298,16 @@ Player *Game::GetPlayer()
 void Game::EndMap()
 {
     emit GameEnded();
+
+    KeyValues *event = new KeyValues("map_ended");
+    event->SetFloat("time", GetGameTime());
+
+    if (player != nullptr)
+    {
+        event->SetInt("player_health", player->GetHealth());
+    }
+
+    Events::GetInstance()->FireEvent(event);
 }
 
 void Game::ShowWarningText()
@@ -294,7 +315,7 @@ void Game::ShowWarningText()
     emit warningText();
 }
 
-void Game::ShowCutscene(QString portraitLeft,QString portraitRight,QString titel, QString message)
+void Game::ShowCutscene(QString portraitLeft, QString portraitRight, QString titel, QString message)
 {
     PortraitLeft = portraitLeft;
     PortraitRight = portraitRight;

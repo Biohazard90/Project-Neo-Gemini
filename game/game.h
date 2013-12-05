@@ -53,6 +53,7 @@ public:
 
     virtual ParticleRoot *GetParticleRoot();
     virtual Player *GetPlayer();
+    virtual Map *GetMap() { return map; }
 
     virtual void EndMap();
 
@@ -82,6 +83,7 @@ private:
 
     void UpdateGameTime(float frametime);
     void DeleteEntity(Entity *entity);
+    void DeleteAllEntities();
 
     QList<Entity*> entities;
     Map *map;
