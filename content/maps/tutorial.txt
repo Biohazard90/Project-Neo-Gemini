@@ -1,0 +1,517 @@
+<map>
+        <layers>
+                <fill type="lineargradient">
+                        <start>
+                                <y>0</y>
+                        </start>
+                        <stop>
+                                <y>480</y>
+                        </stop>
+                        <colors>
+                                <color>
+                                        <r>10</r>
+                                        <g>11</g>
+                                        <b>13</b>
+                                        <fraction>0</fraction>
+                                </color>
+                                <color>
+                                        <r>15</r>
+                                        <g>25</g>
+                                        <b>40</b>
+                                        <fraction>0.5</fraction>
+                                </color>
+                                <color>
+                                        <r>10</r>
+                                        <g>11</g>
+                                        <b>13</b>
+                                        <fraction>1</fraction>
+                                </color>
+                        </colors>
+                        <foreground>0</foreground>
+                </fill>
+                <particle>
+                        <system>
+                                <origin>
+                                        <x>750</x>
+                                        <y>240</y>
+                                </origin>
+                                <name>bglayer_nebula_0</name>
+                        </system>
+                </particle>
+                <particle>
+                        <system>
+                                <origin>
+                                        <x>600</x>
+                                        <y>240</y>
+                                </origin>
+                                <name>bglayer_stars_far</name>
+                        </system>
+                </particle>
+                <particle>
+                        <system>
+                                <origin>
+                                        <x>550</x>
+                                        <y>240</y>
+                                </origin>
+                                <name>bglayer_stars_close</name>
+                        </system>
+                </particle>
+                <fill type="radialgradient">
+                        <center>
+                                <x>320</x>
+                                <y>240</y>
+                        </center>
+                        <radius>400</radius>
+                        <colors>
+                                <color>
+                                        <r>0</r>
+                                        <g>0</g>
+                                        <b>0</b>
+                                        <a>255</a>
+                                        <fraction>1</fraction>
+                                </color>
+                                <color>
+                                        <r>0</r>
+                                        <g>0</g>
+                                        <b>0</b>
+                                        <a>0</a>
+                                        <fraction>0</fraction>
+                                </color>
+                        </colors>
+                        <foreground>0</foreground>
+                </fill>
+        </layers>
+        <events>
+
+
+
+                <event type="instantaneous">
+                        <delay>1</delay>
+                        <duration>1</duration>
+                                                <count_min>1</count_min>
+                        <count_max>1</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                                <event type="continuous">
+                        <delay>2</delay>
+                        <duration>14</duration>
+                                                <interval_min>0.5</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                <event type="continuous">
+                        <delay>2</delay>
+                        <duration>14</duration>
+                                                <interval_min>0.5</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+
+
+
+                <event type="instantaneous">
+                        <delay>3</delay>
+                        <event type="cutscene">
+                        <portraitLeft>avatar1</portraitLeft>
+                        <titel>Tom Taylor</titel>
+                        <message>Houston. I am near the asteroid field</message>
+                        <soundclip>message_send.wav</soundclip>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>6</delay>
+                        <event type="cutscene">
+                        <portraitRight>avatar2</portraitRight>
+                        <titel>Houston</titel>
+                        <message>Roger, son. Try to avoid the asteroid. Use WSAD or the Arrow Keys to control your ship</message>
+                        <soundclip>message_received.wav</soundclip>
+                     </event>
+                </event>
+
+                                <event type="instantaneous">
+                        <delay>10</delay>
+                        <duration>1</duration>
+                                                <count_min>1</count_min>
+                        <count_max>1</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                                  <event type="instantaneous">
+                        <delay>14</delay>
+                        <event type="cutscene">
+                        <portraitLeft>avatar1</portraitLeft>
+                        <titel>Tom Taylor</titel>
+                        <message>AHHHHRGH!</message>
+                        </event>
+                </event>
+
+                                        <event type="instantaneous">
+                        <delay>12</delay>
+                        <duration>1</duration>
+                                                <count_min>1</count_min>
+                        <count_max>1</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.5</origin_y_max>
+                        </event>
+                </event>
+
+                                        <event type="instantaneous">
+                        <delay>12</delay>
+                        <duration>1</duration>
+                                                <count_min>1</count_min>
+                        <count_max>1</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1.5</origin_y_max>
+                        </event>
+                </event>
+
+                                                <event type="instantaneous">
+                        <delay>12</delay>
+                        <duration>1</duration>
+                                                <count_min>1</count_min>
+                        <count_max>1</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+                                        <event type="instantaneous">
+                        <delay>12</delay>
+                        <duration>1</duration>
+                                                <count_min>1</count_min>
+                        <count_max>1</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1.7</origin_y_max>
+                        </event>
+                </event>
+
+                                        <event type="continuous">
+                        <delay>14</delay>
+                        <duration>10</duration>
+                                                <interval_min>0</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0.5</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                                        <event type="continuous">
+                        <delay>14</delay>
+                        <duration>15</duration>
+                                                <interval_min>0</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+
+                                <event type="continuous">
+                        <delay>24</delay>
+                        <duration>10</duration>
+                                                <interval_min>0</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.5</origin_y_max>
+                        </event>
+                </event>
+
+
+                                        <event type="continuous">
+                        <delay>24</delay>
+                        <duration>15</duration>
+                                                <interval_min>0.3</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                                        <event type="continuous">
+                        <delay>34</delay>
+                        <duration>30</duration>
+                                                <interval_min>0.3</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                                        <event type="continuous">
+                        <delay>34</delay>
+                        <duration>30</duration>
+                                                <interval_min>0</interval_min>
+                        <interval_max>0.5</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+
+                                      <event type="instantaneous">
+                        <delay>40</delay>
+                        <event type="cutscene">
+                        <portraitLeft>avatar1</portraitLeft>
+                        <titel>Tom Taylor</titel>
+                        <message>Houston. I am deeper in it.</message>
+                        <soundclip>message_send.wav</soundclip>
+                        </event>
+                </event>
+
+                                                <event type="instantaneous">
+                        <delay>43</delay>
+                        <event type="cutscene">
+                        <portraitRight>avatar2</portraitRight>
+                        <titel>Houston</titel>
+                        <message>Roger. If an obstacle is unavoidable use the gun with the SPACEBAR</message>
+                        <soundclip>message_received.wav</soundclip>
+                        </event>
+                </event>
+
+                                <event type="instantaneous">
+                        <delay>45</delay>
+                        <duration>1</duration>
+                                                <count_min>5</count_min>
+                        <count_max>10</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                                <event type="instantaneous">
+                        <delay>49</delay>
+                        <duration>2</duration>
+                                                <count_min>10</count_min>
+                        <count_max>20</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                                <event type="instantaneous">
+                        <delay>49.5</delay>
+                        <duration>2</duration>
+                                                <count_min>10</count_min>
+                        <count_max>20</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+                            <event type="instantaneous">
+                        <delay>50</delay>
+                        <duration>2</duration>
+                                                <count_min>10</count_min>
+                        <count_max>20</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                                <event type="instantaneous">
+                        <delay>55.5</delay>
+                        <event type="cutscene">
+                        <portraitLeft>avatar1</portraitLeft>
+                        <titel>Tom Taylor</titel>
+                        <message>That was insane!</message>
+                        </event>
+                </event>
+
+                                <event type="instantaneous">
+                        <delay>59</delay>
+                        <event type="cutscene">
+                        <portraitRight>avatar2</portraitRight>
+                        <titel>Houston</titel>
+                        <message>Why didn't you use the dash attack?</message>
+                        <soundclip>message_received.wav</soundclip>
+                        </event>
+                </event>
+
+                                <event type="instantaneous">
+                        <delay>62</delay>
+                        <event type="cutscene">
+                        <portraitLeft>avatar1</portraitLeft>
+                        <titel>Tom Taylor</titel>
+                        <message>Oh, the STRG button has some use?</message>
+                        <soundclip>message_send.wav</soundclip>
+                        </event>
+                </event>
+
+
+                                                <event type="continuous">
+                        <delay>62</delay>
+                        <duration>5</duration>
+                                                <interval_min>0.5</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0.8</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                                        <event type="continuous">
+                        <delay>62</delay>
+                        <duration>10</duration>
+                                                <interval_min>0.5</interval_min>
+                        <interval_max>1</interval_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>0.2</origin_y_max>
+                        </event>
+                </event>
+
+
+
+                                <event type="instantaneous">
+                        <delay>64</delay>
+                        <duration>2</duration>
+                                                <count_min>10</count_min>
+                        <count_max>20</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                                <event type="instantaneous">
+                        <delay>64.5</delay>
+                        <duration>2</duration>
+                                                <count_min>10</count_min>
+                        <count_max>20</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+                            <event type="instantaneous">
+                        <delay>65</delay>
+                        <duration>2</duration>
+                                                <count_min>10</count_min>
+                        <count_max>20</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+                                  <event type="instantaneous">
+                        <delay>65.5</delay>
+                        <duration>2</duration>
+                                                <count_min>10</count_min>
+                        <count_max>20</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                                <event type="instantaneous">
+                        <delay>74</delay>
+                        <event type="cutscene">
+                        <portraitRight>avatar2</portraitRight>
+                        <titel>Houston</titel>
+                        <message>You are leaving the asteroid field. It's now your change to use the FTL-Jump!</message>
+                        <soundclip>message_received.wav</soundclip>
+                        </event>
+                </event>
+
+
+
+                                <event type="instantaneous">
+                        <delay>82</delay>
+                        <duration>11</duration>
+                                                <count_min>2</count_min>
+                        <count_max>12</count_max>
+                        <event type="obstacle">
+                                <class>asteroid_large</class>
+                                <origin_y_min>0</origin_y_min>
+                                <origin_y_max>1</origin_y_max>
+                        </event>
+                </event>
+
+
+                <event type="instantaneous">
+                        <delay>175.0</delay>
+                        <event type="music">
+                                <filename>warning.ogg</filename>
+                                <looped>false</looped>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>180.0</delay>
+                        <event type="music">
+                                <filename>level02.ogg</filename>
+                                <looped>false</looped>
+                        </event>
+                </event>
+
+                <event type="instantaneous">
+                        <delay>180</delay>
+                        <event type="boss">
+                                <class>boss_0</class>
+                        </event>
+                </event>
+        </events>
+        <music_idle>level01.ogg</music_idle>
+</map>
