@@ -34,7 +34,7 @@ void EntityFactory::RegisterEntityFactory(EntityFactoryFunction factory, const c
 Entity *EntityFactory::CreateEntityByName(const QString &scriptName)
 {
     if (!functions.contains(scriptName))
-        return NULL;
+        return nullptr;
 
     EntityFactoryFunction func = functions[scriptName];
     return func();

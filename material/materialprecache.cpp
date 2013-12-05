@@ -12,7 +12,7 @@ MaterialPrecache *MaterialPrecache::GetInstance()
 }
 
 MaterialPrecache::MaterialPrecache()
-    : errorMaterial( NULL )
+    : errorMaterial( nullptr )
 {
 }
 
@@ -40,7 +40,7 @@ void MaterialPrecache::PrecacheMaterial(const char *path)
 
     Material *material = ParseMaterial(fullPath.c_str());
 
-    if (material == NULL)
+    if (material == nullptr)
     {
         DBGWARNING("!! Failed precaching material:" << path);
         return;
@@ -58,7 +58,7 @@ Material *MaterialPrecache::GetMaterial(const char *path)
 
     DBGWARNING("!! Material not precached:" << path);
 
-    if (errorMaterial == NULL)
+    if (errorMaterial == nullptr)
     {
         CreateErrorMaterial();
     }
@@ -72,7 +72,7 @@ Material *MaterialPrecache::ParseMaterial(const char *path)
 
     if (!OpenXMLFile(path, root))
     {
-        return NULL;
+        return nullptr;
     }
 
     QImage *texture = new QImage();
@@ -85,7 +85,7 @@ Material *MaterialPrecache::ParseMaterial(const char *path)
         delete texture;
         DBGWARNING("!! Error precaching texture:" << path
                  << ", for material:" << path);
-        return NULL;
+        return nullptr;
     }
 
     QPainter::CompositionMode mode = StringToCompositionMode(

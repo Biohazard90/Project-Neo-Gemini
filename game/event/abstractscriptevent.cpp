@@ -1,9 +1,9 @@
 #include "scripteventbase.h"
 
 AbstractScriptEvent::AbstractScriptEvent()
-    : root(NULL)
-    , parent(NULL)
-    , gameContext(NULL)
+    : root(nullptr)
+    , parent(nullptr)
+    , gameContext(nullptr)
 {
 }
 
@@ -56,7 +56,7 @@ void AbstractScriptEvent::ParseFromXML(const QDomElement &root)
         QString type = node.attribute("type");
         IScriptEvent *child = ScriptEventFactory::GetInstance()->CreateScriptEventByName(type);
 
-        if (child == NULL)
+        if (child == nullptr)
             continue;
 
         child->ParseFromXML(node);
@@ -67,8 +67,8 @@ void AbstractScriptEvent::ParseFromXML(const QDomElement &root)
 
 void AbstractScriptEvent::Init(IGameContext *gameContext, IScriptEvent *root, IScriptEvent *parent)
 {
-    Q_ASSERT(gameContext != NULL);
-    Q_ASSERT(root != NULL);
+    Q_ASSERT(gameContext != nullptr);
+    Q_ASSERT(root != nullptr);
 
     this->gameContext = gameContext;
     this->root = root;
@@ -94,12 +94,12 @@ IScriptEvent *AbstractScriptEvent::FindChildByName(const QString &name)
             return e;
 
         IScriptEvent *child = e->FindChildByName(name);
-        if (child != NULL)
+        if (child != nullptr)
             return child;
     }
     FOREACH_QLIST_END;
 
-    return NULL;
+    return nullptr;
 }
 
 bool AbstractScriptEvent::ShouldFire() const

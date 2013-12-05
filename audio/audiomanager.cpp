@@ -85,7 +85,7 @@ void AudioManager::PlaySoundSample(const char *path, float volume)
         return;
 
     sound_cache_t *sound = GetSoundForName(path);
-    if (sound == NULL)
+    if (sound == nullptr)
         return;
 
     sound->sound->setVolume(volume * 100);
@@ -98,17 +98,17 @@ AudioManager::sound_cache_t *AudioManager::GetSoundForName(const char *path)
 {
     sf::SoundBuffer *buffer = GET_QHASH(precache, path);
 
-    if (buffer == NULL)
+    if (buffer == nullptr)
     {
         DBGWARNING("!! Sound not precached:" << path);
 
         PrecacheSound(path);
         buffer = GET_QHASH(precache, path);
 
-        if (buffer == NULL)
+        if (buffer == nullptr)
         {
             DBGWARNING("!! Can't load:" << path);
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -158,7 +158,7 @@ void AudioManager::PlayMusic(const char *path, float volume, bool looped)
     QString fullPath(PATH_SOUND_ROOT);
     fullPath += "music/";
 
-    if (path != NULL)
+    if (path != nullptr)
         fullPath += path;
 
     cross_fade_t *fade = new cross_fade_t;
@@ -172,7 +172,7 @@ void AudioManager::PlayMusic(const char *path, float volume, bool looped)
     fade->music->setPitch(GAME_SPEED_SCALE);
     fade->music->setLoop(looped);
 
-    if (path == NULL || *path == 0
+    if (path == nullptr || *path == 0
             || !fade->music->openFromFile(OSLocalPath(fullPath).toStdString()))
     {
         FOREACH_QLIST(music, cross_fade_t*, c)

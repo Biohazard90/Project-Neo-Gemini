@@ -55,10 +55,10 @@ void ParticleRoot::OnRender(const render_context_t &context)
 ParticleSystem *ParticleRoot::CreateParticles(const char *name, Vector2D origin, Vector2D forward)
 {
     ParticleSystem *system = ParticlePrecache::GetInstance()->CreateParticleSystem(name);
-    if (system == NULL)
+    if (system == nullptr)
     {
         DBGWARNING("!! Failed to create particle system:" << name << "!");
-        return NULL;
+        return nullptr;
     }
 
     DBGMSG("Created particle system:" << name);

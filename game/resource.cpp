@@ -124,7 +124,7 @@ void Resource::LoadObstacles()
 
             Material *material = MaterialPrecache::GetInstance()->GetMaterial(materialName.c_str());
 
-            if (material == NULL)
+            if (material == nullptr)
                 continue;
 
             o.materials[o.materialCount] = material;

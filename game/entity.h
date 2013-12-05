@@ -88,9 +88,9 @@ public:
     virtual void SetMaxHealth(const int &maxHealth);
     virtual bool IsAlive() const { return GetHealth() > 0; }
     virtual bool IsDead() const { return !IsAlive(); }
-    virtual void Kill(const Damage_t *damage = NULL);
+    virtual void Kill(const Damage_t *damage = nullptr);
     virtual void TakeDamage(const Damage_t &damage);
-    virtual void TakeDamage(const int &damage, Entity *inflictor = NULL, const Vector2D &direction = Vector2D(1, 0));
+    virtual void TakeDamage(const int &damage, Entity *inflictor = nullptr, const Vector2D &direction = Vector2D(1, 0));
     virtual bool IsAutoRemoveEnabled() const { return autoRemove; }
     virtual void SetAutoRemoveEnabled(bool enabled) { autoRemove = enabled; }
 
@@ -101,7 +101,7 @@ protected:
     inline IGameContext *GetGameContext() const { return gameContext; }
 
     virtual void OnDamage(const Damage_t &damage);
-    virtual void OnKilled(const Damage_t *damage = NULL);
+    virtual void OnKilled(const Damage_t *damage = nullptr);
 
 private:
     Vector2D origin;

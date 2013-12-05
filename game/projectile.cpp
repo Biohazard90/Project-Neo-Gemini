@@ -46,7 +46,7 @@ void Projectile::Init(const Resource_Projectile_t &data, bool playerOwner)
 
     SetSize(Vector2D(data.size, data.size));
 
-    ParticleSystem *particlesSpawn = NULL;
+    ParticleSystem *particlesSpawn = nullptr;
 
     if (!data.particle_trail.empty())
         particlesIdle = GetGameContext()->GetParticleRoot()->CreateParticles(data.particle_trail.c_str());
@@ -55,7 +55,7 @@ void Projectile::Init(const Resource_Projectile_t &data, bool playerOwner)
 
     if (!particlesIdle.isNull())
         particlesIdle->SetParticleParent(this);
-    if (particlesSpawn != NULL)
+    if (particlesSpawn != nullptr)
         particlesSpawn->SetParticleParent(this);
 }
 

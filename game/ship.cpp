@@ -53,7 +53,7 @@ void Ship::Shoot(const Vector2D &direction,
 {
     Projectile *p = (Projectile*)GetGameContext()->CreateEntityNoSpawn("projectile");
 
-    Q_ASSERT(p != NULL);
+    Q_ASSERT(p != nullptr);
 
     float volume = IsPlayer() ? 0.5f : 0.3f;
 

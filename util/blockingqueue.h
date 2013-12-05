@@ -74,7 +74,7 @@ void BlockingQueue< T >::Put( T value )
 template< class T >
 T BlockingQueue< T >::Take()
 {
-    T ret = NULL;
+    T ret = nullptr;
 
     mutex.lock();
 

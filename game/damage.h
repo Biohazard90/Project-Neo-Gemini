@@ -11,7 +11,7 @@ struct Damage_t
     {
         damage = 0;
         direction.Init(1, 0);
-        inflictor = NULL;
+        inflictor = nullptr;
     }
 
     int damage;

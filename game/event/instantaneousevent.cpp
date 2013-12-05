@@ -53,7 +53,7 @@ public:
                     // TODO: refactor, remove hacky cast
                     AbstractEntityScriptEvent *eEntityEvent = dynamic_cast< AbstractEntityScriptEvent* >(e);
 
-                    if (eEntityEvent != NULL)
+                    if (eEntityEvent != nullptr)
                         eEntityEvent->FireEventEvenDistribution(i, count);
                     else
                         e->FireEvent();

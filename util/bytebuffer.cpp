@@ -6,7 +6,7 @@ ByteBuffer::ByteBuffer(char *destBuffer, int destBufferSize, int writePosition)
     position_read = 0;
     position = writePosition;
 
-    if (destBuffer == NULL)
+    if (destBuffer == nullptr)
     {
         external = false;
         growsize = 32;

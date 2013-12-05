@@ -3,13 +3,13 @@
 #include "gamebase.h"
 
 Entity::Entity()
-    : gameContext(NULL)
+    : gameContext(nullptr)
     , angle(0)
     , angularVelocity(0)
     , flags(0)
     , health(0)
     , maxHealth(1)
-    , owner(NULL)
+    , owner(nullptr)
     , autoRemove(true)
 {
     forward = Vector2D::AngleDirection(0);

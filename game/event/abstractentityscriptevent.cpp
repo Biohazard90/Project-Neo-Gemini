@@ -29,7 +29,7 @@ void AbstractEntityScriptEvent::FireEvent()
 {
     Entity *entity = GetGameContext()->CreateEntityNoSpawn(GetEntityClassName());
 
-    if (entity != NULL)
+    if (entity != nullptr)
     {
         SpawnEntity(entity);
 

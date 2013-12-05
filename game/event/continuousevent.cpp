@@ -86,7 +86,7 @@ public:
             // TODO: refactor, remove hacky cast
             AbstractEntityScriptEvent *eEntityEvent = dynamic_cast< AbstractEntityScriptEvent* >(e);
 
-            if (countMax > 0 && eEntityEvent != NULL)
+            if (countMax > 0 && eEntityEvent != nullptr)
             {
                 int slot = spawnCount;
 

@@ -16,7 +16,7 @@ class BossEvent : public AbstractEntityScriptEvent
 public:
 
     BossEvent()
-        : bossEntity(NULL)
+        : bossEntity(nullptr)
         , bossDied(false)
         , gameOverTimer(0.0f)
     {
@@ -80,7 +80,7 @@ public:
 
         if (entity == bossEntity)
         {
-            bossEntity = NULL;
+            bossEntity = nullptr;
             bossDied = true;
 
             gameOverTimer = GetGameContext()->GetGameTime() + 3.0f;
@@ -89,7 +89,7 @@ public:
 
     virtual bool ShouldFire() const
     {
-        if (bossEntity != NULL
+        if (bossEntity != nullptr
                 || bossDied)
             return false;
 
@@ -98,7 +98,7 @@ public:
 
     virtual bool IsComplete() const
     {
-        if (bossEntity != NULL)
+        if (bossEntity != nullptr)
             return false;
 
         if (gameOverTimer > 0.0f)

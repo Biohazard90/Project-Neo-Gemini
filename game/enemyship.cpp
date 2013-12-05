@@ -5,7 +5,7 @@
 REGISTER_ENTITY_CLASS(EnemyShip, fighter);
 
 EnemyShip::EnemyShip()
-    : aiStrategy(NULL)
+    : aiStrategy(nullptr)
 {
 }
 
@@ -13,7 +13,7 @@ void EnemyShip::Spawn()
 {
     BaseClass::Spawn();
 
-    if (aiStrategy != NULL)
+    if (aiStrategy != nullptr)
         aiStrategy->Spawn();
 }
 
@@ -21,7 +21,7 @@ void EnemyShip::OnRemove()
 {
     BaseClass::OnRemove();
 
-    if (aiStrategy != NULL)
+    if (aiStrategy != nullptr)
         aiStrategy->OnRemove();
 }
 
@@ -52,7 +52,7 @@ void EnemyShip::OnSimulate(float frametime)
 {
     BaseClass::OnSimulate(frametime);
 
-    if (aiStrategy != NULL)
+    if (aiStrategy != nullptr)
         aiStrategy->OnSimulate(frametime);
 
     if (AutoRemoveOffscreen()
@@ -65,7 +65,7 @@ void EnemyShip::OnMove(float frametime)
 {
     BaseClass::OnMove(frametime);
 
-    if (aiStrategy != NULL)
+    if (aiStrategy != nullptr)
         aiStrategy->OnMove(frametime);
 }
 
@@ -88,6 +88,6 @@ void EnemyShip::Init(const Resource_Fighter_t &data, IAI *aiStrategy)
     origin.x = Camera::GetInstance()->GetWorldMaxs().x + data.size * 0.5f;
     Teleport(origin);
 
-    if (aiStrategy != NULL)
+    if (aiStrategy != nullptr)
         aiStrategy->Init(this, GetGameContext());
 }

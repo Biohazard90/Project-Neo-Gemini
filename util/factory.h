@@ -19,7 +19,7 @@ FORCEINLINE void ConvertFactoryListToHash(D *first,
                                            QHash<QString, T> &hash)
 {
     D *cur = first->next;
-    while (cur != NULL)
+    while (cur != nullptr)
     {
         D *deleteMe = cur;
 
@@ -28,7 +28,7 @@ FORCEINLINE void ConvertFactoryListToHash(D *first,
         cur = cur->next;
         delete deleteMe;
     }
-    first->next = NULL;
+    first->next = nullptr;
 }
 
 template< class T, class D >
@@ -36,12 +36,12 @@ FORCEINLINE void RegisterFactory(D *first,
                                  T function, const char *name)
 {
     D *f = new D;
-    f->next = NULL;
+    f->next = nullptr;
     f->nameLiteral = name;
     f->function = function;
 
     D *cur = first;
-    while (cur->next != NULL)
+    while (cur->next != nullptr)
     {
         cur = cur->next;
     }
@@ -52,9 +52,9 @@ template< class D >
 FORCEINLINE void DestroyFactoryList(D *first)
 {
     D *cur = first->next;
-    first->next = NULL;
+    first->next = nullptr;
 
-    while ( cur != NULL )
+    while ( cur != nullptr )
     {
         D *deleteMe = cur;
         cur = cur->next;
@@ -67,7 +67,7 @@ FORCEINLINE R *ExecuteFactoryFunction(D *first, const char *name)
 {
     D *cur = first->next;
 
-    while ( cur != NULL )
+    while ( cur != nullptr )
     {
         if ( qstricmp( cur->nameLiteral, name ) == 0 )
             return cur->function();
@@ -75,7 +75,7 @@ FORCEINLINE R *ExecuteFactoryFunction(D *first, const char *name)
         cur = cur->next;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 #endif // FACTORY_H

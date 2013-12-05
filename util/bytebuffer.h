@@ -12,7 +12,7 @@ class ByteBuffer
     ByteBuffer(const ByteBuffer &other);
 
 public:
-    ByteBuffer(char *destBuffer = NULL, int destBufferSize = 0, int writePosition = 0);
+    ByteBuffer(char *destBuffer = nullptr, int destBufferSize = 0, int writePosition = 0);
     ~ByteBuffer();
 
     FORCEINLINE void Swap(ByteBuffer &other)
@@ -41,7 +41,7 @@ public:
     {
         Q_ASSERT(external);
 
-        buffer = NULL;
+        buffer = nullptr;
         size = 0;
         position = 0;
         position_read = 0;

@@ -48,7 +48,7 @@ public:
 
     virtual void DrawParticle(const render_context_t &context, particle_t &particle)
     {
-        if (img[0] == NULL)
+        if (img[0] == nullptr)
         {
             img[0] = MaterialPrecache::GetInstance()->GetMaterial(material[0].c_str());
 

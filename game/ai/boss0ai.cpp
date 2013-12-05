@@ -166,7 +166,7 @@ public:
 
         if (!dashing
                 && timer0 < time
-                && player != NULL && player->IsAlive())
+                && player != nullptr && player->IsAlive())
         {
             float playerDistanceY = abs(player->GetOrigin().y - GetShip()->GetOrigin().y);
 
@@ -228,7 +228,7 @@ public:
 
         EnemyShip *fighter = CreateSwarmFighter(fighterSwarm);
 
-        if (fighter != NULL)
+        if (fighter != nullptr)
         {
             float fraction = 0.07f * (salvoCount/2);
 
@@ -288,7 +288,7 @@ public:
         if (timer0 < time - 3.0f)
         {
             EnemyShip *fighter = CreateSwarmFighter(fighterSpam);
-            if (fighter != NULL)
+            if (fighter != nullptr)
             {
                 Vector2D origin = fighter->GetOrigin();
                 origin.y = qlerp(qfrand(), mins.y + fighter->GetSize().y * 0.5f,
@@ -315,8 +315,8 @@ public:
     {
         EnemyShip *fighter = (EnemyShip*)GetGameContext()->CreateEntityNoSpawn("fighter");
 
-        if (fighter == NULL)
-            return NULL;
+        if (fighter == nullptr)
+            return nullptr;
 
         IAI *ai = AIFactory::GetInstance()->CreateAIByName(data.ai.c_str());
 

@@ -22,7 +22,7 @@ class ParticleRenderFlare : public ParticleRenderBase
 public:
     ParticleRenderFlare()
     {
-        img = NULL;
+        img = nullptr;
         materialCount = 0;
         position = 0.0f;
         angle_offset = 0.0f;
@@ -56,7 +56,7 @@ public:
 
     virtual void DrawParticle(const render_context_t &context, particle_t &particle)
     {
-        if (img == NULL)
+        if (img == nullptr)
         {
             img = MaterialPrecache::GetInstance()->GetMaterial(material.c_str());
         }

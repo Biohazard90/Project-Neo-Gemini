@@ -23,7 +23,7 @@ void ParticlePrecache::PrecacheParticleSystem(const char *path)
 {
     ParticleSystem *system = ParseParticleSystem(path);
 
-    if (system != NULL)
+    if (system != nullptr)
     {
         QFileInfo inf(path);
         QString name = inf.baseName();
@@ -51,7 +51,7 @@ ParticleSystem *ParticlePrecache::CreateParticleSystem(const char *name)
     else
     {
         DBGWARNING("!! Particle not precached:" << name);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -97,7 +97,7 @@ ParticleSystem *ParticlePrecache::ParseParticleSystem(const char *path)
     if (!OpenXMLFile(fullPath, root))
     {
         DBGWARNING("!! Error loading particle file:" << path);
-        return NULL;
+        return nullptr;
     }
 
     ParticleSystem *system = new ParticleSystem();
@@ -133,7 +133,7 @@ ParticleSystem *ParticlePrecache::ParseParticleSystem(const char *path)
 
         ParticleSystem *childSystem = ParseParticleSystem(strChild.c_str());
 
-        if (childSystem != NULL)
+        if (childSystem != nullptr)
         {
             childSystem->SetOrigin(childOrigin);
             system->children.push_back(childSystem);
@@ -158,7 +158,7 @@ void ParticlePrecache::ParseSiblingFunctions(QDomElement *root, QVector<T> &out)
         std::string name = c.toElement().tagName().toStdString();
         IParticleFunction *f = ParticleFunctionFactory::GetInstance()->CreateParticleFunction(name.c_str());
         T concrete = dynamic_cast<T>(f);
-        if (concrete != NULL)
+        if (concrete != nullptr)
         {
             QDomElement element = c.toElement();
 

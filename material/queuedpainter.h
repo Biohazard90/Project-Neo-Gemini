@@ -26,7 +26,7 @@ class QueuedPainter : public IPainter
     void Init();
 
 public:
-    QueuedPainter( char *memory = NULL, int size = 0, bool autoCleanup = true );
+    QueuedPainter( char *memory = nullptr, int size = 0, bool autoCleanup = true );
     QueuedPainter( ByteBuffer *externalBuffer, bool autoCleanup = true );
     ~QueuedPainter();
 

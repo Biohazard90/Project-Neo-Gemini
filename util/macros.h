@@ -31,7 +31,7 @@
     typedef base BaseClass
 
 #define GET_QHASH(hash, key) \
-    ((hash).contains((key)) ? (hash)[(key)] : NULL)
+    ((hash).contains((key)) ? (hash)[(key)] : nullptr)
 
 #define DESTROY_QLIST(list) \
     { while(!list.isEmpty()) { delete list.takeFirst(); } }

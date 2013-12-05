@@ -102,7 +102,7 @@ void Map::LoadLayers(const QDomElement &root)
     FOREACH_QDOM_NODE(layerList, e)
     {
         QString tag = e.tagName();
-        Layer *layer = NULL;
+        Layer *layer = nullptr;
 
         if (tag.compare("fill", Qt::CaseInsensitive) == 0)
             layer = CreateFillLayer(e);
@@ -113,7 +113,7 @@ void Map::LoadLayers(const QDomElement &root)
         else
             DBGWARNING("!! invalid layer node:" << tag);
 
-        if (layer != NULL)
+        if (layer != nullptr)
         {
             bool foreground = e.firstChildElement("foreground").text().toInt() != 0;
             if (foreground)
@@ -127,7 +127,7 @@ void Map::LoadLayers(const QDomElement &root)
 
 Layer *Map::CreateFillLayer(const QDomElement &root)
 {
-    QBrush *brush = NULL;
+    QBrush *brush = nullptr;
     QString subType = root.attribute("type");
 
     if (subType.compare("flat", Qt::CaseInsensitive) == 0)
@@ -182,10 +182,10 @@ Layer *Map::CreateFillLayer(const QDomElement &root)
         brush = new QBrush(gradient);
     }
 
-    if (brush == NULL)
+    if (brush == nullptr)
     {
         DBGWARNING("!! failed parsing layer");
-        return NULL;
+        return nullptr;
     }
 
     DBGWARNING("Creating fill layer:" << subType);

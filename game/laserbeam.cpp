@@ -22,7 +22,7 @@ LaserBeam::LaserBeam()
 
 void LaserBeam::Init(Entity *owner, const Vector2D &offset, const float &lifetime)
 {
-    Q_ASSERT(owner != NULL);
+    Q_ASSERT(owner != nullptr);
 
     SetOwner(owner);
     this->offset = offset;
@@ -76,7 +76,7 @@ void LaserBeam::OnSimulate(float frametime)
 
     Entity *owner = GetOwner();
 
-    if (owner == NULL
+    if (owner == nullptr
             || timer < gameTime)
     {
         Remove();

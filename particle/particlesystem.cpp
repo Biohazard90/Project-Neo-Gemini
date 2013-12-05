@@ -6,7 +6,7 @@ ParticleSystem::ParticleSystem()
 {
     frametime = 0;
     initialized = false;
-    parent = NULL;
+    parent = nullptr;
 
     forward = Vector2D::AngleDirection(0);
 }
@@ -68,7 +68,7 @@ void ParticleSystem::OnParentRemovedInternal(IParticleParent *potentialParent)
 
     if (parent == potentialParent)
     {
-        parent = NULL;
+        parent = nullptr;
         StopEmission();
     }
 }
@@ -95,7 +95,7 @@ void ParticleSystem::OnSimulateInternal(float frametime, Vector2D offset)
 {
     Vector2D oldForward(forward);
 
-    if (parent != NULL)
+    if (parent != nullptr)
     {
         origin = parent->GetParticleOrigin();
         Vector2D localOffset(offset);
@@ -199,7 +199,7 @@ void ParticleSystem::OnRender(const render_context_t &context)
 {
     float oldOpacity = context.painter->opacity();
 
-    if (parent != NULL)
+    if (parent != nullptr)
     {
         context.painter->setOpacity(oldOpacity * parent->GetParticleOpacity());
     }

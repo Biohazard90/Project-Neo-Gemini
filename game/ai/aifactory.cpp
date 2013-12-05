@@ -39,7 +39,7 @@ IAI *AIFactory::CreateAIByName(const QString &scriptName)
     if (!functions_ai.contains(scriptName))
     {
         DBGWARNING("!! Unknown ai factory function:" << scriptName);
-        return NULL;
+        return nullptr;
     }
 
     AIFactoryFunction func = functions_ai[scriptName];

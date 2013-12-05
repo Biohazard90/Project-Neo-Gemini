@@ -33,10 +33,10 @@ RootView::RootView(QWidget *parent) :
     MusicEnabled = pGlobals->musicenabled;
     FullscreenEnabled = pGlobals->fullscreen;
 
-    background = NULL;
-    particleView = NULL;
-    game = NULL;
-    mainQml = NULL;
+    background = nullptr;
+    particleView = nullptr;
+    game = nullptr;
+    mainQml = nullptr;
 
     setFocusPolicy(Qt::StrongFocus);
 
@@ -60,7 +60,7 @@ void RootView::resizeEvent(QResizeEvent *e)
     int w = e->size().width();
     int h = e->size().height();
 
-    if (mainQml != NULL)
+    if (mainQml != nullptr)
         mainQml->setFixedSize(w, h);
     //mainQml->setViewport(this);
 
@@ -69,7 +69,7 @@ void RootView::resizeEvent(QResizeEvent *e)
 
 void RootView::OnSimulate(float frametime)
 {
-    if (game != NULL)
+    if (game != nullptr)
     {
         game->OnSimulate(frametime);
     }
@@ -91,17 +91,17 @@ void RootView::OnSimulate(float frametime)
 
 void RootView::externalPaintEvent(render_context_t &context)
 {
-    if (game != NULL)
+    if (game != nullptr)
     {
         game->OnRender(context);
     }
 
-    if (background != NULL)
+    if (background != nullptr)
     {
         background->paintEvent(context);
     }
 
-    if (particleView != NULL)
+    if (particleView != nullptr)
     {
         particleView->paintEvent(context);
     }
@@ -119,13 +119,13 @@ void RootView::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_P:
         {
-            if (game != NULL)
+            if (game != nullptr)
                 game->GetParticleRoot()->CreateParticles("player_shield_damage", Vector2D(320, 0), Vector2D(1, 0));
         }
         break;
     default:
         {
-            if (game != NULL)
+            if (game != nullptr)
                 Input::GetInstance()->OnKeyPressed(event);
 
             BaseClass::keyPressEvent(event);
@@ -136,7 +136,7 @@ void RootView::keyPressEvent(QKeyEvent *event)
 
 void RootView::keyReleaseEvent(QKeyEvent *event)
 {
-    if (game != NULL)
+    if (game != nullptr)
         Input::GetInstance()->OnKeyReleased(event);
 
     BaseClass::keyReleaseEvent(event);
@@ -144,7 +144,7 @@ void RootView::keyReleaseEvent(QKeyEvent *event)
 
 void RootView::EscapePressed()
 {
-    if (game != NULL)
+    if (game != nullptr)
     {
         mainQml->setFocus();
         ShowMenu(MENU_Ingame);
@@ -153,10 +153,10 @@ void RootView::EscapePressed()
 
 void RootView::ShowBackground()
 {
-    if (background != NULL)
+    if (background != nullptr)
         background->deleteLater();
 
-    if (particleView != NULL)
+    if (particleView != nullptr)
         particleView->deleteLater();
 
     background = new MenuBackground(this);
@@ -164,7 +164,7 @@ void RootView::ShowBackground()
 
     particleView->GetParticleRoot()->CreateParticles("menu", Vector2D(320,240));
 
-    if (mainQml != NULL)
+    if (mainQml != nullptr)
         mainQml->raise();
 
     AudioManager::GetInstance()->PlayMusic("menu.ogg");
@@ -172,21 +172,21 @@ void RootView::ShowBackground()
 
 void RootView::HideBackground()
 {
-    if (background != NULL)
+    if (background != nullptr)
         background->deleteLater();
-    if (particleView != NULL)
+    if (particleView != nullptr)
         particleView->deleteLater();
 
-    background = NULL;
-    particleView = NULL;
+    background = nullptr;
+    particleView = nullptr;
 }
 
 void RootView::ShowMenu(MenuMode_e mode)
 {
-    if (game != NULL)
+    if (game != nullptr)
         game->SetPaused(true);
 
-    if (mainQml == NULL)
+    if (mainQml == nullptr)
     {
         QGLWidget *glTarget = new QGLWidget(this);
 
@@ -236,7 +236,7 @@ void RootView::ShowMenu(MenuMode_e mode)
 
 void RootView::HideMenu()
 {
-    if (mainQml != NULL)
+    if (mainQml != nullptr)
     {
         mainQml->setFocusPolicy(Qt::NoFocus);
         mainQml->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -247,7 +247,7 @@ void RootView::HideMenu()
 
 void RootView::ShowGameOver()
 {
-    if (game != NULL)
+    if (game != nullptr)
     {
         ShowMenu(MENU_Gameover);
     }
@@ -255,8 +255,8 @@ void RootView::ShowGameOver()
 
 void RootView::ShowScore()
 {
-    if (game != NULL
-            && mainQml == NULL)
+    if (game != nullptr
+            && mainQml == nullptr)
     {
         ShowMenu(MENU_Score);
     }
@@ -267,7 +267,7 @@ void RootView::CreateGame(const char *mapname, bool newGame)
     if (newGame)
         Score::GetInstance()->Reset();
 
-    if (game != NULL)
+    if (game != nullptr)
         game->deleteLater();
 
     game = new Game(this);
@@ -290,10 +290,10 @@ void RootView::DestroyGame()
 {
     setGameVisible(false);
 
-    if (game != NULL)
+    if (game != nullptr)
         game->deleteLater();
 
-    game = NULL;
+    game = nullptr;
 }
 
 void RootView::setAAEnabled(bool enabled)
@@ -376,7 +376,7 @@ void RootView::onMenuFadedOut()
 {
     HideMenu();
 
-    if (game != NULL)
+    if (game != nullptr)
         game->SetPaused(false);
 
     setCursor(QCursor(Qt::BlankCursor));

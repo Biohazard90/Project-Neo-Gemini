@@ -36,7 +36,7 @@ void Obstacle::OnCollision(ICollidable *other)
         entity->TakeDamage(1, this);
 
         Vector2D delta = GetCollisionOrigin() - entity->GetCollisionOrigin();
-        TakeDamage(GetHealth(), NULL, delta);
+        TakeDamage(GetHealth(), nullptr, delta);
     }
 }
 

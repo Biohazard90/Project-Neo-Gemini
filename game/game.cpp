@@ -8,8 +8,8 @@
 Game::Game(QObject *parent) :
     QObject(parent)
   , paused( false )
-  , map( NULL )
-  , player( NULL )
+  , map( nullptr )
+  , player( nullptr )
   , gametime( 0.0f )
   , gameticks( 0 )
   , gametickframe( 0.0f )
@@ -32,8 +32,8 @@ Game::~Game()
     // this pointer leak but w/e
     Events::GetInstance()->RemoveListener(this);
 
-    map = NULL;
-    player = NULL;
+    map = nullptr;
+    player = nullptr;
 
     FOREACH_QLIST(entities, Entity*, e)
     {
@@ -120,14 +120,14 @@ void Game::PaintGame(const render_context_t &context)
     }
     FOREACH_QLIST_END;
 
-    if (player != NULL)
+    if (player != nullptr)
     {
         player->OnRender(context);
     }
 
     particleroot->OnRender(context);
 
-    if (map != NULL)
+    if (map != nullptr)
     {
         map->OnRenderForeground(context);
     }
@@ -191,7 +191,7 @@ Entity *Game::CreateEntity(const QString &scriptName)
 {
     Entity *e = CreateEntityNoSpawn(scriptName);
 
-    if (e != NULL)
+    if (e != nullptr)
         SpawnEntity(e);
 
     return e;
@@ -201,11 +201,11 @@ Entity *Game::CreateEntityNoSpawn(const QString &scriptName)
 {
     Entity *e = EntityFactory::GetInstance()->CreateEntityByName(scriptName);
 
-    if (e == NULL)
+    if (e == nullptr)
     {
         DBGWARNING("!! Unable to create entity for scriptname:" << scriptName);
         Q_ASSERT(0);
-        return NULL;
+        return nullptr;
     }
 
     AddEntity(e);
@@ -214,7 +214,7 @@ Entity *Game::CreateEntityNoSpawn(const QString &scriptName)
 
 void Game::AddEntity(Entity *entity)
 {
-    Q_ASSERT(entity != NULL);
+    Q_ASSERT(entity != nullptr);
 
     if (entities.contains(entity))
     {
@@ -231,7 +231,7 @@ void Game::AddEntity(Entity *entity)
 
 void Game::SpawnEntity(Entity *entity)
 {
-    Q_ASSERT(entity != NULL);
+    Q_ASSERT(entity != nullptr);
 
     if (!entities.contains(entity))
     {
@@ -246,24 +246,24 @@ void Game::SpawnEntity(Entity *entity)
 
 void Game::RemoveEntity(Entity *entity)
 {
-    Q_ASSERT(entity != NULL && entities.contains(entity));
+    Q_ASSERT(entity != nullptr && entities.contains(entity));
 
     entity->AddFlags(Entity::EF_KILL);
 }
 
 void Game::DeleteEntity(Entity *entity)
 {
-    Q_ASSERT(entity != NULL && entities.contains(entity));
+    Q_ASSERT(entity != nullptr && entities.contains(entity));
 
     FOREACH_QLIST(entities, Entity*, e)
     {
         if (e->GetOwner() == entity)
-            e->SetOwner(NULL);
+            e->SetOwner(nullptr);
     }
     FOREACH_QLIST_END;
 
     entity->OnRemove();
-    if (map != NULL)
+    if (map != nullptr)
     {
         map->OnEntityRemoved(entity);
     }

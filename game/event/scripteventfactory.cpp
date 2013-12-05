@@ -40,7 +40,7 @@ IScriptEvent *ScriptEventFactory::CreateScriptEventByName(const QString &scriptN
     if (!functions.contains(scriptName))
     {
         DBGWARNING("!! Unknown script event function:" << scriptName);
-        return NULL;
+        return nullptr;
     }
 
     ScriptEventFactoryFunction func = functions[scriptName];

@@ -49,7 +49,7 @@ void ParallelRenderWorker::run()
 }
 
 ParallelRenderer::ParallelRenderer()
-    : threadPool( NULL )
+    : threadPool( nullptr )
     , lastTimeSwap( 0 )
     , frameTimeSwap( 1 )
     , stopWorkers( false )
@@ -172,7 +172,7 @@ void ParallelRenderer::EndJob()
         mutex_queue[i].unlock();
     }
 
-    if (threadPool == NULL)
+    if (threadPool == nullptr)
         StartWorkers();
 }
 
@@ -201,7 +201,7 @@ void ParallelRenderer::OnWorkerFinished(int worker)
 
 void ParallelRenderer::StartWorkers()
 {
-    Q_ASSERT(threadPool == NULL);
+    Q_ASSERT(threadPool == nullptr);
 
     timer.start();
 
@@ -219,5 +219,5 @@ void ParallelRenderer::StopWorkers()
     stopWorkers = true;
 
     delete threadPool;
-    threadPool = NULL;
+    threadPool = nullptr;
 }

@@ -84,7 +84,7 @@ void BossShip::OnSimulate(float frametime)
         return;
     }
 
-    if (aiStrategy != NULL)
+    if (aiStrategy != nullptr)
         aiStrategy->OnSimulate(frametime);
 }
 

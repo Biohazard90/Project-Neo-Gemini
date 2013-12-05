@@ -4,7 +4,7 @@
 
 
 Sprite::Sprite()
-    : material(NULL)
+    : material(nullptr)
     , opacity(1)
     , spawned(false)
 {
@@ -30,7 +30,7 @@ void Sprite::OnRender(const render_context_t &context)
     if (!IsVisible())
         return;
 
-    if (material != NULL)
+    if (material != nullptr)
     {
         Vector2D sizeScaled = GetSize();
         Vector2D originAdjusted = GetOrigin();

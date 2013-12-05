@@ -58,7 +58,7 @@ struct Resource_Fighter_t : public Resource_Destructible_t
 {
     Resource_Fighter_t()
     {
-        material = NULL;
+        material = nullptr;
     }
 
     Material *material;

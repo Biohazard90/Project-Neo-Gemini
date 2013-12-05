@@ -33,7 +33,7 @@ public:
     {
         Player *player = GetGameContext()->GetPlayer();
 
-        if (player == NULL)
+        if (player == nullptr)
             return false;
 
         float playerOriginY = GetShip()->GetOrigin().y;
@@ -62,7 +62,7 @@ public:
         const float gameTime = GetGameContext()->GetGameTime();
         const bool playerDirectionSign = GetPlayerDirectionSign();
 
-        if (player != NULL
+        if (player != nullptr
                 && player->IsAlive()
                 && waitTime < gameTime)
         {
@@ -84,7 +84,7 @@ public:
             chargeTime = 0.0f;
 
             LaserBeam *beam = (LaserBeam*)GetGameContext()->CreateEntityNoSpawn("laserbeam");
-            if (beam != NULL)
+            if (beam != nullptr)
             {
                 beam->Init(GetShip(), Vector2D(-8, 0), 0.8f);
                 GetGameContext()->SpawnEntity(beam);

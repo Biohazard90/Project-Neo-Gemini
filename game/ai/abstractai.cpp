@@ -2,8 +2,8 @@
 #include "base.h"
 
 AbstractAI::AbstractAI()
-    : ship(NULL)
-    , gameContext(NULL)
+    : ship(nullptr)
+    , gameContext(nullptr)
 {
 }
 

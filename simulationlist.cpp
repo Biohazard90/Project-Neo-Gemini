@@ -5,7 +5,7 @@ SimulationList SimulationList::instance;
 QList<ISimulated*> SimulationList::m_simulationList;
 
 SimulationList::SimulationList()
-    : QObject(NULL)
+    : QObject(nullptr)
 {
     m_timer.start();
     m_iLastTime = 0;

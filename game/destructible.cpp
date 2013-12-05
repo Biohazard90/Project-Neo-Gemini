@@ -17,7 +17,7 @@ void Destructible::OnDamage(const Damage_t &damage)
 {
     Vector2D particleOrigin = GetOrigin();
 
-    if (damage.inflictor != NULL)
+    if (damage.inflictor != nullptr)
         particleOrigin = damage.inflictor->GetCollisionOrigin();
 
     EmitDamageParticles(data.particle_hit.c_str(), &damage, particleOrigin);
@@ -33,8 +33,8 @@ void Destructible::OnDamage(const Damage_t &damage)
 void Destructible::OnKilled(const Damage_t *damage)
 {
     if (data.score > 0
-            && damage != NULL
-            && damage->inflictor != NULL)
+            && damage != nullptr
+            && damage->inflictor != nullptr)
     {
         if (damage->inflictor->IsProjectile())
         {
@@ -58,11 +58,11 @@ void Destructible::OnKilled(const Damage_t *damage)
 
 void Destructible::EmitDamageParticles(const char *particleName, const Damage_t *damage, Vector2D position)
 {
-    if (particleName != NULL && *particleName != 0)
+    if (particleName != nullptr && *particleName != 0)
     {
         Vector2D direction(GetForward());
 
-        if (damage != NULL)
+        if (damage != nullptr)
         {
             direction = damage->direction;
         }
