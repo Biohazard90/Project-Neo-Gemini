@@ -38,6 +38,7 @@ Item{
 
     SequentialAnimation {
         id: fadeAnim
+        onCompleted: cutSceneItem.destroy()
 
         NumberAnimation {
             id: penis;

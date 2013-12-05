@@ -303,7 +303,7 @@
                 </event>
 
                                                 <event type="instantaneous">
-                        <delay>43</delay>
+                        <delay>45</delay>
                         <event type="cutscene">
                         <portraitRight>avatar2</portraitRight>
                         <titel>Houston</titel>
