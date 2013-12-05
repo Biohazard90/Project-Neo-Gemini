@@ -20,6 +20,10 @@ Game::Game(QObject *parent) :
     collisionManager = new CollisionManager();
 
     particleroot = new ParticleRoot();
+
+    IEventListener *thisListener = dynamic_cast<IEventListener *>(this);
+    Events::GetInstance()->AddListener("player_death", thisListener);
+    Events::GetInstance()->AddListener("player_health_changed", thisListener);
 }
 
 Game::~Game()
@@ -276,20 +280,6 @@ Player *Game::GetPlayer()
     return player;
 }
 
-void Game::PlayerDied()
-{
-    if (getLiveCount() > 0)
-    {
-        setLiveCount(getLiveCount() - 1);
-        livesChangedTime = GetGameTime();
-    }
-}
-
-void Game::PlayerHealthChanged(int health)
-{
-    setPlayerHealth(health);
-}
-
 void Game::EndMap()
 {
     emit GameEnded();
@@ -300,13 +290,30 @@ void Game::ShowWarningText()
     emit warningText();
 }
 
-void Game::ShowCutscene(QString portraitLeft,QString portraitRight,QString titel, QString message){
+void Game::ShowCutscene(QString portraitLeft,QString portraitRight,QString titel, QString message)
+{
     PortraitLeft = portraitLeft;
     PortraitRight = portraitRight;
     Titel = titel;
     Message = message;
 
     emit cutscene();
+}
+
+void Game::OnEvent(const char *name, KeyValues *data)
+{
+    if (_streq(name, "player_death"))
+    {
+        if (getLiveCount() > 0)
+        {
+            setLiveCount(getLiveCount() - 1);
+            livesChangedTime = GetGameTime();
+        }
+    }
+    else if(_streq(name, "player_health_changed"))
+    {
+        setPlayerHealth(data->GetInt("health"));
+    }
 }
 
 void Game::setLiveCount(int count)

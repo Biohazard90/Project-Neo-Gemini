@@ -48,10 +48,10 @@ void ResizeView(int w, int h)
     pGlobals->SetScreen(w, h);
 
     mainWindow->setFixedSize(w, h);
-    mainWindow->setGeometry(0, 0, w, h);
+    //mainWindow->setGeometry(0, 0, w, h);
 
-    mainWidget->setFixedSize(w, h);
-    mainWidget->setGeometry(0, 0, w, h);
+    //mainWidget->setFixedSize(w, h);
+    mainWidget->setGeometry(0, 0, mainWindow->width(), mainWindow->height());
 
     if (isFullscreen)
     {

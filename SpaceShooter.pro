@@ -32,7 +32,7 @@ INCLUDEPATH += util \
     material \
     collision \
     script \
-    score \
+    stats \
     .
 
 #DEFINES += SFML_DYNAMIC
@@ -171,8 +171,8 @@ SOURCES += main.cpp\
     game/event/abstractdelayedscriptevent.cpp \
     game/event/instantaneousevent.cpp \
     game/event/abstractentityscriptevent.cpp \
-    score/score.cpp \
-    score/ranking.cpp \
+    stats/score.cpp \
+    stats/ranking.cpp \
     particle/initializers/init_color_random.cpp \
     game/event/fighterevent.cpp \
     game/ai/aifactory.cpp \
@@ -189,7 +189,8 @@ SOURCES += main.cpp\
     game/ai/boss0ai.cpp \
     widgets/gameview.cpp \
     game/event/warningtextevent.cpp \
-    game/event/cutsceneevent.cpp
+    game/event/cutsceneevent.cpp \
+    stats/events.cpp
 
 HEADERS  += mainwindow.h \
     util/util.h \
@@ -262,8 +263,8 @@ HEADERS  += mainwindow.h \
     game/event/scripteventbase.h \
     game/event/abstractdelayedscriptevent.h \
     game/event/abstractentityscriptevent.h \
-    score/score.h \
-    score/ranking.h \
+    stats/score.h \
+    stats/ranking.h \
     game/damage.h \
     game/ai/aifactory.h \
     util/factory.h \
@@ -274,7 +275,9 @@ HEADERS  += mainwindow.h \
     game/laserbeam.h \
     game/bossship.h \
     widgets/gameview.h \
-    game/event/cutsceneevent.h
+    game/event/cutsceneevent.h \
+    util/keyvalues.h \
+    stats/events.h
 
 FORMS    += mainwindow.ui \
     widgets/rootview.ui

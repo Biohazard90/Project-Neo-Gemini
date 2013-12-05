@@ -164,5 +164,9 @@ inline bool qbrand()
     return qrand() > (RAND_MAX / 2);
 }
 
+inline bool _streq(const char *str1, const char *str2)
+{
+    return _stricmp(str1, str2) == 0;
+}
 
 #endif // UTIL_H
