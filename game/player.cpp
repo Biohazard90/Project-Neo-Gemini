@@ -271,11 +271,14 @@ void Player::SendHealthChangedEvent(int health, bool isDecreasing, const Damage_
     event->SetFloat("x", GetOrigin().x);
     event->SetFloat("y", GetOrigin().y);
 
-    if (damage != nullptr
-            && damage->inflictor != nullptr)
+    if (damage != nullptr)
     {
-        event->SetString("inflictor_name", damage->inflictor->GetEntityClassName());
-        event->SetString("inflictor_data", damage->inflictor->GetEntityResourceClass());
+        Q_ASSERT(damage->statsInflictorName.length() > 0);
+
+        event->SetString("inflictor_name", damage->statsInflictorName);
+        event->SetString("inflictor_data", damage->statsInflictorClass);
+        event->SetString("weapon_name", damage->statsWeaponName);
+        event->SetString("weapon_data", damage->statsWeaponClass);
     }
 
     Events::GetInstance()->FireEvent(event);
@@ -343,10 +346,14 @@ void Player::OnKilled(const Damage_t *damage)
     event->SetFloat("x", GetOrigin().x);
     event->SetFloat("y", GetOrigin().y);
 
-    if (damage->inflictor != nullptr)
+    if (damage != nullptr)
     {
-        event->SetString("inflictor_name", damage->inflictor->GetEntityClassName());
-        event->SetString("inflictor_data", damage->inflictor->GetEntityResourceClass());
+        Q_ASSERT(damage->statsInflictorName.length() > 0);
+
+        event->SetString("inflictor_name", damage->statsInflictorName);
+        event->SetString("inflictor_data", damage->statsInflictorClass);
+        event->SetString("weapon_name", damage->statsWeaponName);
+        event->SetString("weapon_data", damage->statsWeaponClass);
     }
 
     Events::GetInstance()->FireEvent(event);
@@ -408,14 +415,14 @@ void Player::OnRender(const render_context_t &context)
 
 void Player::SetPlayerSprite(const char *spriteName)
 {
-    QString shieldMaterialName(spriteName);
+    std::string shieldMaterialName(spriteName);
     shieldMaterialName += "_shield";
 
-    QString shieldDownMaterialName(spriteName);
+    std::string shieldDownMaterialName(spriteName);
     shieldDownMaterialName += "_shield_down";
 
     SetMaterial(spriteName);
 
-    shieldMaterial = MaterialPrecache::GetInstance()->GetMaterial(shieldMaterialName.toStdString().c_str());
-    shieldDownMaterial = MaterialPrecache::GetInstance()->GetMaterial(shieldDownMaterialName.toStdString().c_str());
+    shieldMaterial = MaterialPrecache::GetInstance()->GetMaterial(shieldMaterialName.c_str());
+    shieldDownMaterial = MaterialPrecache::GetInstance()->GetMaterial(shieldDownMaterialName.c_str());
 }

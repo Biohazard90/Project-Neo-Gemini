@@ -36,6 +36,9 @@ private:
     bool playerOwner;
 
     QPointer<ParticleSystem> particlesIdle;
+
+    QString inflictorName;
+    QString inflictorClass;
 };
 
 #endif // PROJECTILE_H

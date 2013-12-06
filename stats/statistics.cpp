@@ -38,6 +38,7 @@ void Statistics::Init()
     Events::GetInstance()->AddListener("map_started", listener);
     Events::GetInstance()->AddListener("map_ended", listener);
     Events::GetInstance()->AddListener("map_aborted", listener);
+    Events::GetInstance()->AddListener("object_destroyed", listener);
 }
 
 void Statistics::Shutdown()
@@ -75,6 +76,8 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
             stat.death = !player->IsAlive();
             stat.inflictorName = data->GetString("inflictor_name", "unknown");
             stat.inflictorClass = data->GetString("inflictor_data");
+            stat.weaponName = data->GetString("weapon_name");
+            stat.weaponClass = data->GetString("weapon_data");
             stat.normalizedPosition = Vector2D(data->GetFloat("x"), data->GetFloat("y"));
 
             Camera::GetInstance()->ToScreen(stat.normalizedPosition);
@@ -83,6 +86,22 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
 
             currentSet.playerGames.last().playerDamages.append(stat);
         }
+    }
+    else if (_streq("object_destroyed", name))
+    {
+        StatObjectDestroyed stat;
+        stat.time = game->GetGameTime();
+        stat.objectName = data->GetString("object_name");
+        stat.objectClass = data->GetString("object_class");
+        stat.score = data->GetInt("score");
+
+        stat.normalizedPosition = Vector2D(data->GetFloat("x"), data->GetFloat("y"));
+
+        Camera::GetInstance()->ToScreen(stat.normalizedPosition);
+        stat.normalizedPosition.x /= pGlobals->screen_width;
+        stat.normalizedPosition.y /= pGlobals->screen_height;
+
+        currentSet.playerGames.last().destroyedObjects.append(stat);
     }
     else if (_streq("map_started", name))
     {
@@ -175,11 +194,33 @@ void Statistics::SaveSet(const StatSet &set)
             damages.appendChild(damageEntry);
 
             XMLWriteString(doc, damageEntry, "inflictorname", damage.inflictorName);
-            XMLWriteString(doc, damageEntry, "inflictorclass", damage.inflictorClass);
+            if (damage.inflictorClass.length() > 0)
+                XMLWriteString(doc, damageEntry, "inflictorclass", damage.inflictorClass);
+            if (damage.weaponName.length() > 0)
+                XMLWriteString(doc, damageEntry, "weaponname", damage.weaponName);
+            if (damage.weaponClass.length() > 0)
+                XMLWriteString(doc, damageEntry, "weaponclass", damage.weaponClass);
             XMLWriteFloat(doc, damageEntry, "time", damage.time);
             XMLWriteFloat(doc, damageEntry, "screenx", damage.normalizedPosition.x);
             XMLWriteFloat(doc, damageEntry, "screeny", damage.normalizedPosition.y);
             XMLWriteInt(doc, damageEntry, "death", damage.death ? 1 : 0);
+        }
+
+        QDomElement objects = doc.createElement("destroyedobjects");
+        gameEntry.appendChild(objects);
+
+        for (auto &object : game.destroyedObjects)
+        {
+            QDomElement objectEntry = doc.createElement("object");
+            objects.appendChild(objectEntry);
+
+            XMLWriteString(doc, objectEntry, "objectname", object.objectName);
+            if (object.objectClass.length() > 0)
+                XMLWriteString(doc, objectEntry, "objectclass", object.objectClass);
+            XMLWriteInt(doc, objectEntry, "score", object.score);
+            XMLWriteFloat(doc, objectEntry, "time", object.time);
+            XMLWriteFloat(doc, objectEntry, "screenx", object.normalizedPosition.x);
+            XMLWriteFloat(doc, objectEntry, "screeny", object.normalizedPosition.y);
         }
     }
 
@@ -214,9 +255,7 @@ bool Statistics::LoadSet(const QString &filename, StatSet &set)
         return false;
     }
 
-    for (QDomElement gameNode = games.firstChildElement();
-         !gameNode.isNull();
-         gameNode = gameNode.nextSiblingElement())
+    FOREACH_QDOM_CHILD(games, game, gameNode)
     {
         StatGame game;
 
@@ -235,14 +274,14 @@ bool Statistics::LoadSet(const QString &filename, StatSet &set)
             return false;
         }
 
-        for (QDomElement damageNode = damages.firstChildElement();
-             !damageNode.isNull();
-             damageNode = damageNode.nextSiblingElement())
+        FOREACH_QDOM_CHILD(damages, damage, damageNode)
         {
             StatPlayerDamage damage;
 
             damage.inflictorName = XMLReadString(damageNode, "inflictorname");
             damage.inflictorClass = XMLReadString(damageNode, "inflictorclass");
+            damage.weaponName = XMLReadString(damageNode, "weaponname");
+            damage.weaponClass = XMLReadString(damageNode, "weaponclass");
             damage.time = XMLReadFloat(damageNode, "time");
             damage.normalizedPosition.x = XMLReadFloat(damageNode, "screenx");
             damage.normalizedPosition.y = XMLReadFloat(damageNode, "screeny");
@@ -250,9 +289,34 @@ bool Statistics::LoadSet(const QString &filename, StatSet &set)
 
             game.playerDamages.append(damage);
         }
+        FOREACH_QDOM_CHILD_END;
+
+        QDomElement objects = gameNode.firstChildElement("destroyedobjects");
+
+        if (objects.isNull())
+        {
+            DBGWARNING("Stats file without destroyed objects: " << filename);
+            return false;
+        }
+
+        FOREACH_QDOM_CHILD(objects, object, objectNode)
+        {
+            StatObjectDestroyed object;
+
+            object.objectName = XMLReadString(objectNode, "objectname");
+            object.objectClass = XMLReadString(objectNode, "objectclass");
+            object.score = XMLReadInt(objectNode, "score");
+            object.time = XMLReadFloat(objectNode, "time");
+            object.normalizedPosition.x = XMLReadFloat(objectNode, "screenx");
+            object.normalizedPosition.y = XMLReadFloat(objectNode, "screeny");
+
+            game.destroyedObjects.append(object);
+        }
+        FOREACH_QDOM_CHILD_END;
 
         set.playerGames.append(game);
     }
+    FOREACH_QDOM_CHILD_END;
 
     return true;
 }

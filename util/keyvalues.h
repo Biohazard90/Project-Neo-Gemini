@@ -251,6 +251,12 @@ public:
 		FindOrCreateChild(name)->value.SetString(value);
 	}
 
+    inline void SetString(const char *name, const QString &value)
+    {
+        std::string str = value.toStdString();
+        SetString(name, str.c_str());
+    }
+
 	inline int GetInt(const char *name = nullptr, int defaultValue = 0)
 	{
 		KeyValues *keyValues = FindChild(name);

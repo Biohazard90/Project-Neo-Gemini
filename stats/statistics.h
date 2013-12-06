@@ -9,10 +9,22 @@ struct StatPlayerDamage
 {
     QString inflictorName;
     QString inflictorClass;
+    QString weaponName;
+    QString weaponClass;
 
     float time;
     Vector2D normalizedPosition;
     bool death;
+};
+
+struct StatObjectDestroyed
+{
+    QString objectName;
+    QString objectClass;
+
+    int score;
+    float time;
+    Vector2D normalizedPosition;
 };
 
 struct StatGame
@@ -27,6 +39,7 @@ struct StatGame
     bool aborted;
 
     QList<StatPlayerDamage> playerDamages;
+    QList<StatObjectDestroyed> destroyedObjects;
 
     QString GetFileSuffix()
     {

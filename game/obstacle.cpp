@@ -33,7 +33,12 @@ void Obstacle::OnCollision(ICollidable *other)
 
     if (entity->IsPlayer())
     {
-        entity->TakeDamage(1, this);
+        Damage_t damage;
+        damage.damage = 1;
+        damage.inflictor = this;
+        damage.statsInflictorName = GetEntityClassName();
+        damage.statsInflictorClass = GetEntityResourceClass();
+        entity->TakeDamage(damage);
 
         Vector2D delta = GetCollisionOrigin() - entity->GetCollisionOrigin();
         TakeDamage(GetHealth(), nullptr, delta);

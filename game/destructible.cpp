@@ -42,6 +42,14 @@ void Destructible::OnKilled(const Damage_t *damage)
             if (projectile->IsPlayerOwned())
             {
                 Score::GetInstance()->AddPoints(data.score);
+
+                KeyValues *event = new KeyValues("object_destroyed");
+                event->SetString("object_name", GetEntityClassName());
+                event->SetString("object_class", GetEntityResourceClass());
+                event->SetInt("score", data.score);
+                event->SetFloat("x", GetOrigin().x);
+                event->SetFloat("y", GetOrigin().y);
+                Events::GetInstance()->FireEvent(event);
             }
         }
     }

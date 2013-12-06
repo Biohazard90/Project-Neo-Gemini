@@ -33,7 +33,14 @@ void BossShip::OnCollision(ICollidable *other)
         Vector2D delta = other->GetCollisionOrigin() - GetCollisionOrigin();
         delta.Normalize();
 
-        entity->TakeDamage(1, this, delta);
+        Damage_t damage;
+        damage.damage = 1;
+        damage.inflictor = this;
+        damage.direction = delta;
+        damage.statsInflictorName = GetEntityClassName();
+        damage.statsInflictorClass = GetEntityResourceClass();
+
+        entity->TakeDamage(damage);
     }
 }
 

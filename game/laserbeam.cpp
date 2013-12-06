@@ -50,14 +50,27 @@ void LaserBeam::OnCollision(ICollidable *other)
 {
     Entity *entity = (Entity*)other;
 
-    int damage = entity->GetHealth();
+    Damage_t damage;
+    damage.damage = entity->GetHealth();
 
     if (entity->IsPlayer())
     {
-        damage = 1;
+        damage.damage = 1;
     }
 
-    entity->TakeDamage(damage, GetOwner(), Vector2D(-1, 0));
+    damage.direction = Vector2D(-1, 0);
+    damage.inflictor = GetOwner();
+
+    if (GetOwner() != nullptr)
+    {
+        damage.statsInflictorName = GetOwner()->GetEntityClassName();
+        damage.statsInflictorClass = GetOwner()->GetEntityResourceClass();
+    }
+
+    damage.statsWeaponName = GetEntityClassName();
+    damage.statsWeaponClass = GetEntityResourceClass();
+
+    entity->TakeDamage(damage);
 
     Vector2D laserCenter = GetOrigin();
     laserCenter.x = entity->GetOrigin().x;

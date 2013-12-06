@@ -19,6 +19,11 @@ struct Damage_t
     Vector2D direction;
 
     Entity *inflictor;
+
+    QString statsInflictorName;
+    QString statsInflictorClass;
+    QString statsWeaponName;
+    QString statsWeaponClass;
 };
 
 #endif // DAMAGE_H

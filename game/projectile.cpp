@@ -25,10 +25,17 @@ void Projectile::OnCollision(ICollidable *other)
     if (!data.particle_hit.empty())
         GetGameContext()->GetParticleRoot()->CreateParticles(data.particle_hit.c_str(), GetOrigin(), GetForward());
 
-    Vector2D direction = GetForward();
-
     Entity *entity = (Entity*)other;
-    entity->TakeDamage(1, this, direction);
+
+    Damage_t damage;
+    damage.damage = 1;
+    damage.inflictor = this;
+    damage.direction = GetForward();
+    damage.statsInflictorName = inflictorName;
+    damage.statsInflictorClass = inflictorClass;
+    damage.statsWeaponName = GetEntityClassName();
+    damage.statsWeaponClass = GetEntityResourceClass();
+    entity->TakeDamage(damage);
 }
 
 void Projectile::OnRemove()
@@ -69,6 +76,14 @@ void Projectile::Launch(const Vector2D &direction, const float &volume)
 
     if (!data.sound.empty())
         AudioManager::GetInstance()->PlaySoundSample(data.sound.c_str(), volume);
+
+    Q_ASSERT(GetOwner() != nullptr);
+
+    if (GetOwner() != nullptr)
+    {
+        inflictorName = GetOwner()->GetEntityClassName();
+        inflictorClass = GetOwner()->GetEntityResourceClass();
+    }
 }
 
 void Projectile::OnSimulate(float frametime)

@@ -74,7 +74,7 @@ void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
                         height - imageMargin - legendMargin - imageMarginTop - 26);
 
     QColor brushColor(255, 0, 0, 0);
-    brushColor.setAlphaF(qMin(1.0f, 3.0f / values.length()));
+    brushColor.setAlphaF(qMin(1.0f, 2.0f / values.length()));
 
     for (auto &v : values)
     {
