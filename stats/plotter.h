@@ -15,6 +15,10 @@ public:
 private:
 
     void PaintTitle();
+    void PaintLegend(int x0, int y0, int x1, int y1,
+                     QVector<QString> &values);
+    void PaintLegend(int x0, int y0, int x1, int y1,
+                     QVector<float> values, int stepCount, bool startAtZero = true);
 
     QImage image;
     int width, height;

@@ -411,10 +411,12 @@ void RootView::onAbortGame()
     {
         KeyValues *event = new KeyValues("map_aborted");
         event->SetFloat("time", game->GetGameTime());
+
         if (game->GetPlayer() != nullptr)
         {
             event->SetInt("player_health", game->GetPlayer()->GetHealth());
         }
+
         Events::GetInstance()->FireEvent(event);
     }
 }

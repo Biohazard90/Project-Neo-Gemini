@@ -27,6 +27,11 @@ struct StatGame
     bool aborted;
 
     QList<StatPlayerDamage> playerDamages;
+
+    QString GetFileSuffix()
+    {
+        return mapname + "_" + maphash;
+    }
 };
 
 struct StatSet

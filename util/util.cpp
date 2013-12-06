@@ -34,6 +34,8 @@ QString OSUserName()
     GetUserName(lpszSystemInfo, &cchBuff);
 
     return QString::fromUtf16((const ushort*)lpszSystemInfo);
+#else
+#error implement me
 #endif
 }
 

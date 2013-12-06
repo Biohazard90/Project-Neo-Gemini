@@ -347,7 +347,7 @@ void Statistics::GenerateDeathTimelines()
 
             Plotter plotter(title, 1024, 196);
             plotter.PlotTimeLine(0.0f, maxTime + 10.0f, deathTimes);
-            plotter.SaveTo("deathtimes_" + list.first()->mapname + "_" + list.first()->mapname);
+            plotter.SaveTo("deathtimes_" + list.first()->GetFileSuffix());
         }
     }
 }
@@ -384,7 +384,7 @@ void Statistics::GenerateDamageTimelines()
 
             Plotter plotter(title, 1024, 196);
             plotter.PlotTimeLine(0.0f, maxTime + 10.0f, damageTimes);
-            plotter.SaveTo("damagetimes_" + list.first()->mapname + "_" + list.first()->mapname);
+            plotter.SaveTo("damagetimes_" + list.first()->GetFileSuffix());
         }
     }
 }
