@@ -9,6 +9,7 @@
 #include <QtXml>
 #include <QTextStream>
 #include <QFile>
+#include <QtNetwork>
 
 
 
@@ -16,6 +17,8 @@ Statistics Statistics::instance;
 
 Statistics::Statistics()
     : tempGameStartedTime(-1.0f)
+    , networkManager(nullptr)
+    , fileUploadEnabled(true)
 {
 }
 
@@ -44,6 +47,8 @@ void Statistics::Init()
 void Statistics::Shutdown()
 {
     Events::GetInstance()->RemoveListener(dynamic_cast<IEventListener *>(this));
+
+    delete networkManager;
 }
 
 void Statistics::OnEvent(const char *name, KeyValues *data)
@@ -234,13 +239,20 @@ void Statistics::SaveSet(const StatSet &set)
         }
     }
 
-    QFile file(OSLocalPath(relativePath));
+    QString filename = OSLocalPath(relativePath);
+
+    QFile file(filename);
     file.open(QIODevice::WriteOnly);
 
     QTextStream out(&file);
     doc.save(out, 4);
 
     file.close();
+
+    if (fileUploadEnabled)
+    {
+        UploadFile(filename);
+    }
 }
 
 bool Statistics::LoadSet(const QString &filename, StatSet &set)
@@ -366,6 +378,7 @@ void Statistics::GenerateGraphs()
     GenerateDeathTimelines();
     GenerateDamageTimelines();
     GenerateScoreDistribution();
+    GenerateParticipation();
 }
 
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
@@ -384,6 +397,29 @@ void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
             }
 
             registeredGames[hash].append(&game);
+        }
+    }
+}
+
+void Statistics::SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &registeredGames)
+{
+    registeredGames.clear();
+
+    for (auto &set : sets)
+    {
+        for (auto &game : set.playerGames)
+        {
+            QString hash(game.mapname + game.maphash);
+
+            if (!registeredGames.contains(hash))
+            {
+                registeredGames.insert(hash, QList<QPair<StatSet *, StatGame *>>());
+            }
+
+            QPair<StatSet *, StatGame*> pair;
+            pair.first = &set;
+            pair.second = &game;
+            registeredGames[hash].append(pair);
         }
     }
 }
@@ -509,4 +545,85 @@ void Statistics::GenerateScoreDistribution()
             plotter.SaveTo("scoredist_" + list.first()->GetFileSuffix());
         }
     }
+}
+
+void Statistics::GenerateParticipation()
+{
+    QHash<QString, QList<QPair<StatSet *, StatGame *>>> registeredGames;
+    SortGames(registeredGames);
+
+    for (auto &list : registeredGames)
+    {
+        QVector<float> gameCount;
+        QVector<QString> labels;
+
+        for (auto &pair : list)
+        {
+            int index = labels.indexOf(pair.first->username);
+
+            if (index < 0)
+            {
+                labels.append(pair.first->username);
+                gameCount.append(1.0f);
+            }
+            else
+            {
+                gameCount[index] += 1.0f;
+            }
+        }
+
+        if (gameCount.length() > 0)
+        {
+            QString title("Participation: ");
+            title += list.first().second->mapname;
+
+            Plotter plotter(title, 1024, 512);
+            plotter.PlotBarChart(gameCount, labels);
+            plotter.SaveTo("participation_" + list.first().second->GetFileSuffix());
+        }
+    }
+}
+
+void Statistics::UploadFile(const QString &filename)
+{
+    QFile file(filename);
+    file.open(QFile::ReadOnly);
+
+    if (!file.isOpen())
+    {
+        return;
+    }
+
+    QByteArray postData;
+
+    QString bound="margin";
+    QByteArray data(QString("--" + bound + "\r\n").toLocal8Bit());
+
+    data.append("Content-Disposition: form-data; name=\"action\"\r\n\r\n");
+    data.append("upload.php\r\n");
+    data.append(QString("--" + bound + "\r\n").toLocal8Bit());
+    data.append("Content-Disposition: form-data; name=\"uploaded\"; filename=\"");
+    data.append(filename);
+    data.append("\"\r\n");
+    data.append("Content-Type: text/xml\r\n\r\n");
+
+    data.append(file.readAll());
+    data.append("\r\n");
+    data.append("--" + bound + "--\r\n");
+    postData = data;
+
+    file.close();
+
+    QUrl resultsURL = QUrl("http://bio2k.homepage.t-online.de/hig_game_design/upload.php");
+
+    if (networkManager == nullptr)
+    {
+        networkManager = new QNetworkAccessManager(qApp);
+    }
+
+    QNetworkRequest request(resultsURL);
+    request.setRawHeader(QString("Content-Type").toLocal8Bit(),QString("multipart/form-data; boundary=" + bound).toLocal8Bit());
+    request.setRawHeader(QString("Content-Length").toLocal8Bit(), QString::number(postData.length()).toLocal8Bit());
+
+    networkManager->post(request,postData);
 }

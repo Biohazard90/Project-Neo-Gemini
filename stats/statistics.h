@@ -5,6 +5,9 @@
 
 #include <QDateTime>
 
+class QNetworkAccessManager;
+struct StatSet;
+
 struct StatPlayerDamage
 {
     QString inflictorName;
@@ -81,14 +84,21 @@ private:
     bool LoadSet(const QString &filename, StatSet &set);
 
     void SortGames(QHash<QString, QList<StatGame *>> &registeredGames);
+    void SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &registeredGames);
 
     void GenerateDeathTimelines();
     void GenerateDamageTimelines();
     void GenerateScoreDistribution();
+    void GenerateParticipation();
+
+    void UploadFile(const QString &filename);
 
     float tempGameStartedTime;
 
     QList<StatSet> sets;
+
+    bool fileUploadEnabled;
+    QNetworkAccessManager *networkManager;
 
     StatSet currentSet;
 };

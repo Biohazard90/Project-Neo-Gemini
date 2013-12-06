@@ -28,6 +28,8 @@ inline void PaintTextCenteredW(int x, int y, QPainter &painter, const QString &t
 
 inline void PaintTextCenteredH(int x, int y, QPainter &painter, const QString &text)
 {
+    x -= painter.fontMetrics().width(text);
+    y += painter.fontMetrics().height() / 4;
     painter.drawText(x, y, text);
 }
 
@@ -185,6 +187,42 @@ void Plotter::PlotPieChart(QVector<float> &distributions, QVector<QString> &labe
         painter.setPen(Qt::black);
         PaintTextCenteredWH(textCenter.x, textCenter.y, painter, tag);
     }
+}
+
+void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels)
+{
+    QRect rect(GetPaintRect(false));
+
+    int maxLabelWidth = 0;
+    const int legendMargin = 10;
+
+    painter.setFont(QFont(FONT_FAMILY, 15));
+
+    for (auto &l : labels)
+    {
+        maxLabelWidth = qMax(maxLabelWidth, painter.fontMetrics().width(l));
+    }
+
+    rect.adjust(maxLabelWidth, 0, 0, 0);
+
+    painter.setPen(Qt::darkGray);
+    painter.drawLine(imageMargin + maxLabelWidth + legendMargin,
+                     imageMarginTop,
+                     imageMargin + maxLabelWidth + legendMargin,
+                     height - imageMargin);
+    painter.drawLine(imageMargin + maxLabelWidth + legendMargin,
+                     height - imageMargin,
+                     width - imageMargin,
+                     height - imageMargin);
+
+    const int graphHeight = (height - imageMargin) - imageMarginTop;
+    int barInset = graphHeight / (labels.length() + 2);
+
+    PaintLegend(imageMargin + maxLabelWidth + legendMargin,
+                imageMarginTop + barInset,
+                imageMargin + maxLabelWidth + legendMargin,
+                height - imageMargin - barInset,
+                labels);
 }
 
 QRect Plotter::GetPaintRect(bool squared)
