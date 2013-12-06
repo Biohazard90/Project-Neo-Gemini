@@ -31,6 +31,20 @@ inline void PaintTextCenteredH(int x, int y, QPainter &painter, const QString &t
     painter.drawText(x, y, text);
 }
 
+inline void PaintTextCenteredWH(int x, int y, QPainter &painter, const QString &text)
+{
+    x -= painter.fontMetrics().width(text) / 2;
+    y += painter.fontMetrics().height() / 4;
+    painter.drawText(x, y, text);
+}
+
+inline QRect GetTextRect(QPainter &painter, const QString &text)
+{
+    QRect rect(0, 0, painter.fontMetrics().width(text), painter.fontMetrics().height());
+
+    return rect;
+}
+
 Plotter::Plotter(const QString &title, int width, int height)
     : image(width, height, QImage::Format_RGB32)
 {
@@ -74,7 +88,7 @@ void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
                         height - imageMargin - legendMargin - imageMarginTop - 26);
 
     QColor brushColor(255, 0, 0, 0);
-    brushColor.setAlphaF(qMin(1.0f, 2.0f / values.length()));
+    brushColor.setAlphaF(qMin(1.0f, 3.0f / values.length()));
 
     for (auto &v : values)
     {
@@ -93,6 +107,103 @@ void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
 
     PaintLegend(imageMargin, height - imageMargin - legendMargin,
                 width - imageMargin, height - imageMargin - legendMargin, values, 15);
+}
+
+void Plotter::PlotPieChart(QVector<float> &distributions, QVector<QString> &labels)
+{
+    if (distributions.length() != labels.length())
+    {
+        Q_ASSERT(0);
+        return;
+    }
+
+    const int inset = 15;
+
+    QRect rectSrc = GetPaintRect(true);
+    rectSrc.adjust(inset, inset, inset * -2, inset * -2);
+
+    Vector2D center(rectSrc.x() + rectSrc.width() * 0.5f,
+                    rectSrc.y() + rectSrc.height() * 0.5f);
+
+    float fullLength = 0.0f;
+
+    for (auto l : distributions)
+    {
+        fullLength += l;
+    }
+
+    float currentPos = 0.0f;
+
+    painter.setFont(QFont(FONT_FAMILY, 12));
+
+    QVector<Vector2D> textPositions;
+
+    for (int i = 0; i < distributions.length(); i++)
+    {
+        QColor col = QColor::fromHsv((i * 60) % 360,
+                                    255 - 50 * (i / 360),
+                                    255 - 30 * (i / 360));
+        painter.setBrush(col);
+
+        col.setRedF(col.redF() * 0.5f);
+        col.setGreenF(col.greenF() * 0.5f);
+        col.setBlueF(col.blueF() * 0.5f);
+        painter.setPen(col);
+
+        float degrees = distributions[i] / fullLength * 360.0f;
+        int currentLength = 16 * degrees;
+
+        float rad = DEG2RAD(currentPos + degrees * 0.5f);
+        Vector2D dir( cos(rad), -sin(rad) );
+
+        Vector2D textCenter = center + dir * width * 0.3f;
+
+        QRect rect = rectSrc;
+
+        dir *= 15;
+
+        rect.translate(dir.x, dir.y);
+
+        painter.drawPie(rect, currentPos * 16, currentLength);
+
+        textPositions.append(textCenter);
+
+        currentPos += degrees;
+    }
+
+    for (int i = 0; i < distributions.length(); i++)
+    {
+        const Vector2D &textCenter = textPositions[i];
+
+        QString tag = labels[i] + FormatString(" %.1f%%", (distributions[i] / fullLength * 100.0f));
+
+        QRect textRect = GetTextRect(painter, tag);
+        textRect.moveCenter(textCenter.AsQPoint());
+
+        painter.fillRect(textRect, QColor(255, 255, 255, 196));
+
+        painter.setPen(Qt::black);
+        PaintTextCenteredWH(textCenter.x, textCenter.y, painter, tag);
+    }
+}
+
+QRect Plotter::GetPaintRect(bool squared)
+{
+    int w = width - imageMargin * 2;
+    int h = height - imageMargin - imageMarginTop;
+
+    if (squared)
+    {
+        w = qMin(w, h);
+        h = qMin(w, h);
+    }
+
+    QRect rect;
+    rect.setX((width - w) / 2);
+    rect.setY(height - imageMargin - h);
+    rect.setWidth(w);
+    rect.setHeight(h);
+    return rect;
 }
 
 void Plotter::PaintTitle()

@@ -84,6 +84,7 @@ private:
 
     void GenerateDeathTimelines();
     void GenerateDamageTimelines();
+    void GenerateScoreDistribution();
 
     float tempGameStartedTime;
 

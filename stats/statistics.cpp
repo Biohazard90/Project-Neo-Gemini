@@ -65,6 +65,16 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
             return;
         }
 
+        const float time = game->GetGameTime();
+
+        for (auto &damages : currentSet.playerGames.last().playerDamages)
+        {
+            if (damages.time == time)
+            {
+                return;
+            }
+        }
+
         Player *player = game->GetPlayer();
 
         Q_ASSERT(player != nullptr);
@@ -72,7 +82,7 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
         if (player != nullptr)
         {
             StatPlayerDamage stat;
-            stat.time = game->GetGameTime();
+            stat.time = time;
             stat.death = !player->IsAlive();
             stat.inflictorName = data->GetString("inflictor_name", "unknown");
             stat.inflictorClass = data->GetString("inflictor_data");
@@ -355,6 +365,7 @@ void Statistics::GenerateGraphs()
 
     GenerateDeathTimelines();
     GenerateDamageTimelines();
+    GenerateScoreDistribution();
 }
 
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
@@ -449,6 +460,53 @@ void Statistics::GenerateDamageTimelines()
             Plotter plotter(title, 1024, 196);
             plotter.PlotTimeLine(0.0f, maxTime + 10.0f, damageTimes);
             plotter.SaveTo("damagetimes_" + list.first()->GetFileSuffix());
+        }
+    }
+}
+
+void Statistics::GenerateScoreDistribution()
+{
+    QHash<QString, QList<StatGame *>> registeredGames;
+    SortGames(registeredGames);
+
+    for (auto &list : registeredGames)
+    {
+        QVector<float> score;
+        QVector<QString> labels;
+
+        for (auto *game : list)
+        {
+            if (game->destroyedObjects.empty())
+            {
+                continue;
+            }
+
+            for (auto &objectEvent : game->destroyedObjects)
+            {
+                QString tag = objectEvent.objectName + " (" + objectEvent.objectClass + ")";
+
+                int index = labels.indexOf(tag);
+
+                if (index < 0)
+                {
+                    labels.append(tag);
+                    score.append(objectEvent.score);
+                }
+                else
+                {
+                    score[index] += objectEvent.score;
+                }
+            }
+        }
+
+        if (score.length() > 0)
+        {
+            QString title("Score distribution: ");
+            title += list.first()->mapname;
+
+            Plotter plotter(title, 786, 800);
+            plotter.PlotPieChart(score, labels);
+            plotter.SaveTo("scoredist_" + list.first()->GetFileSuffix());
         }
     }
 }

@@ -99,10 +99,17 @@ void Game::OnSimulate(float frametime)
 
 void Game::OnRender(const render_context_t &context)
 {
+    if (map == nullptr)
+    {
+        context.painter->fillRect(context.x, context.y, context.w, context.h, Qt::black);
+    }
+
     PaintGame(context);
 
     if (pGlobals->showfps)
+    {
         PaintDebug(context);
+    }
 }
 
 void Game::PaintGame(const render_context_t &context)

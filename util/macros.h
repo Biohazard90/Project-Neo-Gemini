@@ -113,8 +113,8 @@
 #define FOREACH_QVECTOR_FAST_END } }
 
 
-#define DEG2RAD(x) (C_PI/180.0f*((float)x))
-#define RAD2DEG(x) (180.0f/C_PI*((float)x))
+#define DEG2RAD(x) (C_PI/180.0f*(float(x)))
+#define RAD2DEG(x) (180.0f/C_PI*(float(x)))
 
 #define DEFAULT_FRAMESPEED_MS 15
 #define DEFAULT_FRAMESPEED_SECF (DEFAULT_FRAMESPEED_MS/1000.0f)
