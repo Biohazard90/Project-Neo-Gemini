@@ -35,6 +35,10 @@ public slots:
 private:
     Ranking();
 
+    void SortRanking();
+
+    void CreateNetworkAccessManagerOnDemand();
+
     static Ranking instance;
     QString path;
 
@@ -47,8 +51,6 @@ private:
     QList<score_t> scoreList;
 
     QNetworkAccessManager *networkManager;
-
-    void SortRanking();
 };
 
 #endif // RANKING_H

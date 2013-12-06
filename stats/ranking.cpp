@@ -10,6 +10,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QCryptographicHash>
 
 Ranking Ranking::instance;
 
@@ -70,17 +71,29 @@ QString Ranking::getPlayer(int i)
 
 void Ranking::PostHighscore(const QString &name, int score)
 {
-    if (networkManager == nullptr)
+    CreateNetworkAccessManagerOnDemand();
+
+    QString hashString(name + " " + QString("%1").arg(score));
+    QByteArray hash = QCryptographicHash::hash(hashString.toLocal8Bit(), QCryptographicHash::Md5).toHex();
+
+    int scoreHashValue = 72;
+
+    for (int i = 0; i < hash.length(); i++)
     {
-        networkManager = new QNetworkAccessManager(qApp);
-        QObject::connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onScoreReceived(QNetworkReply *)));
+        scoreHashValue += int(hash.at(i)) % 42;
     }
+
+    hashString = hash + QString("%1").arg(scoreHashValue);
+
+    hash = QCryptographicHash::hash(hashString.toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    hashString = hash;
 
     QString postURL("http://bio2k.homepage.t-online.de/hig_game_design/posthighscore.php");
 
     QUrlQuery params;
     params.addQueryItem("scorename", name);
     params.addQueryItem("scorevalue", QString("%1").arg(score));
+    params.addQueryItem("scorehash", hashString);
 
     QByteArray data = params.query().toUtf8();
 
@@ -92,11 +105,7 @@ void Ranking::PostHighscore(const QString &name, int score)
 
 void Ranking::RequestHighscores()
 {
-    if (networkManager == nullptr)
-    {
-        networkManager = new QNetworkAccessManager(qApp);
-        QObject::connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onScoreReceived(QNetworkReply *)));
-    }
+    CreateNetworkAccessManagerOnDemand();
 
     QString postURL("http://bio2k.homepage.t-online.de/hig_game_design/gethighscore.php");
 
@@ -107,6 +116,15 @@ void Ranking::RequestHighscores()
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     networkManager->post(request, data);
+}
+
+void Ranking::CreateNetworkAccessManagerOnDemand()
+{
+    if (networkManager == nullptr)
+    {
+        networkManager = new QNetworkAccessManager(qApp);
+        QObject::connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onScoreReceived(QNetworkReply *)));
+    }
 }
 
 void Ranking::onScoreReceived(QNetworkReply *reply)
