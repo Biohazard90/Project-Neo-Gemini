@@ -464,6 +464,16 @@
                         </event>
                 </event>
 
+                     <event type="instantaneous">
+                           <delay>66</delay>
+                           <event type="cutscene">
+                           <portraitLeft>avatar_developer</portraitLeft>
+                           <portraitRight>avatar_developer</portraitRight>
+                           <titel>Developer</titel>
+                           <message>Sorry, the dash attack is not implemented in this version.</message>
+                           <soundclip>message_received.wav</soundclip>
+                           </event>
+                   </event>
 
                                 <event type="instantaneous">
                         <delay>74</delay>
