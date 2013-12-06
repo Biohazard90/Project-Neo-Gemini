@@ -71,9 +71,14 @@ public:
     void Init();
     void Shutdown();
 
+    void SetUploadBlocking(bool isBlocking) { uploadIsBlocking = isBlocking; }
+
     virtual void OnEvent(const char *name, KeyValues *data);
 
     void GenerateGraphs();
+
+public slots:
+
 
 private:
 
@@ -98,6 +103,7 @@ private:
     QList<StatSet> sets;
 
     bool fileUploadEnabled;
+    bool uploadIsBlocking;
     QNetworkAccessManager *networkManager;
 
     StatSet currentSet;

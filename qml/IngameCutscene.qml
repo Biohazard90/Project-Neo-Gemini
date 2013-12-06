@@ -93,7 +93,7 @@ Item{
 
         opacity: 0.5
 
-        width: imageAvatarRight.width + 20
+        width: Math.abs(imageAvatarRight.width) + 20
         height: imageAvatarRight.height + 20
 
     }
@@ -103,9 +103,9 @@ Item{
 
         width: cutSceneItem.height * 0.8
         smooth: true
+        mirror: true
 
         anchors.centerIn: recAvatarRight;
-
 
         fillMode: Image.PreserveAspectFit
         source: stringPortraitRight

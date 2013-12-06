@@ -10,6 +10,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QtNetwork>
+#include <QTimer>
 
 
 
@@ -19,6 +20,7 @@ Statistics::Statistics()
     : tempGameStartedTime(-1.0f)
     , networkManager(nullptr)
     , fileUploadEnabled(true)
+    , uploadIsBlocking(false)
 {
 }
 
@@ -625,5 +627,17 @@ void Statistics::UploadFile(const QString &filename)
     request.setRawHeader(QString("Content-Type").toLocal8Bit(),QString("multipart/form-data; boundary=" + bound).toLocal8Bit());
     request.setRawHeader(QString("Content-Length").toLocal8Bit(), QString::number(postData.length()).toLocal8Bit());
 
-    networkManager->post(request,postData);
+    QNetworkReply *reply = networkManager->post(request, postData);
+
+    if (uploadIsBlocking)
+    {
+        QEventLoop loop;
+        QTimer timeoutTimer;
+
+        QObject::connect(&timeoutTimer, SIGNAL(timeout()), &loop, SLOT(quit()));
+        timeoutTimer.start(500);
+
+        QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+    }
 }
