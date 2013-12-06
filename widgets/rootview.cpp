@@ -236,6 +236,8 @@ void RootView::ShowMenu(MenuMode_e mode)
     mainQml->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     mainQml->setFocusPolicy(Qt::StrongFocus);
 
+    qApp->processEvents();
+
     switch (mode)
     {
     case MENU_Ingame:
@@ -294,6 +296,8 @@ void RootView::CreateGame(const char *mapname, bool newGame)
     //gameView->setGeometry(0, 0, 1920, 1080);
 
     mainQml->rootContext()->setContextProperty("gameController", game);
+
+    qApp->processEvents();
 
     game->LoadMap(mapname);
     setGameVisible(true);

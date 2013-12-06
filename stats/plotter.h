@@ -11,8 +11,11 @@ public:
     void SaveTo(const QString &path);
 
     void PlotTimeLine(float minTime, float maxTime, QVector<float> &values);
+    void PlotPieChart(QVector<float> &distributions, QVector<QString> &labels);
 
 private:
+
+    QRect GetPaintRect(bool squared);
 
     void PaintTitle();
     void PaintLegend(int x0, int y0, int x1, int y1,
