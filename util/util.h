@@ -18,6 +18,7 @@ class QDomElement;
 #define PATH_MAP_ROOT "content/maps/"
 #define PATH_RESOURCE_ROOT "content/resources/"
 #define PATH_SCORE_ROOT "content/score/"
+#define PATH_GRAPHS_ROOT "graphs"
 
 extern void CenterOnScreen(QWidget *pWidget);
 
@@ -33,13 +34,13 @@ FORCEINLINE QString OSLocalPath(const QString &path)
 extern QString OSUserName();
 
 extern QString GetFileHash(const QString &filename);
+extern bool CreateDirIfNotExists(const QString &path);
 
 template< class T >
 FORCEINLINE T sqr(const T &t)
 {
     return t * t;
 }
-
 
 template< class T >
 FORCEINLINE const T qsign(const T &value)
@@ -154,6 +155,10 @@ extern float XMLParseFloat(const QDomElement &node, float defaultValue = 0);
 extern void XMLWriteString(QDomDocument &doc, QDomElement &parent, const QString &nodeName, const QString &value);
 extern void XMLWriteInt(QDomDocument &doc, QDomElement &parent, const QString &nodeName, int value);
 extern void XMLWriteFloat(QDomDocument &doc, QDomElement &parent, const QString &nodeName, float value);
+
+extern QString XMLReadString(const QDomElement &parent, const QString &nodeName);
+extern int XMLReadInt(const QDomElement &parent, const QString &nodeName);
+extern float XMLReadFloat(const QDomElement &parent, const QString &nodeName);
 
 inline float qfrand()
 {

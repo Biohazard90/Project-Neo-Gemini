@@ -56,6 +56,16 @@ QString GetFileHash(const QString &filename)
     return QString(hash);
 }
 
+bool CreateDirIfNotExists(const QString &path)
+{
+    if (!QDir(path).exists())
+    {
+        return QDir().mkdir(path);
+    }
+
+    return true;
+}
+
 QPainter::CompositionMode StringToCompositionMode(const QString &string)
 {
     //OpenGL compatible modes
@@ -292,4 +302,30 @@ void XMLWriteFloat(QDomDocument &doc, QDomElement &parent, const QString &nodeNa
     QDomElement node = doc.createElement(nodeName);
     node.appendChild(doc.createTextNode(QString("%1").arg(value)));
     parent.appendChild(node);
+}
+
+QString XMLReadString(const QDomElement &parent, const QString &nodeName)
+{
+    QDomElement node = XMLFirstChildElementNoRecursion(parent, nodeName);
+
+    if (node.isNull() || node.text().isNull())
+    {
+        return "";
+    }
+    else
+    {
+        return node.text();
+    }
+}
+
+int XMLReadInt(const QDomElement &parent, const QString &nodeName)
+{
+    QDomElement node = XMLFirstChildElementNoRecursion(parent, nodeName);
+    return XMLParseInt(node);
+}
+
+float XMLReadFloat(const QDomElement &parent, const QString &nodeName)
+{
+    QDomElement node = XMLFirstChildElementNoRecursion(parent, nodeName);
+    return XMLParseFloat(node);
 }

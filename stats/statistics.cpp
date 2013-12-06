@@ -4,10 +4,13 @@
 #include "game.h"
 #include "player.h"
 #include "map.h"
+#include "plotter.h"
 
 #include <QtXml>
 #include <QTextStream>
 #include <QFile>
+
+
 
 Statistics Statistics::instance;
 
@@ -120,22 +123,6 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
     }
 }
 
-void Statistics::GenerateGraphs()
-{
-    QImage image(1024, 1024, QImage::Format_RGB32);
-    image.fill(Qt::white);
-
-    QPainter painter(&image);
-
-    painter.setFont(QFont("calibri", 30));
-    painter.setPen(Qt::blue);
-    painter.drawText(0, 30, "test Text");
-
-    painter.end();
-
-    image.save("testimage.png");
-}
-
 void Statistics::PushGame()
 {
     currentSet.playerGames.append(StatGame());
@@ -145,16 +132,11 @@ void Statistics::SaveSet(const StatSet &set)
 {
     QString relativePath = OSLocalPath("stats");
 
-    if (!QDir(relativePath).exists())
-    {
-        QDir().mkdir(relativePath);
-    }
+    CreateDirIfNotExists(relativePath);
 
     relativePath += "/" + set.username + " " + set.date.toString(Qt::ISODate) + ".xml";
     relativePath = relativePath.replace(':', '_');
     relativePath = relativePath.replace(' ', '_');
-
-    qDebug() << relativePath;
 
     QDomDocument doc;
     QDomElement root = doc.createElement("stats");
@@ -197,7 +179,7 @@ void Statistics::SaveSet(const StatSet &set)
             XMLWriteFloat(doc, damageEntry, "time", damage.time);
             XMLWriteFloat(doc, damageEntry, "screenx", damage.normalizedPosition.x);
             XMLWriteFloat(doc, damageEntry, "screeny", damage.normalizedPosition.y);
-            XMLWriteInt(doc, damageEntry, "death", damage.death);
+            XMLWriteInt(doc, damageEntry, "death", damage.death ? 1 : 0);
         }
     }
 
@@ -208,4 +190,170 @@ void Statistics::SaveSet(const StatSet &set)
     doc.save(out, 4);
 
     file.close();
+}
+
+bool Statistics::LoadSet(const QString &filename, StatSet &set)
+{
+    QDomElement root;
+
+    if (!OpenXMLFile(filename, root))
+    {
+        DBGWARNING("failed to open stats: " << filename);
+        return false;
+    }
+
+    set.username = XMLReadString(root, "username");
+    set.date = QDateTime::fromString(XMLReadString(root, "date"), Qt::ISODate);
+    set.sessionDuration = XMLReadFloat(root, "sessionduration");
+
+    QDomElement games = root.firstChildElement("games");
+
+    if (games.isNull())
+    {
+        DBGWARNING("Stats file without games: " << filename);
+        return false;
+    }
+
+    for (QDomElement gameNode = games.firstChildElement();
+         !gameNode.isNull();
+         gameNode = gameNode.nextSiblingElement())
+    {
+        StatGame game;
+
+        game.mapname = XMLReadString(gameNode, "mapname");
+        game.maphash = XMLReadString(gameNode, "maphash");
+        game.startHealth = XMLReadInt(gameNode, "starthealth");
+        game.endHealth = XMLReadInt(gameNode, "endhealth");
+        game.duration = XMLReadFloat(gameNode, "duration");
+        game.aborted = XMLReadInt(gameNode, "aborted") != 0;
+
+        QDomElement damages = gameNode.firstChildElement("damages");
+
+        if (damages.isNull())
+        {
+            DBGWARNING("Stats file without damages: " << filename);
+            return false;
+        }
+
+        for (QDomElement damageNode = damages.firstChildElement();
+             !damageNode.isNull();
+             damageNode = damageNode.nextSiblingElement())
+        {
+            StatPlayerDamage damage;
+
+            damage.inflictorName = XMLReadString(damageNode, "inflictorname");
+            damage.inflictorClass = XMLReadString(damageNode, "inflictorclass");
+            damage.time = XMLReadFloat(damageNode, "time");
+            damage.normalizedPosition.x = XMLReadFloat(damageNode, "screenx");
+            damage.normalizedPosition.y = XMLReadFloat(damageNode, "screeny");
+            damage.death = XMLReadInt(damageNode, "death") != 0;
+
+            game.playerDamages.append(damage);
+        }
+
+        set.playerGames.append(game);
+    }
+
+    return true;
+}
+
+void Statistics::LoadAllStats()
+{
+    sets.clear();
+
+    QDirIterator itr(OSLocalPath("stats/"));
+    while (itr.hasNext())
+    {
+        QString nextPath = itr.next();
+
+        if (nextPath.endsWith("."))
+        {
+            continue;
+        }
+
+        if (nextPath.endsWith(".xml"))
+        {
+            StatSet set;
+
+            if (LoadSet(nextPath, set))
+            {
+                sets.append(set);
+            }
+        }
+    }
+}
+
+void Statistics::GenerateGraphs()
+{
+    LoadAllStats();
+
+    CreateDirIfNotExists(OSLocalPath(PATH_GRAPHS_ROOT));
+
+    GenerateDeathTimelines();
+}
+
+void Statistics::GenerateDeathTimelines()
+{
+    QHash<QString, QList<StatGame *>> registeredGames;
+
+    for (auto &set : sets)
+    {
+        for (auto &game : set.playerGames)
+        {
+            QString hash(game.mapname + game.maphash);
+
+            if (!registeredGames.contains(hash))
+            {
+                registeredGames.insert(hash, QList<StatGame *>());
+            }
+
+            registeredGames[hash].append(&game);
+        }
+    }
+
+    for (auto &list : registeredGames)
+    {
+        QVector<float> deathTimes;
+        float maxTime = 0.0f;
+
+        for (auto *game : list)
+        {
+            if (game->playerDamages.empty())
+            {
+                continue;
+            }
+
+            if (!game->playerDamages.last().death)
+            {
+                continue;
+            }
+
+            deathTimes.append(game->playerDamages.last().time);
+
+            maxTime = qMax(maxTime, deathTimes.last());
+        }
+
+        if (!deathTimes.empty())
+        {
+            QString title("Death times: ");
+            title += list.first()->mapname;
+
+            Plotter plotter(title, 1024, 196);
+            plotter.PlotTimeLine(0.0f, maxTime + 10.0f, deathTimes);
+            plotter.SaveTo("deathtimes_" + list.first()->mapname + "_" + list.first()->mapname);
+        }
+    }
+
+
+    QImage image(1024, 1024, QImage::Format_RGB32);
+    image.fill(Qt::white);
+
+    QPainter painter(&image);
+
+    painter.setFont(QFont("calibri", 30));
+    painter.setPen(Qt::blue);
+    painter.drawText(0, 30, "test Text");
+
+    painter.end();
+
 }

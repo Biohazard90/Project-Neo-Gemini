@@ -59,6 +59,11 @@ private:
     void PushGame();
     void SaveSet(const StatSet &set);
 
+    void LoadAllStats();
+    bool LoadSet(const QString &filename, StatSet &set);
+
+    void GenerateDeathTimelines();
+
     float tempGameStartedTime;
 
     QList<StatSet> sets;

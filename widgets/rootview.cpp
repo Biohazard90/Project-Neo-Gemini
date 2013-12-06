@@ -8,6 +8,7 @@
 #include "game.h"
 #include "score.h"
 #include "ranking.h"
+#include "statistics.h"
 
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeContext>
@@ -132,6 +133,11 @@ void RootView::keyPressEvent(QKeyEvent *event)
         {
             if (game != nullptr)
                 game->GetParticleRoot()->CreateParticles("player_shield_damage", Vector2D(320, 0), Vector2D(1, 0));
+        }
+        break;
+    case Qt::Key_F12:
+        {
+            Statistics::GetInstance()->GenerateGraphs();
         }
         break;
     default:
