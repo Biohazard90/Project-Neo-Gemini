@@ -17,6 +17,8 @@ protected:
     virtual void OnDamage(const Damage_t &damage);
     virtual void OnKilled(const Damage_t *damage);
 
+    void SendDestroyedEvent();
+
 private:
     void EmitDamageParticles(const char *particleName, const Damage_t *damage, Vector2D position);
 

@@ -43,13 +43,7 @@ void Destructible::OnKilled(const Damage_t *damage)
             {
                 Score::GetInstance()->AddPoints(data.score);
 
-                KeyValues *event = new KeyValues("object_destroyed");
-                event->SetString("object_name", GetEntityClassName());
-                event->SetString("object_class", GetEntityResourceClass());
-                event->SetInt("score", data.score);
-                event->SetFloat("x", GetOrigin().x);
-                event->SetFloat("y", GetOrigin().y);
-                Events::GetInstance()->FireEvent(event);
+                SendDestroyedEvent();
             }
         }
     }
@@ -62,6 +56,17 @@ void Destructible::OnKilled(const Damage_t *damage)
         Q_ASSERT(index >= 0 && index < data.sound_destroy_count);
         AudioManager::GetInstance()->PlaySoundSample(data.sound_destroy[index].c_str(), qfrand() * 0.3f + 0.2f);
     }
+}
+
+void Destructible::SendDestroyedEvent()
+{
+    KeyValues *event = new KeyValues("object_destroyed");
+    event->SetString("object_name", GetEntityClassName());
+    event->SetString("object_class", GetEntityResourceClass());
+    event->SetInt("score", data.score);
+    event->SetFloat("x", GetOrigin().x);
+    event->SetFloat("y", GetOrigin().y);
+    Events::GetInstance()->FireEvent(event);
 }
 
 void Destructible::EmitDamageParticles(const char *particleName, const Damage_t *damage, Vector2D position)

@@ -58,6 +58,9 @@ void BossShip::OnSimulate(float frametime)
             damage.direction = Vector2D(1, 0);
 
             BaseClass::OnKilled(&damage);
+
+            SendDestroyedEvent();
+
             Score::GetInstance()->AddPoints(GetFighterData().score);
             Remove();
         }

@@ -34,7 +34,6 @@ protected:
 
     const Resource_Fighter_t &GetFighterData() { return data; }
 
-private:
     Resource_Fighter_t data;
 
 };
