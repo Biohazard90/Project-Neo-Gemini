@@ -37,8 +37,9 @@ public:
     {
         if(!soundClip.empty()){
 
-            soundClip = "misc/" + soundClip;
-            AudioManager::GetInstance()->PlaySoundSample(soundClip.c_str(), 1.0f);
+            std::string soundClipTemp;
+            soundClipTemp = "misc/" + soundClip;
+            AudioManager::GetInstance()->PlaySoundSample(soundClipTemp.c_str(), 1.0f);
         }
 
         GetGameContext()->ShowCutscene(portraitLeft, portraitRight, titel, message);
