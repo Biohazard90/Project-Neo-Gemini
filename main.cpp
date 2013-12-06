@@ -83,20 +83,21 @@ int main(int argc, char *argv[])
                 + QTime::currentTime().msec());
 
     qmlRegisterType<GameView>("CustomComponents", 1, 0, "GameView");
+    QApplication a(argc, argv);
 
     Precache::GetInstance()->PrecacheAll();
     AudioManager::GetInstance()->Init();
     Input::GetInstance()->Init();
 
     Config::LoadConfig(pGlobals);
-    Ranking::GetInstance()->LoadRanking();
 
     Resource::GetInstance()->Init();
     EntityFactory::GetInstance()->Init();
     AIFactory::GetInstance()->Init();
     Statistics::GetInstance()->Init();
 
-    QApplication a(argc, argv);
+    Ranking::GetInstance()->RequestHighscores();
+
     //QByteArray data = "1";
     //qputenv("QML_IMPORT_TRACE", data);
 

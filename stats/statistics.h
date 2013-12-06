@@ -59,8 +59,10 @@ struct StatSet
     QList<StatGame> playerGames;
 };
 
-class Statistics : public IEventListener
+class Statistics : public QObject, public IEventListener
 {
+    Q_OBJECT
+
     Statistics();
     static Statistics instance;
 

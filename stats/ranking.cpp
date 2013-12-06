@@ -7,13 +7,18 @@
 #include <QFile>
 #include <QXmlStreamWriter>
 #include <QDebug>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 Ranking Ranking::instance;
 
 Ranking::Ranking()
+    : networkManager(nullptr)
 {
     path = QString(PATH_SCORE_ROOT);
     path += "score.xml";
+
 }
 
 Ranking *Ranking::GetInstance()
@@ -26,28 +31,9 @@ void Ranking::Update()
     emit updateHighscore();
 }
 
-void Ranking::AddScore()
-{
-    Score *tmpScore = Score::GetInstance();
-    score_t newScore;
-    newScore.name = tmpScore->getName();
-    newScore.score = tmpScore->getScore();
-
-    if (newScore.name.isEmpty())
-        newScore.name = "Unnamed";
-
-    scoreList.push_back(newScore);
-    SortRanking();
-    while (scoreList.size() > 5)
-        scoreList.removeLast();
-
-    Update();
-}
-
 void Ranking::onSubmit()
 {
-    AddScore();
-    WriteRanking();
+    PostHighscore(Score::GetInstance()->getName(), Score::GetInstance()->getScore());
 }
 
 void Ranking::SortRanking()
@@ -66,48 +52,6 @@ void Ranking::SortRanking()
     }
 }
 
-void Ranking::LoadRanking()
-{
-    QDomElement root;
-    if (!OpenXMLFile(path, root)){
-        return;
-    }
-    QDomNodeList result = root.childNodes();
-
-    FOREACH_QDOM_NODE(result, e)
-    {
-        score_t newScore;
-        newScore.name = e.firstChildElement("name").text();
-        newScore.score = e.firstChildElement("points").text().toInt();
-        scoreList.push_back(newScore);
-    }
-    FOREACH_QDOM_NODE_END;
-
-    SortRanking();
-}
-
-void Ranking::WriteRanking()
-{
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        return;
-    }
-    QXmlStreamWriter* xmlWriter = new QXmlStreamWriter();
-    xmlWriter->setDevice(&file);
-    xmlWriter->writeStartElement("scores");
-
-    for(int i = 0; i < scoreList.size(); i++)
-    {
-        xmlWriter->writeStartElement("score");
-        xmlWriter->writeTextElement("name", scoreList[i].name);
-        xmlWriter->writeTextElement("points", QString::number(scoreList[i].score));
-        xmlWriter->writeEndElement();
-    }
-    xmlWriter->writeEndElement();
-    delete xmlWriter;
-}
-
 int Ranking::getScore(int i)
 {
     int result = -1;
@@ -122,6 +66,75 @@ QString Ranking::getPlayer(int i)
     if(scoreList.size() > i)
         result = scoreList[i].name;
     return result;
+}
+
+void Ranking::PostHighscore(const QString &name, int score)
+{
+    if (networkManager == nullptr)
+    {
+        networkManager = new QNetworkAccessManager(qApp);
+        QObject::connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onScoreReceived(QNetworkReply *)));
+    }
+
+    QString postURL("http://bio2k.homepage.t-online.de/hig_game_design/posthighscore.php");
+
+    QUrlQuery params;
+    params.addQueryItem("scorename", name);
+    params.addQueryItem("scorevalue", QString("%1").arg(score));
+
+    QByteArray data = params.query().toUtf8();
+
+    QUrl url(postURL);
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    networkManager->post(request, data);
+}
+
+void Ranking::RequestHighscores()
+{
+    if (networkManager == nullptr)
+    {
+        networkManager = new QNetworkAccessManager(qApp);
+        QObject::connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onScoreReceived(QNetworkReply *)));
+    }
+
+    QString postURL("http://bio2k.homepage.t-online.de/hig_game_design/gethighscore.php");
+
+    QUrlQuery params;
+    QByteArray data = params.query().toUtf8();
+
+    QUrl url(postURL);
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    networkManager->post(request, data);
+}
+
+void Ranking::onScoreReceived(QNetworkReply *reply)
+{
+    QString str = reply->readAll();
+
+    QStringList list = str.split("\n");
+
+    scoreList.clear();
+
+    for (int i = 0; i < list.length(); i++)
+    {
+        if (list[i].length() < 1)
+        {
+            list.removeAt(i);
+            i--;
+        }
+    }
+
+    for (int i = 0; i < list.length(); i += 2)
+    {
+        score_t score;
+        score.name = list[i];
+        score.score = list[i + 1].toInt();
+        scoreList.append(score);
+    }
+
+    Update();
 }
 
 

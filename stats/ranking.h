@@ -5,17 +5,21 @@
 #include <QList>
 #include <QString>
 
+class QNetworkAccessManager;
+class QNetworkReply;
+
 class Ranking : public QObject
 {
     Q_OBJECT
 
 public:
-    static Ranking *GetInstance();    
-    void LoadRanking();
+    static Ranking *GetInstance();
 
     void Update();
     void Reset();
-    void AddScore();
+
+    void RequestHighscores();
+    void PostHighscore(const QString &name, int score);
 
 signals:
     void updateHighscore();
@@ -26,9 +30,11 @@ public slots:
     int getScore(int i);
     QString getPlayer(int i);
 
+    void onScoreReceived(QNetworkReply *reply);
+
 private:
     Ranking();
-    void WriteRanking();
+
     static Ranking instance;
     QString path;
 
@@ -39,6 +45,8 @@ private:
     };
 
     QList<score_t> scoreList;
+
+    QNetworkAccessManager *networkManager;
 
     void SortRanking();
 };

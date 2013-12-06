@@ -49,8 +49,6 @@ void Statistics::Init()
 void Statistics::Shutdown()
 {
     Events::GetInstance()->RemoveListener(dynamic_cast<IEventListener *>(this));
-
-    delete networkManager;
 }
 
 void Statistics::OnEvent(const char *name, KeyValues *data)
