@@ -12,6 +12,8 @@ class EnemyShip : public Ship
 public:
     EnemyShip();
 
+    virtual const char *GetEntityResourceClass() { return data.name.c_str(); }
+
     virtual void Spawn();
     virtual void OnRemove();
 

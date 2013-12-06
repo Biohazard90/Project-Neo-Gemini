@@ -71,6 +71,7 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
             stat.time = game->GetGameTime();
             stat.death = !player->IsAlive();
             stat.inflictorName = data->GetString("inflictor_name", "unknown");
+            stat.inflictorClass = data->GetString("inflictor_data");
             stat.normalizedPosition = Vector2D(data->GetFloat("x"), data->GetFloat("y"));
 
             Camera::GetInstance()->ToScreen(stat.normalizedPosition);
@@ -82,8 +83,13 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
     }
     else if (_streq("map_started", name))
     {
+        QString filename("content/maps/");
+        filename += data->GetString("mapname");
+        filename += ".xml";
+
         currentSet.playerGames.last().startHealth = data->GetInt("player_health");
         currentSet.playerGames.last().mapname = data->GetString("mapname");
+        currentSet.playerGames.last().maphash = GetFileHash(filename);
 
         tempGameStartedTime = data->GetFloat("time");
     }
@@ -116,7 +122,7 @@ void Statistics::OnEvent(const char *name, KeyValues *data)
 
 void Statistics::GenerateGraphs()
 {
-    QImage image(1024, 1024, QImage::Format_RGB888);
+    QImage image(1024, 1024, QImage::Format_RGB32);
     image.fill(Qt::white);
 
     QPainter painter(&image);
@@ -138,6 +144,7 @@ void Statistics::PushGame()
 void Statistics::SaveSet(const StatSet &set)
 {
     QString relativePath = OSLocalPath("stats");
+
     if (!QDir(relativePath).exists())
     {
         QDir().mkdir(relativePath);
@@ -152,6 +159,47 @@ void Statistics::SaveSet(const StatSet &set)
     QDomDocument doc;
     QDomElement root = doc.createElement("stats");
     doc.appendChild(root);
+
+    XMLWriteString(doc, root, "username", set.username);
+    XMLWriteFloat(doc, root, "sessionduration", pGlobals->curtime);
+    XMLWriteString(doc, root, "date", set.date.toString(Qt::ISODate));
+
+    QDomElement games = doc.createElement("games");
+    root.appendChild(games);
+
+    for (auto &game : set.playerGames)
+    {
+        if (game.mapname.length() < 1)
+        {
+            continue;
+        }
+
+        QDomElement gameEntry = doc.createElement("game");
+        games.appendChild(gameEntry);
+
+        XMLWriteString(doc, gameEntry, "mapname", game.mapname);
+        XMLWriteString(doc, gameEntry, "maphash", game.maphash);
+        XMLWriteInt(doc, gameEntry, "starthealth", game.startHealth);
+        XMLWriteInt(doc, gameEntry, "endhealth", game.endHealth);
+        XMLWriteFloat(doc, gameEntry, "duration", game.duration);
+        XMLWriteInt(doc, gameEntry, "aborted", game.aborted ? 1 : 0);
+
+        QDomElement damages = doc.createElement("damages");
+        gameEntry.appendChild(damages);
+
+        for (auto &damage : game.playerDamages)
+        {
+            QDomElement damageEntry = doc.createElement("damage");
+            damages.appendChild(damageEntry);
+
+            XMLWriteString(doc, damageEntry, "inflictorname", damage.inflictorName);
+            XMLWriteString(doc, damageEntry, "inflictorclass", damage.inflictorClass);
+            XMLWriteFloat(doc, damageEntry, "time", damage.time);
+            XMLWriteFloat(doc, damageEntry, "screenx", damage.normalizedPosition.x);
+            XMLWriteFloat(doc, damageEntry, "screeny", damage.normalizedPosition.y);
+            XMLWriteInt(doc, damageEntry, "death", damage.death);
+        }
+    }
 
     QFile file(OSLocalPath(relativePath));
     file.open(QIODevice::WriteOnly);

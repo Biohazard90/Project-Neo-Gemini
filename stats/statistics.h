@@ -8,6 +8,7 @@
 struct StatPlayerDamage
 {
     QString inflictorName;
+    QString inflictorClass;
 
     float time;
     Vector2D normalizedPosition;
@@ -17,6 +18,7 @@ struct StatPlayerDamage
 struct StatGame
 {
     QString mapname;
+    QString maphash;
     float duration;
 
     int startHealth;

@@ -75,6 +75,7 @@ void Resource::LoadProjectiles()
 
         Resource_Projectile_t p;
 
+        p.name = name.toStdString();
         p.fire_rate = node.firstChildElement("firerate").text().toFloat();
         p.speed = node.firstChildElement("speed").text().toFloat();
         p.size = node.firstChildElement("size").text().toFloat();
@@ -189,6 +190,7 @@ void Resource::LoadFighters()
 
 void Resource::ParseDestructible(const QDomElement &node, Resource_Destructible_t &d)
 {
+    d.name = node.firstChildElement("name").text().toStdString();
     d.health = node.firstChildElement("health").text().toInt();
     d.score = node.firstChildElement("score").text().toInt();
 

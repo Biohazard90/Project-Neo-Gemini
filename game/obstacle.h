@@ -11,6 +11,8 @@ class Obstacle : public Destructible
 public:
     Obstacle();
 
+    virtual const char *GetEntityResourceClass() { return data.name.c_str(); }
+
     virtual bool IsObstacle() const { return true; }
 
     virtual void OnSimulate(float frametime);

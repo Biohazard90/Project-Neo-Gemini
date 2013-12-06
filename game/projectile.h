@@ -15,6 +15,8 @@ class Projectile : public Entity
 public:
     Projectile();
 
+    virtual const char *GetEntityResourceClass() { return data.name.c_str(); }
+
     void Init(const Resource_Projectile_t &data, bool playerOwner = false);
 
     void Launch(const Vector2D &direction, const float &volume);

@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QtXml>
 #include <QPainter>
+#include <QCryptographicHash>
 
 #include "vector2d.h"
 #include "particle.h"
@@ -34,6 +35,25 @@ QString OSUserName()
 
     return QString::fromUtf16((const ushort*)lpszSystemInfo);
 #endif
+}
+
+QString GetFileHash(const QString &filename)
+{
+    QFile file(filename);
+    file.open(QFile::ReadOnly);
+
+    if (!file.isOpen())
+    {
+        Q_ASSERT(0);
+        return "error";
+    }
+
+    QByteArray data = file.readAll();
+    QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
+
+    file.close();
+
+    return QString(hash);
 }
 
 QPainter::CompositionMode StringToCompositionMode(const QString &string)
@@ -251,4 +271,25 @@ float XMLParseFloat(const QDomElement &node, float defaultValue)
         return defaultValue;
 
     return node.text().toFloat();
+}
+
+void XMLWriteString(QDomDocument &doc, QDomElement &parent, const QString &nodeName, const QString &value)
+{
+    QDomElement node = doc.createElement(nodeName);
+    node.appendChild(doc.createTextNode(value));
+    parent.appendChild(node);
+}
+
+void XMLWriteInt(QDomDocument &doc, QDomElement &parent, const QString &nodeName, int value)
+{
+    QDomElement node = doc.createElement(nodeName);
+    node.appendChild(doc.createTextNode(QString::number(value)));
+    parent.appendChild(node);
+}
+
+void XMLWriteFloat(QDomDocument &doc, QDomElement &parent, const QString &nodeName, float value)
+{
+    QDomElement node = doc.createElement(nodeName);
+    node.appendChild(doc.createTextNode(QString("%1").arg(value)));
+    parent.appendChild(node);
 }

@@ -32,6 +32,8 @@ FORCEINLINE QString OSLocalPath(const QString &path)
 
 extern QString OSUserName();
 
+extern QString GetFileHash(const QString &filename);
+
 template< class T >
 FORCEINLINE T sqr(const T &t)
 {
@@ -148,6 +150,10 @@ extern QPointF XMLParsePointF(const QDomElement &node);
 extern bool XMLParseBoolean(const QDomElement &node, bool defaultValue = false);
 extern int XMLParseInt(const QDomElement &node, int defaultValue = 0);
 extern float XMLParseFloat(const QDomElement &node, float defaultValue = 0);
+
+extern void XMLWriteString(QDomDocument &doc, QDomElement &parent, const QString &nodeName, const QString &value);
+extern void XMLWriteInt(QDomDocument &doc, QDomElement &parent, const QString &nodeName, int value);
+extern void XMLWriteFloat(QDomDocument &doc, QDomElement &parent, const QString &nodeName, float value);
 
 inline float qfrand()
 {

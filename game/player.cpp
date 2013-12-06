@@ -275,6 +275,7 @@ void Player::SendHealthChangedEvent(int health, bool isDecreasing, const Damage_
             && damage->inflictor != nullptr)
     {
         event->SetString("inflictor_name", damage->inflictor->GetEntityClassName());
+        event->SetString("inflictor_data", damage->inflictor->GetEntityResourceClass());
     }
 
     Events::GetInstance()->FireEvent(event);
@@ -345,6 +346,7 @@ void Player::OnKilled(const Damage_t *damage)
     if (damage->inflictor != nullptr)
     {
         event->SetString("inflictor_name", damage->inflictor->GetEntityClassName());
+        event->SetString("inflictor_data", damage->inflictor->GetEntityResourceClass());
     }
 
     Events::GetInstance()->FireEvent(event);

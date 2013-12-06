@@ -21,6 +21,8 @@ struct Resource_Projectile_t
         size = 5;
     }
 
+    std::string name;
+
     std::string particle_trail;
     std::string particle_spawn;
     std::string particle_hit;
@@ -41,6 +43,8 @@ struct Resource_Destructible_t
         sound_hit_count = 0;
         sound_destroy_count = 0;
     }
+
+    std::string name;
 
     int health;
     int score;

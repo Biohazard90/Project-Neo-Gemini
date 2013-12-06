@@ -28,6 +28,7 @@ public:
     virtual ~Entity();
 
     virtual const char *GetEntityClassName();
+    virtual const char *GetEntityResourceClass() { return ""; }
 
     virtual void Spawn();
     virtual void OnRemove();
