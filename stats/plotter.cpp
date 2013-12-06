@@ -47,6 +47,22 @@ inline QRect GetTextRect(QPainter &painter, const QString &text)
     return rect;
 }
 
+inline QColor GetUniformColor(int index)
+{
+    return QColor::fromHsv((index * 60) % 360,
+                            255 - 50 * (index / 360),
+                            255 - 30 * (index / 360));
+}
+
+inline QColor DarkenColor(QColor col, float amount)
+{
+    col.setRedF(col.redF() * amount);
+    col.setGreenF(col.greenF() * amount);
+    col.setBlueF(col.blueF() * amount);
+
+    return col;
+}
+
 Plotter::Plotter(const QString &title, int width, int height)
     : image(width, height, QImage::Format_RGB32)
 {
@@ -142,9 +158,7 @@ void Plotter::PlotPieChart(QVector<float> &distributions, QVector<QString> &labe
 
     for (int i = 0; i < distributions.length(); i++)
     {
-        QColor col = QColor::fromHsv((i * 60) % 360,
-                                    255 - 50 * (i / 360),
-                                    255 - 30 * (i / 360));
+        QColor col = GetUniformColor(i);
         painter.setBrush(col);
 
         col.setRedF(col.redF() * 0.5f);
@@ -189,8 +203,14 @@ void Plotter::PlotPieChart(QVector<float> &distributions, QVector<QString> &labe
     }
 }
 
-void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels)
+void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels, QVector<float> *normalizedDivider)
 {
+    if (values.length() != labels.length())
+    {
+        Q_ASSERT(0);
+        return;
+    }
+
     QRect rect(GetPaintRect(false));
 
     int maxLabelWidth = 0;
@@ -205,24 +225,67 @@ void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels)
 
     rect.adjust(maxLabelWidth, 0, 0, 0);
 
+    const int graphStartX = imageMargin + maxLabelWidth + legendMargin;
+
     painter.setPen(Qt::darkGray);
-    painter.drawLine(imageMargin + maxLabelWidth + legendMargin,
+    painter.drawLine(graphStartX,
                      imageMarginTop,
-                     imageMargin + maxLabelWidth + legendMargin,
+                     graphStartX,
                      height - imageMargin);
-    painter.drawLine(imageMargin + maxLabelWidth + legendMargin,
+    painter.drawLine(graphStartX,
                      height - imageMargin,
                      width - imageMargin,
                      height - imageMargin);
 
     const int graphHeight = (height - imageMargin) - imageMarginTop;
-    int barInset = graphHeight / (labels.length() + 2);
+    const int graphWidth = (width - imageMargin) - graphStartX - 1;
+
+    const int barInset = graphHeight / (labels.length() + 2);
+    int barStart = imageMarginTop + barInset;
+    int barEnd = height - imageMargin - barInset;
+    const int barStep = (barEnd - barStart) / qMax(1, labels.length() - 1);
+    const int barSize = barStep * 0.8f;
+
+    if (values.length() == 1)
+    {
+        barStart = barEnd = barStart + (barEnd - barStart) * 0.5f;
+    }
+
+    float maxValue = 1.0f;
+
+    for (auto v : values)
+    {
+        maxValue = qMax(maxValue, v);
+    }
+
+    for (int i = 0; i < values.length(); i++)
+    {
+        float fraction = values[i] / maxValue;
+
+        QColor col = GetUniformColor(i);
+
+        QRect rect(graphStartX + 1, barStart + barStep * i - barSize / 2,
+                   graphWidth * fraction,
+                   barSize);
+
+        painter.fillRect(rect, col);
+
+        if (normalizedDivider != nullptr)
+        {
+
+        }
+
+        painter.setPen(DarkenColor(col, 0.5f));
+
+        rect.adjust(1, 1, -1, -1);
+        painter.drawRect(rect);
+    }
 
     PaintLegend(imageMargin + maxLabelWidth + legendMargin,
-                imageMarginTop + barInset,
+                barStart,
                 imageMargin + maxLabelWidth + legendMargin,
-                height - imageMargin - barInset,
-                labels);
+                barEnd,
+                labels, true);
 }
 
 QRect Plotter::GetPaintRect(bool squared)
@@ -252,7 +315,7 @@ void Plotter::PaintTitle()
 }
 
 void Plotter::PaintLegend(int x0, int y0, int x1, int y1,
-                 QVector<QString> &values)
+                 QVector<QString> &values, bool changeDirection)
 {
     const bool isHorizontal = abs(x0 - x1) > abs(y0 - y1);
 
@@ -278,38 +341,76 @@ void Plotter::PaintLegend(int x0, int y0, int x1, int y1,
         legendEnd.Init(x0, y0);
     }
 
-    Vector2D legendStep = (legendEnd - legendStart) / (values.length() - 1);
+    if (values.length() == 1)
+    {
+        legendStart += (legendEnd - legendStart) * 0.5f;
+        legendEnd = legendStart;
+    }
+
+    Vector2D legendStep = (legendEnd - legendStart) / qMax(1.0f, values.length() - 1.0f);
     Vector2D dashOffset = isHorizontal ? Vector2D(0.0f, 1.0f) : Vector2D(-1.0f, 0.0f);
     Vector2D textOffset = dashOffset * 25.0f;
+
+    QString firstEntry, lastEntry;
+
+    if (changeDirection)
+    {
+        firstEntry = values.last();
+        lastEntry = values.first();
+    }
+    else
+    {
+        lastEntry = values.last();
+        firstEntry = values.first();
+    }
 
     if (isHorizontal)
     {
         PaintTextCenteredW(legendStart.x + textOffset.x, legendStart.y + textOffset.y,
-                           painter, values.first());
-        PaintTextCenteredW(legendEnd.x + textOffset.x, legendEnd.y + textOffset.y,
-                           painter, values.last());
+                           painter, firstEntry);
+
+        if (values.length() > 1)
+        {
+            PaintTextCenteredW(legendEnd.x + textOffset.x, legendEnd.y + textOffset.y,
+                               painter, lastEntry);
+        }
     }
     else
     {
         PaintTextCenteredH(legendStart.x + textOffset.x, legendStart.y + textOffset.y,
-                           painter, values.first());
-        PaintTextCenteredH(legendEnd.x + textOffset.x, legendEnd.y + textOffset.y,
-                           painter, values.last());
+                           painter, firstEntry);
+
+        if (values.length() > 1)
+        {
+            PaintTextCenteredH(legendEnd.x + textOffset.x, legendEnd.y + textOffset.y,
+                               painter, lastEntry);
+        }
     }
 
     for (int i = 1; i < values.length() - 1; i++)
     {
+        QString val;
+
+        if (changeDirection)
+        {
+            val = values[values.length() - 1 - i];
+        }
+        else
+        {
+            val = values[i];
+        }
+
         if (isHorizontal)
         {
             PaintTextCenteredW(legendStart.x + legendStep.x * i + textOffset.x,
                              legendStart.y + legendStep.y * i + textOffset.y,
-                             painter, values.at(i));
+                             painter, val);
         }
         else
         {
             PaintTextCenteredH(legendStart.x + legendStep.x * i + textOffset.x,
                              legendStart.y + legendStep.y * i + textOffset.y,
-                             painter, values.at(i));
+                             painter, val);
         }
     }
 

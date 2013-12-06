@@ -12,7 +12,7 @@ public:
 
     void PlotTimeLine(float minTime, float maxTime, QVector<float> &values);
     void PlotPieChart(QVector<float> &distributions, QVector<QString> &labels);
-    void PlotBarChart(QVector<float> &values, QVector<QString> &labels);
+    void PlotBarChart(QVector<float> &values, QVector<QString> &labels, QVector<float> *normalizedDivider = nullptr);
 
 private:
 
@@ -20,7 +20,7 @@ private:
 
     void PaintTitle();
     void PaintLegend(int x0, int y0, int x1, int y1,
-                     QVector<QString> &values);
+                     QVector<QString> &values, bool changeDirection = false);
     void PaintLegend(int x0, int y0, int x1, int y1,
                      QVector<float> values, int stepCount, bool startAtZero = true);
 
