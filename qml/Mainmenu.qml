@@ -97,6 +97,7 @@ Item {
     Keys.onDigit4Pressed: if (state === "MAIN") startLevel("dev_fighter_2")
     Keys.onDigit5Pressed: if (state === "MAIN") startLevel("dev_fighter_3")
     Keys.onDigit6Pressed: if (state === "MAIN") startLevel("tutorial")
+    Keys.onDigit7Pressed: if (state === "MAIN") startLevel("space")
 
     GameView {
         id: game
@@ -144,7 +145,7 @@ Item {
                     buttonText: "Play"
                     onClick: {
                         if (!root.isNavigationEnabled) return;
-                        startLevel("Space")
+                        startLevel("Level_1")
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
                 }

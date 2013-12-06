@@ -290,11 +290,12 @@ void Statistics::GenerateGraphs()
     CreateDirIfNotExists(OSLocalPath(PATH_GRAPHS_ROOT));
 
     GenerateDeathTimelines();
+    GenerateDamageTimelines();
 }
 
-void Statistics::GenerateDeathTimelines()
+void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
 {
-    QHash<QString, QList<StatGame *>> registeredGames;
+    registeredGames.clear();
 
     for (auto &set : sets)
     {
@@ -310,6 +311,12 @@ void Statistics::GenerateDeathTimelines()
             registeredGames[hash].append(&game);
         }
     }
+}
+
+void Statistics::GenerateDeathTimelines()
+{
+    QHash<QString, QList<StatGame *>> registeredGames;
+    SortGames(registeredGames);
 
     for (auto &list : registeredGames)
     {
@@ -343,17 +350,41 @@ void Statistics::GenerateDeathTimelines()
             plotter.SaveTo("deathtimes_" + list.first()->mapname + "_" + list.first()->mapname);
         }
     }
+}
 
+void Statistics::GenerateDamageTimelines()
+{
+    QHash<QString, QList<StatGame *>> registeredGames;
+    SortGames(registeredGames);
 
-    QImage image(1024, 1024, QImage::Format_RGB32);
-    image.fill(Qt::white);
+    for (auto &list : registeredGames)
+    {
+        QVector<float> damageTimes;
+        float maxTime = 0.0f;
 
-    QPainter painter(&image);
+        for (auto *game : list)
+        {
+            if (game->playerDamages.empty())
+            {
+                continue;
+            }
 
-    painter.setFont(QFont("calibri", 30));
-    painter.setPen(Qt::blue);
-    painter.drawText(0, 30, "test Text");
+            for (auto &damageEvent : game->playerDamages)
+            {
+                damageTimes.append(damageEvent.time);
+            }
 
-    painter.end();
+            maxTime = qMax(maxTime, damageTimes.last());
+        }
 
+        if (!damageTimes.empty())
+        {
+            QString title("Damage times: ");
+            title += list.first()->mapname;
+
+            Plotter plotter(title, 1024, 196);
+            plotter.PlotTimeLine(0.0f, maxTime + 10.0f, damageTimes);
+            plotter.SaveTo("damagetimes_" + list.first()->mapname + "_" + list.first()->mapname);
+        }
+    }
 }

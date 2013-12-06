@@ -62,7 +62,10 @@ private:
     void LoadAllStats();
     bool LoadSet(const QString &filename, StatSet &set);
 
+    void SortGames(QHash<QString, QList<StatGame *>> &registeredGames);
+
     void GenerateDeathTimelines();
+    void GenerateDamageTimelines();
 
     float tempGameStartedTime;
 

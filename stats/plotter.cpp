@@ -88,7 +88,7 @@ void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
     const int legendStep = float(legendEnd - legendStart) / stepCount;
 
     painter.drawText(legendStart - 4, height - imageMargin, QString("%1").arg(minTime));
-    painter.drawText(legendEnd - 8, height - imageMargin, FormatString("%.1f", maxTime));
+    painter.drawText(legendEnd - 10, height - imageMargin, FormatString("%.1f", maxTime));
 
     const float stepSize = (maxTime - minTime) / stepCount;
     float currentStep = minTime + stepSize;
