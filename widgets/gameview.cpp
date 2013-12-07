@@ -21,6 +21,8 @@ void GameView::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
 
     c.painter = painter;
 
+    glPopAttrib();
+
     if (pGlobals->antialiasing)
     {
         painter->setRenderHint(QPainter::Antialiasing, true);
@@ -41,6 +43,8 @@ void GameView::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
         glDisable(GL_MULTISAMPLE);
         glDisable(GL_LINE_SMOOTH);
     }
+
+    glPushAttrib(GL_ENABLE_BIT);
 
     c.x = 0;
     c.y = 0;

@@ -13,7 +13,6 @@
 #include <QTimer>
 
 
-
 Statistics Statistics::instance;
 
 Statistics::Statistics()

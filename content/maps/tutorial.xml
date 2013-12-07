@@ -128,7 +128,7 @@
                 <event type="instantaneous">
                         <delay>3</delay>
                         <event type="cutscene">
-                        <portraitLeft>avatar1</portraitLeft>
+                        <portraitLeft>avatar_hero</portraitLeft>
                         <titel>Tom Taylor</titel>
                         <message>Houston. I am near the asteroid field.</message>
                         <soundclip>message_send.wav</soundclip>
@@ -138,7 +138,7 @@
                 <event type="instantaneous">
                         <delay>6</delay>
                         <event type="cutscene">
-                        <portraitRight>avatar2</portraitRight>
+                        <portraitRight>avatar_houston</portraitRight>
                         <titel>Houston</titel>
                         <message>Roger, son. Try to avoid the asteroids. Use your WASD or arrow keys to maneuver your ship.</message>
                         <soundclip>message_received.wav</soundclip>
@@ -160,7 +160,7 @@
                                   <event type="instantaneous">
                         <delay>14</delay>
                         <event type="cutscene">
-                        <portraitLeft>avatar1</portraitLeft>
+                        <portraitLeft>avatar_hero</portraitLeft>
                         <titel>Tom Taylor</titel>
                         <message>AHHHHRGH!</message>
                         </event>
@@ -295,7 +295,7 @@
                                       <event type="instantaneous">
                         <delay>40</delay>
                         <event type="cutscene">
-                        <portraitLeft>avatar1</portraitLeft>
+                        <portraitLeft>avatar_hero</portraitLeft>
                         <titel>Tom Taylor</titel>
                         <message>Houston. The asteroids are getting dangerously close.</message>
                         <soundclip>message_send.wav</soundclip>
@@ -305,7 +305,7 @@
                                                 <event type="instantaneous">
                         <delay>45</delay>
                         <event type="cutscene">
-                        <portraitRight>avatar2</portraitRight>
+                        <portraitRight>avatar_houston</portraitRight>
                         <titel>Houston</titel>
                         <message>Roger. If an obstacle is unavoidable use your gun with the SPACEBAR to blast your way through!</message>
                         <soundclip>message_received.wav</soundclip>
@@ -363,7 +363,7 @@
                                 <event type="instantaneous">
                         <delay>55.5</delay>
                         <event type="cutscene">
-                        <portraitLeft>avatar1</portraitLeft>
+                        <portraitLeft>avatar_hero</portraitLeft>
                         <titel>Tom Taylor</titel>
                         <message>That was insane!</message>
                         </event>
@@ -372,7 +372,7 @@
                                 <event type="instantaneous">
                         <delay>59</delay>
                         <event type="cutscene">
-                        <portraitRight>avatar2</portraitRight>
+                        <portraitRight>avatar_houston</portraitRight>
                         <titel>Houston</titel>
                         <message>Why didn't you use the dash attack?</message>
                         <soundclip>message_received.wav</soundclip>
@@ -382,7 +382,7 @@
                                 <event type="instantaneous">
                         <delay>62</delay>
                         <event type="cutscene">
-                        <portraitLeft>avatar1</portraitLeft>
+                        <portraitLeft>avatar_hero</portraitLeft>
                         <titel>Tom Taylor</titel>
                         <message>Oh, it was bound to the CTRL key, right?</message>
                         <soundclip>message_send.wav</soundclip>
@@ -478,7 +478,7 @@
                                 <event type="instantaneous">
                         <delay>74</delay>
                         <event type="cutscene">
-                        <portraitRight>avatar2</portraitRight>
+                        <portraitRight>avatar_houston</portraitRight>
                         <titel>Houston</titel>
                         <message>You are leaving the asteroid field. Now is your chance to use the FTL-Jump!</message>
                         <soundclip>message_received.wav</soundclip>

@@ -243,7 +243,7 @@ Item {
                     width: buttonW + 50
                     height: buttonH
                     anchors.horizontalCenter: parent.horizontalCenter
-                    buttonText: "Antialiasing:"
+                    buttonText: "High quality:"
                     checked: menuController.AAEnabled
                     onCheckChanged: {
                         menuController.AAEnabled = enabled;
