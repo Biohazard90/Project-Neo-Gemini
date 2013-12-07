@@ -39,7 +39,7 @@ void Statistics::Init()
     PushGame();
 
     SetGraphFilterGameTime(15.0f);
-    SetGraphFilterGameWon(true);
+    //SetGraphFilterGameWon(true);
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", listener);
