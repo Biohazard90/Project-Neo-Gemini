@@ -379,6 +379,7 @@ void Statistics::GenerateGraphs()
     GenerateDamageTimelines();
     GenerateScoreDistribution();
     GenerateParticipation();
+    GenerateEnemyEffectiveness();
 }
 
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
@@ -599,6 +600,12 @@ void Statistics::GenerateParticipation()
             plotter.SaveTo("participation_" + list.first().second->GetFileSuffix());
         }
     }
+}
+
+void Statistics::GenerateEnemyEffectiveness()
+{
+    QVector<QString> labels;
+    QVector<float> destructionCount;
 }
 
 void Statistics::UploadFile(const QString &filename)

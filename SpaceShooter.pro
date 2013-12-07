@@ -194,7 +194,8 @@ SOURCES += main.cpp\
     game/event/cutsceneevent.cpp \
     stats/events.cpp \
     stats/statistics.cpp \
-    stats/plotter.cpp
+    stats/plotter.cpp \
+    particle/operators/op_focus_force.cpp
 
 HEADERS  += mainwindow.h \
     util/util.h \

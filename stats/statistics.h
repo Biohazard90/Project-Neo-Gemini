@@ -103,6 +103,7 @@ private:
     void GenerateDamageTimelines();
     void GenerateScoreDistribution();
     void GenerateParticipation();
+    void GenerateEnemyEffectiveness();
 
     void UploadFile(const QString &filename);
 

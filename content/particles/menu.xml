@@ -53,6 +53,10 @@
 			<exponent>1</exponent>
 		</opalphafade>
 		
+		<opfocusforce>
+			<scale>0.7</scale>
+		</opfocusforce>
+		
 		<opmovement>
 			<drag>-0.05</drag>
 		</opmovement>
