@@ -40,6 +40,7 @@ void Statistics::Init()
 
     SetGraphFilterGameTime(15.0f);
     //SetGraphFilterGameWon(true);
+    SetGraphFilterLevel("level_1");
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", listener);
@@ -396,6 +397,11 @@ void Statistics::SetGraphFilterGameWon(bool onlyGamesWon)
     filterGameWon = onlyGamesWon;
 }
 
+void Statistics::SetGraphFilterLevel(const QString &level)
+{
+    filterLevel = level;
+}
+
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
 {
     registeredGames.clear();
@@ -459,6 +465,12 @@ bool Statistics::FilterGame(const StatGame &game)
 
     if (filterGameWon
             && !game.DidPlayerWin())
+    {
+        return true;
+    }
+
+    if (filterLevel.length() > 0
+            && filterLevel != game.mapname)
     {
         return true;
     }

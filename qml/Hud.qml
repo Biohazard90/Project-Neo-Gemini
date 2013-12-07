@@ -129,6 +129,7 @@ Item {
         property real blurHeight: 1.0 / height
 
         fragmentShader: "
+         #version 120
          varying highp vec2 qt_TexCoord0;
          uniform sampler2D source;
          uniform highp float blurHeight;
@@ -277,6 +278,7 @@ Item {
     }
 
     property string shieldShaderCode: "
+         #version 120
          varying highp vec2 qt_TexCoord0;
          uniform sampler2D source;
          uniform sampler2D scanlinesSource;

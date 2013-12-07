@@ -77,10 +77,26 @@ void MainCleanup::OnShutdown()
 }
 static MainCleanup mainCleanup;
 
+QFile logFile("log.txt");
+void FileLogOutout(QtMsgType type,  const QMessageLogContext &, const QString &msg)
+{
+    std::string str = msg.toStdString();
+    str += "\r\n";
+
+    logFile.write(str.c_str(), str.length());
+    logFile.flush();
+}
+
 int main(int argc, char *argv[])
 {
     qsrand(QTime::currentTime().second() * 1000
                 + QTime::currentTime().msec());
+
+    logFile.open(QFile::Append);
+    if (logFile.isOpen())
+    {
+        qInstallMessageHandler(FileLogOutout);
+    }
 
     qmlRegisterType<GameView>("CustomComponents", 1, 0, "GameView");
     QApplication a(argc, argv);
@@ -135,6 +151,8 @@ int main(int argc, char *argv[])
     int ret = a.exec();
 
     Statistics::GetInstance()->Shutdown();
+
+    logFile.close();
 
     delete mainWindow;
 

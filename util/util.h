@@ -101,7 +101,7 @@ FORCEINLINE T qlerp( float perc, T const &a, T const &b )
 template< class T >
 FORCEINLINE T clamp_angle_positive( T const &angle )
 {
-    T v = fmod(angle, 360.0);
+    T v = fmod(angle, 360.0f);
     if (v < 0)
         v += 360.0;
     return v;

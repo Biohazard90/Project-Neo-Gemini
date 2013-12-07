@@ -337,9 +337,12 @@ void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels,
 
             textRect.moveCenter(rect.center());
 
+            if (textRect.x() - 15 < rect.x())
+                textRect.translate(15 + (rect.x() - textRect.x()), 0);
+
             painter.fillRect(textRect, QColor(255, 255, 255, 196));
             painter.setPen(Qt::black);
-            PaintTextCenteredWH(rect.center().x(), rect.center().y(), painter, tag);
+            PaintTextCenteredWH(textRect.center().x(), textRect.center().y(), painter, tag);
         }
     }
 

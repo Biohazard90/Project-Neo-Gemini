@@ -16,6 +16,7 @@
 #include <QResizeEvent>
 #include <QGraphicsObject>
 #include <QKeyEvent>
+#include <QMessageBox>
 
 #include <QDir>
 
@@ -212,6 +213,11 @@ void RootView::ShowMenu(MenuMode_e mode)
         format.setVersion(3, 1);
         format.setProfile(QGLFormat::CoreProfile);
         glTarget->setFormat(format);
+
+        if (!glTarget->isValid())
+        {
+            QMessageBox::warning(this, "Error", "Unnable to init OpenGL!");
+        }
 
         glPushAttrib(GL_ENABLE_BIT);
 

@@ -86,6 +86,7 @@ public:
     void GenerateGraphs();
     void SetGraphFilterGameTime(float time = 0.0f);
     void SetGraphFilterGameWon(bool onlyGamesWon);
+    void SetGraphFilterLevel(const QString &level);
 
 public slots:
 
@@ -125,6 +126,7 @@ private:
 
     float filterGameTime;
     bool filterGameWon;
+    QString filterLevel;
 };
 
 #endif // STATISTICS_H
