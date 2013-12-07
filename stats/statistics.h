@@ -84,6 +84,7 @@ public:
     virtual void OnEvent(const char *name, KeyValues *data);
 
     void GenerateGraphs();
+    void SetGraphFilterGameTime(float time = 0.0f);
 
 public slots:
 
@@ -98,6 +99,8 @@ private:
 
     void SortGames(QHash<QString, QList<StatGame *>> &registeredGames);
     void SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &registeredGames);
+
+    bool FilterGame(const StatGame &game);
 
     void GenerateDeathTimelines();
     void GenerateDamageTimelines();
@@ -116,6 +119,8 @@ private:
     QNetworkAccessManager *networkManager;
 
     StatSet currentSet;
+
+    float filterGameTime;
 };
 
 #endif // STATISTICS_H

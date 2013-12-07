@@ -183,11 +183,20 @@ void Plotter::PlotPieChart(QVector<float> &distributions, QVector<QString> &labe
 
         QRect rect = rectSrc;
 
-        dir *= 15;
+        if (distributions.length() > 1)
+        {
+            dir *= 15;
 
-        rect.translate(dir.x, dir.y);
+            rect.translate(dir.x, dir.y);
 
-        painter.drawPie(rect, currentPos * 16, currentLength);
+            painter.drawPie(rect, currentPos * 16, currentLength);
+        }
+        else
+        {
+            painter.drawEllipse(rect);
+
+            textCenter = rect.center();
+        }
 
         textPositions.append(textCenter);
 

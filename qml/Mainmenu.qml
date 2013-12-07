@@ -3,7 +3,7 @@ import CustomComponents 1.0
 
 Item {
     id: root
-    property bool isDebugging: true
+    property bool isDebugging: false
     property bool isIngame: false
     property bool isNavigationEnabled: true
     property int buttonW: 200
@@ -143,8 +143,8 @@ Item {
                     width: buttonW
                     height: buttonH
                     buttonText: "Play"
+                    mouseEnabled: root.isNavigationEnabled
                     onClick: {
-                        if (!root.isNavigationEnabled) return;
                         startLevel("Level_1")
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -153,8 +153,8 @@ Item {
                     width: buttonW
                     height: buttonH
                     buttonText: "Highscores"
+                    mouseEnabled: root.isNavigationEnabled
                     onClick: {
-                        if(!root.isNavigationEnabled) return;
                         root.state = "SCORE"
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -163,8 +163,8 @@ Item {
                     width: buttonW
                     height: buttonH
                     buttonText: "Options"
+                    mouseEnabled: root.isNavigationEnabled
                     onClick: {
-                        if (!root.isNavigationEnabled) return;
                         desiredResolution = ""
                         root.state = "OPTIONS"
                     }
@@ -174,9 +174,9 @@ Item {
                     width: buttonW
                     height: buttonH
                     buttonText: "Exit"
+                    mouseEnabled: root.isNavigationEnabled
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClick:  {
-                        if (!root.isNavigationEnabled) return;
                         if (isDebugging)
                             Qt.quit()
                         else
@@ -191,6 +191,7 @@ Item {
 
                     ScriptAction {
                         script: {
+                            root.isNavigationEnabled = false
                             resetLevelTransition()
                             transition_game.visible = true
                             transition_game.opacity = 0
@@ -273,6 +274,7 @@ Item {
                     width: buttonW
                     height: buttonH
                     buttonText: "Back"
+                    mouseEnabled: root.isNavigationEnabled
                     onClick: {
                         if (desiredResolution.length > 0)
                             menuController.onSetResolution(desiredResolution)
@@ -296,8 +298,8 @@ Item {
                     width: buttonW
                     height: buttonH
                     buttonText: "Return"
+                    mouseEnabled: root.isNavigationEnabled
                     onClick: {
-                        if (!root.isNavigationEnabled) return;
                         ingame_clearmenu.start()
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -306,8 +308,8 @@ Item {
                     width: buttonW
                     height: buttonH
                     buttonText: "Options"
+                    mouseEnabled: root.isNavigationEnabled
                     onClick: {
-                        if (!root.isNavigationEnabled) return;
                         desiredResolution = ""
                         root.state = "OPTIONSINGAME"
                     }
@@ -318,8 +320,8 @@ Item {
                     height: buttonH
                     buttonText: "Back to menu"
                     anchors.horizontalCenter: parent.horizontalCenter
+                    mouseEnabled: root.isNavigationEnabled
                     onClick:  {
-                        if (!root.isNavigationEnabled) return;
                         ingame_return_to_main.start()
                     }
                 }
@@ -401,8 +403,8 @@ Item {
                         width: buttonW
                         height: buttonH
                         buttonText: "Submit"
+                        mouseEnabled: root.isNavigationEnabled
                         onClick: {
-                            if (!root.isNavigationEnabled) return;
 
                             scoreController.name = highscoreName.getText()
                             rankingController.onSubmit()
@@ -415,8 +417,8 @@ Item {
                         width: buttonW
                         height: buttonH
                         buttonText: "Back to menu"
+                        mouseEnabled: root.isNavigationEnabled
                         onClick:  {
-                            if (!root.isNavigationEnabled) return;
                             root.state = "MAIN"
                         }
                     }
@@ -482,8 +484,8 @@ Item {
                         width: buttonW
                         height: buttonH
                         buttonText: "Back to menu"
+                        mouseEnabled: root.isNavigationEnabled
                         onClick:  {
-                            if (!root.isNavigationEnabled) return;
                             root.state = "MAIN"
                         }
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -555,7 +557,7 @@ Item {
 
         Text {
             id: text_level_name
-            text: "Level 1: " + menuController.LevelName
+            text: "Starting on: " + menuController.LevelName
             font.pixelSize: 64
             color: "#FFF"
             anchors.horizontalCenter: parent.horizontalCenter

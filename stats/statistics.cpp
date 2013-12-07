@@ -20,6 +20,7 @@ Statistics::Statistics()
     , networkManager(nullptr)
     , fileUploadEnabled(true)
     , uploadIsBlocking(false)
+    , filterGameTime(0.0f)
 {
 }
 
@@ -35,6 +36,8 @@ void Statistics::Init()
     currentSet.date = QDateTime::currentDateTime();
 
     PushGame();
+
+    SetGraphFilterGameTime(15.0f);
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", listener);
@@ -381,6 +384,11 @@ void Statistics::GenerateGraphs()
     GenerateEnemyEffectiveness();
 }
 
+void Statistics::SetGraphFilterGameTime(float time)
+{
+    filterGameTime = time;
+}
+
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
 {
     registeredGames.clear();
@@ -389,6 +397,11 @@ void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
     {
         for (auto &game : set.playerGames)
         {
+            if (FilterGame(game))
+            {
+                continue;
+            }
+
             QString hash(game.mapname + game.maphash);
 
             if (!registeredGames.contains(hash))
@@ -409,6 +422,11 @@ void Statistics::SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &
     {
         for (auto &game : set.playerGames)
         {
+            if (FilterGame(game))
+            {
+                continue;
+            }
+
             QString hash(game.mapname + game.maphash);
 
             if (!registeredGames.contains(hash))
@@ -422,6 +440,17 @@ void Statistics::SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &
             registeredGames[hash].append(pair);
         }
     }
+}
+
+bool Statistics::FilterGame(const StatGame &game)
+{
+    if (filterGameTime > 0.0f
+            && game.duration < filterGameTime)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 void Statistics::GenerateDeathTimelines()

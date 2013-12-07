@@ -15,6 +15,8 @@ Item {
     property string borderDefaultColor: "#000"
     property int borderDefaultWidth: 1
 
+    onMouseEnabledChanged: { if (mouseEnabled == false) button.state = "RELEASED"; }
+
     Rectangle
     {
      id: button
