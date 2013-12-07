@@ -36,6 +36,18 @@ extern QString OSUserName();
 extern QString GetFileHash(const QString &filename);
 extern bool CreateDirIfNotExists(const QString &path);
 
+
+inline QString FormatString(const char *format, ...)
+{
+    char dest[1024] = { 0 };
+    va_list args;
+    va_start(args, format);
+    _vsnprintf_s(dest, sizeof(dest), sizeof(dest), format, args);
+    va_end(args);
+
+    return dest;
+}
+
 template< class T >
 FORCEINLINE T sqr(const T &t)
 {

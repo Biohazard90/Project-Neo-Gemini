@@ -556,6 +556,7 @@ void Statistics::GenerateParticipation()
     {
         QVector<float> gameCount;
         QVector<QString> labels;
+        QVector<float> gameWonCount;
 
         for (auto &pair : list)
         {
@@ -565,20 +566,36 @@ void Statistics::GenerateParticipation()
             {
                 labels.append(pair.first->username);
                 gameCount.append(1.0f);
+                gameWonCount.append(pair.second->DidPlayerWin() ? 1.0f : 0.0f);
             }
             else
             {
                 gameCount[index] += 1.0f;
+
+                if (pair.second->DidPlayerWin())
+                    gameWonCount[index] += 1.0f;
             }
         }
 
         if (gameCount.length() > 0)
         {
+            QVector<float> winRatios;
+            QVector<QString> tags;
+
+            for (int i = 0; i < gameCount.length(); i++)
+            {
+                winRatios.append(gameWonCount[i] / gameCount[i]);
+
+                QString tag = FormatString("%.f%% of total (%.f%% won of played)",
+                                           gameCount[i] / float(list.length()) * 100.0f, winRatios.last() * 100.0f);
+                tags.append(tag);
+            }
+
             QString title("Participation: ");
             title += list.first().second->mapname;
 
             Plotter plotter(title, 1024, 512);
-            plotter.PlotBarChart(gameCount, labels);
+            plotter.PlotBarChart(gameCount, labels, &winRatios, &tags);
             plotter.SaveTo("participation_" + list.first().second->GetFileSuffix());
         }
     }

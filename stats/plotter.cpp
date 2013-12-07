@@ -8,17 +8,6 @@ const int titleMargin = 15;
 const int imageMargin = 20;
 const int imageMarginTop = titleSize + titleMargin * 2;
 
-inline QString FormatString(const char *format, ...)
-{
-    char dest[1024] = { 0 };
-    va_list args;
-    va_start(args, format);
-    _vsnprintf_s(dest, sizeof(dest), sizeof(dest), format, args);
-    va_end(args);
-
-    return dest;
-}
-
 inline void PaintTextCenteredW(int x, int y, QPainter &painter, const QString &text)
 {
     int width = painter.fontMetrics().width(text);
@@ -54,13 +43,23 @@ inline QColor GetUniformColor(int index)
                             255 - 30 * (index / 360));
 }
 
-inline QColor DarkenColor(QColor col, float amount)
+inline QColor ModulateColor(QColor col, float amount)
 {
     col.setRedF(col.redF() * amount);
     col.setGreenF(col.greenF() * amount);
     col.setBlueF(col.blueF() * amount);
 
     return col;
+}
+
+inline QColor ScreenColor(QColor col, float amount)
+{
+    col.setRedF(CLAMP(col.redF() + amount, 0.0f, 1.0f));
+    col.setGreenF(CLAMP(col.greenF() + amount, 0.0f, 1.0f));
+    col.setBlueF(CLAMP(col.blueF() + amount, 0.0f, 1.0f));
+
+    return col;
+
 }
 
 Plotter::Plotter(const QString &title, int width, int height)
@@ -106,14 +105,22 @@ void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
                         height - imageMargin - legendMargin - imageMarginTop - 26);
 
     QColor brushColor(255, 0, 0, 0);
-    brushColor.setAlphaF(qMin(1.0f, 3.0f / values.length()));
+    QColor brushColorInvis(255, 0, 0, 0);
+    brushColor.setAlphaF(qMin(1.0f, 2.5f / values.length()));
 
     for (auto &v : values)
     {
         float fraction = (v - minTime) / (maxTime - minTime);
         int xPos = imageMargin + fraction * (width - imageMargin * 2);
 
-        painter.fillRect(xPos - 5, imageMarginTop, 10, height, brushColor);
+        QLinearGradient gradient;
+        gradient.setStart(xPos - 15.0f, 0.0f);
+        gradient.setFinalStop(xPos + 15.0f, 0.0f);
+        gradient.setColorAt(0.0f, brushColorInvis);
+        gradient.setColorAt(1.0f, brushColorInvis);
+        gradient.setColorAt(0.5f, brushColor);
+
+        painter.fillRect(xPos - 15, imageMarginTop, 30, height, gradient);
     }
 
     painter.setClipping(false);
@@ -203,9 +210,24 @@ void Plotter::PlotPieChart(QVector<float> &distributions, QVector<QString> &labe
     }
 }
 
-void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels, QVector<float> *normalizedDivider)
+void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels,
+                           QVector<float> *normalizedDivider, QVector<QString> *barTags)
 {
     if (values.length() != labels.length())
+    {
+        Q_ASSERT(0);
+        return;
+    }
+
+    if (normalizedDivider != nullptr
+            && normalizedDivider->length() != values.length())
+    {
+        Q_ASSERT(0);
+        return;
+    }
+
+    if (barTags != nullptr
+            && barTags->length() != values.length())
     {
         Q_ASSERT(0);
         return;
@@ -258,6 +280,8 @@ void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels, QVe
         maxValue = qMax(maxValue, v);
     }
 
+    painter.setFont(QFont(FONT_FAMILY, 10));
+
     for (int i = 0; i < values.length(); i++)
     {
         float fraction = values[i] / maxValue;
@@ -272,13 +296,30 @@ void Plotter::PlotBarChart(QVector<float> &values, QVector<QString> &labels, QVe
 
         if (normalizedDivider != nullptr)
         {
+            QRect rectInner = rect;
+            rectInner.adjust(0, 0, rect.width() * -(1.0f - normalizedDivider->at(i)), 0);
 
+            painter.fillRect(rectInner, ScreenColor(col, 0.75f));
         }
 
-        painter.setPen(DarkenColor(col, 0.5f));
+        painter.setPen(ModulateColor(col, 0.5f));
 
         rect.adjust(1, 1, -1, -1);
         painter.drawRect(rect);
+
+        if (barTags != nullptr)
+        {
+            QString tag = barTags->at(i);
+            QRect textRect(0, 0,
+                           painter.fontMetrics().width(tag),
+                           painter.fontMetrics().height());
+
+            textRect.moveCenter(rect.center());
+
+            painter.fillRect(textRect, QColor(255, 255, 255, 196));
+            painter.setPen(Qt::black);
+            PaintTextCenteredWH(rect.center().x(), rect.center().y(), painter, tag);
+        }
     }
 
     PaintLegend(imageMargin + maxLabelWidth + legendMargin,

@@ -48,6 +48,12 @@ struct StatGame
     {
         return mapname + "_" + maphash;
     }
+
+    inline bool DidPlayerWin()
+    {
+        return endHealth > 0
+                && !aborted;
+    }
 };
 
 struct StatSet

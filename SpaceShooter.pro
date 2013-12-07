@@ -285,7 +285,7 @@ HEADERS  += mainwindow.h \
     stats/statistics.h \
     stats/plotter.h
 
-FORMS    += mainwindow.ui \
+FORMS    += \
     widgets/rootview.ui
 
 #RESOURCES     = resources.qrc \
