@@ -62,8 +62,23 @@
 		<sound_destroy>blast/blast_ship_2.wav</sound_destroy>
 		<sound_destroy>blast/blast_ship_3.wav</sound_destroy>
 	</fighter>
-	
-	<fighter>
+
+        <fighter>
+                <name>fighter_4</name>
+                <score>20</score>
+                <health>3</health>
+                <size>20</size>
+                <ai>fighter4ai</ai>
+                <projectile>boss0fast</projectile>
+                <material>fighters/fighter_0</material>
+                <particle_destroy>explosion_fighter_0</particle_destroy>
+                <sound_destroy>blast/blast_ship_0.wav</sound_destroy>
+                <sound_destroy>blast/blast_ship_1.wav</sound_destroy>
+                <sound_destroy>blast/blast_ship_2.wav</sound_destroy>
+                <sound_destroy>blast/blast_ship_3.wav</sound_destroy>
+        </fighter>
+
+        <fighter>
 		<name>boss_0</name>
 		<score>2000</score>
 		<health>400</health>
