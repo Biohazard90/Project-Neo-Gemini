@@ -10,6 +10,8 @@ public:
     void Clear();
     void SaveTo(const QString &path);
 
+    void PaintFilterString(const QString &str);
+
     void PlotTimeLine(float minTime, float maxTime, QVector<float> &values);
     void PlotPieChart(QVector<float> &distributions, QVector<QString> &labels);
     void PlotBarChart(QVector<float> &values, QVector<QString> &labels,

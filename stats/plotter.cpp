@@ -97,6 +97,18 @@ void Plotter::SaveTo(const QString &path)
     image.save(PATH_GRAPHS_ROOT "/" + path + ".png");
 }
 
+void Plotter::PaintFilterString(const QString &str)
+{
+    painter.setFont(QFont(FONT_FAMILY, titleSize));
+    int titleWidth = painter.fontMetrics().width(title);
+
+    titleWidth += imageMargin * 2;
+
+    painter.setFont(QFont(FONT_FAMILY, 10));
+    painter.setPen(Qt::black);
+    painter.drawText(titleWidth, titleMargin + titleSize, str);
+}
+
 void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
 {
     const int legendMargin = 20;

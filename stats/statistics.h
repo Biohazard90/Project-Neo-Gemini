@@ -44,12 +44,12 @@ struct StatGame
     QList<StatPlayerDamage> playerDamages;
     QList<StatObjectDestroyed> destroyedObjects;
 
-    QString GetFileSuffix()
+    QString GetFileSuffix() const
     {
         return mapname + "_" + maphash;
     }
 
-    inline bool DidPlayerWin()
+    inline bool DidPlayerWin() const
     {
         return endHealth > 0
                 && !aborted;
@@ -85,6 +85,7 @@ public:
 
     void GenerateGraphs();
     void SetGraphFilterGameTime(float time = 0.0f);
+    void SetGraphFilterGameWon(bool onlyGamesWon);
 
 public slots:
 
@@ -101,6 +102,8 @@ private:
     void SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &registeredGames);
 
     bool FilterGame(const StatGame &game);
+
+    QString GetFilterString();
 
     void GenerateDeathTimelines();
     void GenerateDamageTimelines();
@@ -121,6 +124,7 @@ private:
     StatSet currentSet;
 
     float filterGameTime;
+    bool filterGameWon;
 };
 
 #endif // STATISTICS_H

@@ -21,6 +21,7 @@ Statistics::Statistics()
     , fileUploadEnabled(true)
     , uploadIsBlocking(false)
     , filterGameTime(0.0f)
+    , filterGameWon(false)
 {
 }
 
@@ -38,6 +39,7 @@ void Statistics::Init()
     PushGame();
 
     SetGraphFilterGameTime(15.0f);
+    SetGraphFilterGameWon(true);
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", listener);
@@ -389,6 +391,11 @@ void Statistics::SetGraphFilterGameTime(float time)
     filterGameTime = time;
 }
 
+void Statistics::SetGraphFilterGameWon(bool onlyGamesWon)
+{
+    filterGameWon = onlyGamesWon;
+}
+
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
 {
     registeredGames.clear();
@@ -450,7 +457,47 @@ bool Statistics::FilterGame(const StatGame &game)
         return true;
     }
 
+    if (filterGameWon
+            && !game.DidPlayerWin())
+    {
+        return true;
+    }
+
     return false;
+}
+
+QString Statistics::GetFilterString()
+{
+    QStringList list;
+
+    if (filterGameTime > 0.0f)
+    {
+        list.append(QString("min play time: %1s").arg(filterGameTime));
+    }
+
+    if (filterGameWon)
+    {
+        list.append("game won");
+    }
+
+    QString str;
+
+    for (int i = 0; i < list.length(); i++)
+    {
+        str += list[i];
+
+        if (i < list.length() - 1)
+        {
+            str += ", ";
+        }
+    }
+
+    if (!list.empty())
+    {
+        str = "Filters: " + str;
+    }
+
+    return str;
 }
 
 void Statistics::GenerateDeathTimelines()
@@ -486,6 +533,7 @@ void Statistics::GenerateDeathTimelines()
             title += list.first()->mapname;
 
             Plotter plotter(title, 1024, 196);
+            plotter.PaintFilterString(GetFilterString());
             plotter.PlotTimeLine(0.0f, maxTime + 10.0f, deathTimes);
             plotter.SaveTo("deathtimes_" + list.first()->GetFileSuffix());
         }
@@ -523,6 +571,7 @@ void Statistics::GenerateDamageTimelines()
             title += list.first()->mapname;
 
             Plotter plotter(title, 1024, 196);
+            plotter.PaintFilterString(GetFilterString());
             plotter.PlotTimeLine(0.0f, maxTime + 10.0f, damageTimes);
             plotter.SaveTo("damagetimes_" + list.first()->GetFileSuffix());
         }
@@ -570,6 +619,7 @@ void Statistics::GenerateScoreDistribution()
             title += list.first()->mapname;
 
             Plotter plotter(title, 786, 800);
+            plotter.PaintFilterString(GetFilterString());
             plotter.PlotPieChart(score, labels);
             plotter.SaveTo("scoredist_" + list.first()->GetFileSuffix());
         }
@@ -624,6 +674,7 @@ void Statistics::GenerateParticipation()
             title += list.first().second->mapname;
 
             Plotter plotter(title, 1024, 512);
+            plotter.PaintFilterString(GetFilterString());
             plotter.PlotBarChart(gameCount, labels, &winRatios, &tags);
             plotter.SaveTo("participation_" + list.first().second->GetFileSuffix());
         }
