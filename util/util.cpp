@@ -192,6 +192,7 @@ bool OpenXMLFile(const QString &path, QDomDocument &dest)
 bool OpenXMLFile(const QString &path, QDomElement &root)
 {
     QDomDocument doc;
+
     if (!OpenXMLFile(path, doc))
     {
         return false;

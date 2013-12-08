@@ -38,7 +38,7 @@ void Statistics::Init()
 
     PushGame();
 
-    SetGraphFilterGameTime(15.0f);
+    SetGraphFilterGameTime(20.0f);
     //SetGraphFilterGameWon(true);
     SetGraphFilterLevel("level_1");
 
@@ -179,6 +179,7 @@ void Statistics::SaveSet(const StatSet &set)
 
     QDomDocument doc;
     QDomElement root = doc.createElement("stats");
+    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"ISO8859-1\""));
     doc.appendChild(root);
 
     XMLWriteString(doc, root, "username", set.username);
@@ -772,7 +773,6 @@ void Statistics::onReplyReceived(QNetworkReply *reply)
     if (reply->error() != QNetworkReply::NoError)
     {
         qWarning() << "!! Statistics network error: " << reply->errorString();
+        //qDebug() << reply->readAll();
     }
-
-    qDebug() << reply->readAll();
 }
