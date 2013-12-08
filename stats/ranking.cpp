@@ -1,6 +1,7 @@
 #include "ranking.h"
 #include "util.h"
 #include "score.h"
+#include "resource.h"
 
 #include <QtXml>
 #include <QTextStream>
@@ -35,6 +36,7 @@ void Ranking::Update()
 void Ranking::onSubmit()
 {
     Score::GetInstance()->Validate();
+    Resource::GetInstance()->Validate();
 
     PostHighscore(Score::GetInstance()->getName(), Score::GetInstance()->getScore());
 }

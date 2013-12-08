@@ -1,3 +1,4 @@
+
 #include "resource.h"
 
 #include "base.h"
@@ -50,6 +51,10 @@ void Resource::Init()
     LoadProjectiles();
     LoadObstacles();
     LoadFighters();
+
+    hash = BuildHash();
+
+    qDebug() << "Loaded resources: " << hash;
 }
 
 void Resource::LoadProjectiles()
@@ -216,4 +221,42 @@ void Resource::ParseDestructible(const QDomElement &node, Resource_Destructible_
         d.sound_destroy_count++;
     }
     FOREACH_QDOM_CHILD_END
+}
+
+void Resource::Validate()
+{
+    QString currentHash = BuildHash();
+
+    if (currentHash != hash)
+    {
+        qCritical() << "ByeBye.";
+        std::abort();
+    }
+}
+
+QString Resource::BuildHash()
+{
+    QString str;
+
+    // TODO: copy contents to qlist and sort or something
+
+    for (const auto &v : projectiles)
+    {
+        qDebug() << v.hash();
+        str += QCryptographicHash::hash(v.hash().toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    }
+
+    for (const auto &v : fighters)
+    {
+        str += QCryptographicHash::hash(v.hash().toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    }
+
+    for (const auto &v : obstacles)
+    {
+        str += QCryptographicHash::hash(v.hash().toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    }
+
+    str = QCryptographicHash::hash(str.toLocal8Bit(), QCryptographicHash::Md5).toHex();
+
+    return str;
 }

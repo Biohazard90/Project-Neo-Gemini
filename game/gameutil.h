@@ -5,6 +5,7 @@
 #include <cstring>
 
 #include "platform.h"
+#include "util.h"
 
 #define RESOURCE_OBSTACLE_MATERIAL_COUNT 3
 #define RESOURCE_OBSTACLE_SOUND_COUNT 5
@@ -19,6 +20,12 @@ struct Resource_Projectile_t
         fire_rate = 1;
         speed = 100;
         size = 5;
+    }
+
+    virtual QString hash() const
+    {
+        return FormatString("%s%f%f%f",
+                            name.c_str(), fire_rate, speed, size);
     }
 
     std::string name;
@@ -44,6 +51,12 @@ struct Resource_Destructible_t
         sound_destroy_count = 0;
     }
 
+    virtual QString hash() const
+    {
+        return FormatString("%s%i%i",
+                            name, health, score);
+    }
+
     std::string name;
 
     int health;
@@ -63,6 +76,12 @@ struct Resource_Fighter_t : public Resource_Destructible_t
     Resource_Fighter_t()
     {
         material = nullptr;
+    }
+
+    virtual QString hash() const
+    {
+        return Resource_Destructible_t::hash() +
+                FormatString("%i", size);
     }
 
     Material *material;
@@ -90,6 +109,13 @@ struct Resource_Obstacle_t : public Resource_Destructible_t
         velocity_x_min = 50;
         velocity_x_min = 150;
         origin_x_offset = 0;
+    }
+
+    virtual QString hash() const
+    {
+        return Resource_Destructible_t::hash() +
+                FormatString("%f%f%f%f%f", size_min, size_max,
+                             velocity_x_min, velocity_x_max, origin_x_offset);
     }
 
     int materialCount;

@@ -89,6 +89,7 @@ public:
     void SetGraphFilterGameWon(bool onlyGamesWon);
     void SetGraphFilterLevel(const QString &level);
     void SetGraphFilterHash(const QString &hash);
+    void SetGraphFilterUsername(const QString &name);
 
 public slots:
 
@@ -106,8 +107,10 @@ private:
     void SortGames(QHash<QString, QList<StatGame *>> &registeredGames);
     void SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &registeredGames);
 
+    bool FilterSet(const StatSet &set);
     bool FilterGame(const StatGame &game);
 
+    QString GetGameCountString(int count);
     QString GetFilterString();
 
     void GenerateDeathTimelines();
@@ -132,6 +135,7 @@ private:
     bool filterGameWon;
     QString filterLevel;
     QString filterHash;
+    QString filterUsername;
 };
 
 #endif // STATISTICS_H

@@ -20,6 +20,8 @@ public:
 
     void Init();
 
+    void Validate();
+
     Resource_Projectile_t GetProjectile(const QString &name) const;
     Resource_Obstacle_t GetObstacle(const QString &name) const;
     Resource_Fighter_t GetFighter(const QString &name) const;
@@ -32,9 +34,13 @@ private:
 
     void ParseDestructible(const QDomElement &node, Resource_Destructible_t &d);
 
+    QString BuildHash();
+
     QHash<QString, Resource_Projectile_t> projectiles;
     QHash<QString, Resource_Obstacle_t> obstacles;
     QHash<QString, Resource_Fighter_t> fighters;
+
+    QString hash;
 };
 
 #endif // RESOURCE_H

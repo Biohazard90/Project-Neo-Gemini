@@ -96,7 +96,7 @@ void FileLogOutout(QtMsgType type,  const QMessageLogContext &c, const QString &
         str = timeStr + " - critical: " + str;
     break;
     default:
-        str = timeStr + str;
+        str = timeStr + " " + str;
         break;
     }
 

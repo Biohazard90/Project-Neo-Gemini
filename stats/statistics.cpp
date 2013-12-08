@@ -42,6 +42,7 @@ void Statistics::Init()
     //SetGraphFilterGameWon(true);
     SetGraphFilterLevel("level_1");
     SetGraphFilterHash("bced004c4f5174d7b3403fdb9f505bc2");
+    //SetGraphFilterUsername("user");
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", listener);
@@ -419,12 +420,22 @@ void Statistics::SetGraphFilterHash(const QString &hash)
     filterHash = hash;
 }
 
+void Statistics::SetGraphFilterUsername(const QString &name)
+{
+    filterUsername = name;
+}
+
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
 {
     registeredGames.clear();
 
     for (auto &set : sets)
     {
+        if (FilterSet(set))
+        {
+            continue;
+        }
+
         for (auto &game : set.playerGames)
         {
             if (FilterGame(game))
@@ -450,6 +461,11 @@ void Statistics::SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &
 
     for (auto &set : sets)
     {
+        if (FilterSet(set))
+        {
+            continue;
+        }
+
         for (auto &game : set.playerGames)
         {
             if (FilterGame(game))
@@ -470,6 +486,17 @@ void Statistics::SortGames(QHash<QString, QList<QPair<StatSet *, StatGame *>>> &
             registeredGames[hash].append(pair);
         }
     }
+}
+
+bool Statistics::FilterSet(const StatSet &set)
+{
+    if (filterUsername.length() > 0
+            && filterUsername != set.username)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 bool Statistics::FilterGame(const StatGame &game)
@@ -501,6 +528,11 @@ bool Statistics::FilterGame(const StatGame &game)
     return false;
 }
 
+QString Statistics::GetGameCountString(int count)
+{
+    return QString("Sampled %1 games ").arg(count);
+}
+
 QString Statistics::GetFilterString()
 {
     QStringList list;
@@ -513,6 +545,11 @@ QString Statistics::GetFilterString()
     if (filterGameWon)
     {
         list.append("game won");
+    }
+
+    if (filterUsername.length() > 0)
+    {
+        list.append("user: " + filterUsername);
     }
 
     QString str;
@@ -529,7 +566,7 @@ QString Statistics::GetFilterString()
 
     if (!list.empty())
     {
-        str = "Filters: " + str;
+        str = ", Filters: " + str;
     }
 
     return str;
@@ -568,7 +605,7 @@ void Statistics::GenerateDeathTimelines()
             title += list.first()->mapname;
 
             Plotter plotter(title, 1024, 196);
-            plotter.PaintFilterString(GetFilterString());
+            plotter.PaintFilterString(GetGameCountString(deathTimes.length()) + GetFilterString());
             plotter.PlotTimeLine(0.0f, maxTime + 10.0f, deathTimes);
             plotter.SaveTo("deathtimes_" + list.first()->GetFileSuffix());
         }
@@ -584,6 +621,7 @@ void Statistics::GenerateDamageTimelines()
     {
         QVector<float> damageTimes;
         float maxTime = 0.0f;
+        int count = 0;
 
         for (auto *game : list)
         {
@@ -591,6 +629,8 @@ void Statistics::GenerateDamageTimelines()
             {
                 continue;
             }
+
+            count++;
 
             for (auto &damageEvent : game->playerDamages)
             {
@@ -606,7 +646,7 @@ void Statistics::GenerateDamageTimelines()
             title += list.first()->mapname;
 
             Plotter plotter(title, 1024, 196);
-            plotter.PaintFilterString(GetFilterString());
+            plotter.PaintFilterString(GetGameCountString(count) + GetFilterString());
             plotter.PlotTimeLine(0.0f, maxTime + 10.0f, damageTimes);
             plotter.SaveTo("damagetimes_" + list.first()->GetFileSuffix());
         }
@@ -622,6 +662,7 @@ void Statistics::GenerateScoreDistribution()
     {
         QVector<float> score;
         QVector<QString> labels;
+        int count = 0;
 
         for (auto *game : list)
         {
@@ -629,6 +670,8 @@ void Statistics::GenerateScoreDistribution()
             {
                 continue;
             }
+
+            count++;
 
             for (auto &objectEvent : game->destroyedObjects)
             {
@@ -654,7 +697,7 @@ void Statistics::GenerateScoreDistribution()
             title += list.first()->mapname;
 
             Plotter plotter(title, 786, 800);
-            plotter.PaintFilterString(GetFilterString());
+            plotter.PaintFilterString(GetGameCountString(count) + GetFilterString());
             plotter.PlotPieChart(score, labels);
             plotter.SaveTo("scoredist_" + list.first()->GetFileSuffix());
         }
@@ -709,7 +752,7 @@ void Statistics::GenerateParticipation()
             title += list.first().second->mapname;
 
             Plotter plotter(title, 1024, 512);
-            plotter.PaintFilterString(GetFilterString());
+            plotter.PaintFilterString(GetGameCountString(list.length()) + GetFilterString());
             plotter.PlotBarChart(gameCount, labels, &winRatios, &tags);
             plotter.SaveTo("participation_" + list.first().second->GetFileSuffix());
         }

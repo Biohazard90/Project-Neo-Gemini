@@ -53,6 +53,7 @@ void Score::Validate()
 
     if (currentHash != scoreHash)
     {
+        qCritical() << "Bye.";
         std::abort();
     }
 }
