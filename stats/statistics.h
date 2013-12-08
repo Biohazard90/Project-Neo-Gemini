@@ -6,6 +6,7 @@
 #include <QDateTime>
 
 class QNetworkAccessManager;
+class QNetworkReply;
 struct StatSet;
 
 struct StatPlayerDamage
@@ -90,6 +91,8 @@ public:
 
 public slots:
 
+    void onReplyReceived(QNetworkReply *reply);
+
 
 private:
 
@@ -112,7 +115,7 @@ private:
     void GenerateParticipation();
     void GenerateEnemyEffectiveness();
 
-    void UploadFile(const QString &filename);
+    void UploadData(const QString &filename, const QByteArray &statsData);
 
     float tempGameStartedTime;
 

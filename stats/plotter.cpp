@@ -118,7 +118,7 @@ void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
 
     QColor brushColor(255, 0, 0, 0);
     QColor brushColorInvis(255, 0, 0, 0);
-    brushColor.setAlphaF(qMin(1.0f, 2.5f / values.length()));
+    brushColor.setAlphaF(qMin(1.0f, (3.0f + values.length() * 0.04f) / values.length()));
 
     for (auto &v : values)
     {

@@ -73,7 +73,7 @@ void Ranking::PostHighscore(const QString &name, int score)
 {
     CreateNetworkAccessManagerOnDemand();
 
-    QString hashString(name + " " + QString("%1").arg(score));
+    QString hashString(name.toUtf8() + " " + QString("%1").arg(score));
     QByteArray hash = QCryptographicHash::hash(hashString.toLocal8Bit(), QCryptographicHash::Md5).toHex();
 
     int scoreHashValue = 72;
@@ -129,6 +129,12 @@ void Ranking::CreateNetworkAccessManagerOnDemand()
 
 void Ranking::onScoreReceived(QNetworkReply *reply)
 {
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        qWarning() << "!! Ranking network error: " << reply->errorString();
+        return;
+    }
+
     QString str = reply->readAll();
 
     QStringList list = str.split("\n");
@@ -147,7 +153,7 @@ void Ranking::onScoreReceived(QNetworkReply *reply)
     for (int i = 0; i < list.length(); i += 2)
     {
         score_t score;
-        score.name = list[i];
+        score.name = list[i].toLocal8Bit();
         score.score = list[i + 1].toInt();
         scoreList.append(score);
     }

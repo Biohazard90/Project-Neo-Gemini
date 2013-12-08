@@ -246,17 +246,27 @@ void Statistics::SaveSet(const StatSet &set)
 
     QString filename = OSLocalPath(relativePath);
 
+    QString str;
+    QTextStream tmp(&str);
+
+    doc.save(tmp, 4);
+
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
 
-    QTextStream out(&file);
-    doc.save(out, 4);
-
-    file.close();
+    if (file.isOpen())
+    {
+        file.write(str.toLocal8Bit());
+        file.close();
+    }
+    else
+    {
+        qWarning() << "!! Unable to write stats: " << filename;
+    }
 
     if (fileUploadEnabled)
     {
-        UploadFile(filename);
+        UploadData(filename, str.toLocal8Bit());
     }
 }
 
@@ -699,16 +709,17 @@ void Statistics::GenerateEnemyEffectiveness()
     QVector<float> destructionCount;
 }
 
-void Statistics::UploadFile(const QString &filename)
+void Statistics::UploadData(const QString &filename, const QByteArray &statsData)
 {
-    QFile file(filename);
-    file.open(QFile::ReadOnly);
+//    QFile file(filename);
+//    file.open(QFile::ReadOnly);
 
-    if (!file.isOpen())
-    {
-        return;
-    }
+//    if (!file.isOpen())
+//    {
+//        return;
+//    }
 
+    //qDebug() << filename;
     QByteArray postData;
 
     QString bound="margin";
@@ -718,22 +729,23 @@ void Statistics::UploadFile(const QString &filename)
     data.append("upload.php\r\n");
     data.append(QString("--" + bound + "\r\n").toLocal8Bit());
     data.append("Content-Disposition: form-data; name=\"uploaded\"; filename=\"");
-    data.append(filename);
+    data.append(filename.toLocal8Bit());
     data.append("\"\r\n");
     data.append("Content-Type: text/xml\r\n\r\n");
 
-    data.append(file.readAll());
+    data.append(statsData);
     data.append("\r\n");
     data.append("--" + bound + "--\r\n");
     postData = data;
 
-    file.close();
+    //file.close();
 
     QUrl resultsURL = QUrl("http://bio2k.homepage.t-online.de/hig_game_design/upload.php");
 
     if (networkManager == nullptr)
     {
         networkManager = new QNetworkAccessManager(qApp);
+        QObject::connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onReplyReceived(QNetworkReply*)));
     }
 
     QNetworkRequest request(resultsURL);
@@ -753,4 +765,14 @@ void Statistics::UploadFile(const QString &filename)
         QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
         loop.exec();
     }
+}
+
+void Statistics::onReplyReceived(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        qWarning() << "!! Statistics network error: " << reply->errorString();
+    }
+
+    qDebug() << reply->readAll();
 }

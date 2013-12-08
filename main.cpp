@@ -78,9 +78,25 @@ void MainCleanup::OnShutdown()
 static MainCleanup mainCleanup;
 
 QFile logFile("log.txt");
-void FileLogOutout(QtMsgType type,  const QMessageLogContext &, const QString &msg)
+void FileLogOutout(QtMsgType type,  const QMessageLogContext &c, const QString &msg)
 {
     std::string str = msg.toStdString();
+    QDateTime time = QDateTime::currentDateTime();
+    std::string timeStr = time.toString(Qt::ISODate).toStdString();
+
+    switch (type)
+    {
+    case QtWarningMsg:
+        str = timeStr + " - warning: " + str;
+    break;
+    case QtCriticalMsg:
+        str = timeStr + " - critical: " + str;
+    break;
+    default:
+        str = timeStr + str;
+        break;
+    }
+
     str += "\r\n";
 
     logFile.write(str.c_str(), str.length());
