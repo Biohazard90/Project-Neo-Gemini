@@ -41,6 +41,7 @@ void Statistics::Init()
     SetGraphFilterGameTime(20.0f);
     //SetGraphFilterGameWon(true);
     SetGraphFilterLevel("level_1");
+    SetGraphFilterHash("bced004c4f5174d7b3403fdb9f505bc2");
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", listener);
@@ -413,6 +414,11 @@ void Statistics::SetGraphFilterLevel(const QString &level)
     filterLevel = level;
 }
 
+void Statistics::SetGraphFilterHash(const QString &hash)
+{
+    filterHash = hash;
+}
+
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
 {
     registeredGames.clear();
@@ -482,6 +488,12 @@ bool Statistics::FilterGame(const StatGame &game)
 
     if (filterLevel.length() > 0
             && filterLevel != game.mapname)
+    {
+        return true;
+    }
+
+    if (filterHash.length() > 0
+            && filterHash != game.maphash)
     {
         return true;
     }

@@ -80,6 +80,9 @@ static MainCleanup mainCleanup;
 QFile logFile("log.txt");
 void FileLogOutout(QtMsgType type,  const QMessageLogContext &c, const QString &msg)
 {
+    QString consoleStr = msg + "\r\n";
+    OutputDebugString(reinterpret_cast<const wchar_t *>(consoleStr.utf16()));
+
     std::string str = msg.toStdString();
     QDateTime time = QDateTime::currentDateTime();
     std::string timeStr = time.toString(Qt::ISODate).toStdString();
@@ -97,7 +100,11 @@ void FileLogOutout(QtMsgType type,  const QMessageLogContext &c, const QString &
         break;
     }
 
-    str += "\r\n";
+    str += " (";
+    str += c.file;
+    str += ", ";
+    str += c.line;
+    str += ")\r\n";
 
     logFile.write(str.c_str(), str.length());
     logFile.flush();
