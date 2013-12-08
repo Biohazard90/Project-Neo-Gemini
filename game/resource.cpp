@@ -52,9 +52,9 @@ void Resource::Init()
     LoadObstacles();
     LoadFighters();
 
-    hash = BuildHash();
+    //hash = BuildHash();
 
-    qDebug() << "Loaded resources: " << hash;
+    //qDebug() << "Loaded resources: " << hash;
 }
 
 void Resource::LoadProjectiles()
@@ -225,7 +225,7 @@ void Resource::ParseDestructible(const QDomElement &node, Resource_Destructible_
 
 void Resource::Validate()
 {
-    QString currentHash = BuildHash();
+//    QString currentHash = BuildHash();
 
 //    if (currentHash != hash)
 //    {

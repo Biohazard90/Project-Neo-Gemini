@@ -41,7 +41,7 @@ void Statistics::Init()
     SetGraphFilterGameTime(20.0f);
     //SetGraphFilterGameWon(true);
     SetGraphFilterLevel("level_1");
-    SetGraphFilterHash("bced004c4f5174d7b3403fdb9f505bc2");
+    SetGraphFilterHash("e9c06b2730e097a6eefa1e5a35703b44");
     //SetGraphFilterUsername("user");
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
