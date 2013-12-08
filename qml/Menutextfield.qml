@@ -39,6 +39,7 @@ Menubutton {
         x: parent.width * 0.35 - (parent.height-height) * 0.5
         selectedTextColor: "grey"
         readOnly: false
+        validator: RegExpValidator{regExp: /[\w \-]+/}
     }
 
     onHover: {
