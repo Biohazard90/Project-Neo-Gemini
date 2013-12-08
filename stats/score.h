@@ -10,6 +10,8 @@ class Score : public QObject
     Q_PROPERTY(int score READ getScore NOTIFY scoreChanged)
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
 
+    Score();
+    static Score instance;
 public:
     static Score *GetInstance();
 
@@ -21,6 +23,8 @@ public:
 
     void setScore(int score);
     void setName(const QString &name);
+
+    void Validate();
     
 signals:
     void scoreChanged(int);
@@ -29,9 +33,11 @@ signals:
 public slots:
 
 private:
-    Score();
-    static Score instance;
+    int BuildScoreHash(int value);
+
     int score;
+    int scoreHash;
+
     QString name;
 };
 

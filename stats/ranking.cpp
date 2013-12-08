@@ -34,6 +34,8 @@ void Ranking::Update()
 
 void Ranking::onSubmit()
 {
+    Score::GetInstance()->Validate();
+
     PostHighscore(Score::GetInstance()->getName(), Score::GetInstance()->getScore());
 }
 
