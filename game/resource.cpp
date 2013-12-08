@@ -227,11 +227,11 @@ void Resource::Validate()
 {
     QString currentHash = BuildHash();
 
-    if (currentHash != hash)
-    {
-        qCritical() << "ByeBye.";
-        std::abort();
-    }
+//    if (currentHash != hash)
+//    {
+//        qCritical() << "ByeBye.";
+//        std::abort();
+//    }
 }
 
 QString Resource::BuildHash()
@@ -242,7 +242,6 @@ QString Resource::BuildHash()
 
     for (const auto &v : projectiles)
     {
-        qDebug() << v.hash();
         str += QCryptographicHash::hash(v.hash().toLocal8Bit(), QCryptographicHash::Md5).toHex();
     }
 

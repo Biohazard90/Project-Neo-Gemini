@@ -1,7 +1,7 @@
 <fighters>
 	<fighter>
 		<name>fighter_0</name>
-		<score>20</score>
+		<score>50</score>
 		<health>1</health>
 		<size>50</size>
 		<ai>simpleai</ai>
@@ -16,7 +16,7 @@
 	
 	<fighter>
 		<name>fighter_1</name>
-		<score>30</score>
+		<score>125</score>
 		<health>1</health>
 		<size>40</size>
 		<ai>fighter1ai</ai>
@@ -31,7 +31,7 @@
 	
 	<fighter>
 		<name>fighter_2</name>
-		<score>40</score>
+		<score>175</score>
 		<health>1</health>
 		<size>32</size>
 		<ai>fighter2ai</ai>
@@ -46,7 +46,7 @@
 	
 	<fighter>
 		<name>fighter_3</name>
-		<score>40</score>
+		<score>250</score>
 		<health>2</health>
 		<size>38</size>
 		<ai>fighter3ai</ai>
@@ -64,23 +64,23 @@
 	</fighter>
 
 	<fighter>
-			<name>fighter_4</name>
-			<score>20</score>
-			<health>3</health>
-			<size>20</size>
-			<ai>fighter4ai</ai>
-			<projectile>boss0fast</projectile>
-			<material>fighters/fighter_0</material>
-			<particle_destroy>explosion_fighter_0</particle_destroy>
-			<sound_destroy>blast/blast_ship_0.wav</sound_destroy>
-			<sound_destroy>blast/blast_ship_1.wav</sound_destroy>
-			<sound_destroy>blast/blast_ship_2.wav</sound_destroy>
-			<sound_destroy>blast/blast_ship_3.wav</sound_destroy>
+		<name>fighter_4</name>
+		<score>20</score>
+		<health>3</health>
+		<size>20</size>
+		<ai>fighter4ai</ai>
+		<projectile>boss0fast</projectile>
+		<material>fighters/fighter_0</material>
+		<particle_destroy>explosion_fighter_0</particle_destroy>
+		<sound_destroy>blast/blast_ship_0.wav</sound_destroy>
+		<sound_destroy>blast/blast_ship_1.wav</sound_destroy>
+		<sound_destroy>blast/blast_ship_2.wav</sound_destroy>
+		<sound_destroy>blast/blast_ship_3.wav</sound_destroy>
 	</fighter>
 
 	<fighter>
 		<name>boss_0</name>
-		<score>2000</score>
+		<score>8000</score>
 		<health>400</health>
 		<size>140</size>
 		<ai>boss0ai</ai>
