@@ -14,6 +14,7 @@ LaserBeam::LaserBeam()
 {
     timer = 0.0f;
     lifetime = 0.0f;
+    spawned = false;
 
     flashSize = 0.0f;
     flashTimer = 0.0f;
@@ -40,6 +41,11 @@ void LaserBeam::Spawn()
 
 bool LaserBeam::ShouldCollide(ICollidable *object) const
 {
+    if (!spawned)
+    {
+        return false;
+    }
+
     Entity *entity = (Entity*)object;
 
     return entity->IsPlayer()

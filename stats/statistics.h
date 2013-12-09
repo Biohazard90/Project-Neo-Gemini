@@ -90,6 +90,7 @@ public:
     void SetGraphFilterLevel(const QString &level);
     void SetGraphFilterHash(const QString &hash);
     void SetGraphFilterUsername(const QString &name);
+    void SetGraphFilterNotAborted(bool notAborted);
 
 public slots:
 
@@ -133,6 +134,7 @@ private:
 
     float filterGameTime;
     bool filterGameWon;
+    bool filterAborted;
     QString filterLevel;
     QString filterHash;
     QString filterUsername;

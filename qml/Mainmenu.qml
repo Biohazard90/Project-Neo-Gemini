@@ -107,12 +107,14 @@ Item {
     Hud {
         visible: menuController.GameVisible
         anchors.fill: parent
+        Keys.enabled: false
     }
 
     Item {
         id: menu_root
         width: parent.width
         height: parent.height
+        Keys.enabled: false
 
         IngameBackground {
             id: ingame_fade

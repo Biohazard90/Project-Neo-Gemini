@@ -88,6 +88,7 @@ public:
             {
                 beam->Init(GetShip(), Vector2D(-8, 0), 0.8f);
                 GetGameContext()->SpawnEntity(beam);
+                beam->OnSimulate(frametime);
             }
 
             particlesFire = GetGameContext()->GetParticleRoot()->CreateParticles("laser_cannon_fire", Vector2D(8, 0));

@@ -143,8 +143,9 @@ void RootView::keyPressEvent(QKeyEvent *event)
         break;
     default:
         {
-            if (game != nullptr)
-                Input::GetInstance()->OnKeyPressed(event);
+            if (game != nullptr
+                    && Input::GetInstance()->OnKeyPressed(event))
+                return;
 
             BaseClass::keyPressEvent(event);
         }
@@ -154,8 +155,9 @@ void RootView::keyPressEvent(QKeyEvent *event)
 
 void RootView::keyReleaseEvent(QKeyEvent *event)
 {
-    if (game != nullptr)
-        Input::GetInstance()->OnKeyReleased(event);
+    if (game != nullptr
+            && Input::GetInstance()->OnKeyReleased(event))
+        return;
 
     BaseClass::keyReleaseEvent(event);
 }

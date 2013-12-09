@@ -78,7 +78,7 @@ void MainCleanup::OnShutdown()
 static MainCleanup mainCleanup;
 
 QFile logFile("log.txt");
-void FileLogOutout(QtMsgType type,  const QMessageLogContext &c, const QString &msg)
+void FileLogOutput(QtMsgType type,  const QMessageLogContext &c, const QString &msg)
 {
     QString consoleStr = msg + "\r\n";
     OutputDebugString(reinterpret_cast<const wchar_t *>(consoleStr.utf16()));
@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     logFile.open(QFile::Append);
     if (logFile.isOpen())
     {
-        qInstallMessageHandler(FileLogOutout);
+        qInstallMessageHandler(FileLogOutput);
     }
 
     qmlRegisterType<GameView>("CustomComponents", 1, 0, "GameView");

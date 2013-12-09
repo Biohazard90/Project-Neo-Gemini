@@ -22,6 +22,7 @@ Statistics::Statistics()
     , uploadIsBlocking(false)
     , filterGameTime(0.0f)
     , filterGameWon(false)
+    , filterAborted(false)
 {
 }
 
@@ -42,7 +43,9 @@ void Statistics::Init()
     //SetGraphFilterGameWon(true);
     SetGraphFilterLevel("level_1");
     SetGraphFilterHash("e9c06b2730e097a6eefa1e5a35703b44");
+    //SetGraphFilterHash("bced004c4f5174d7b3403fdb9f505bc2");
     //SetGraphFilterUsername("user");
+    SetGraphFilterNotAborted(true);
 
     IEventListener *listener = dynamic_cast<IEventListener *>(this);
     Events::GetInstance()->AddListener("player_death", listener);
@@ -425,6 +428,11 @@ void Statistics::SetGraphFilterUsername(const QString &name)
     filterUsername = name;
 }
 
+void Statistics::SetGraphFilterNotAborted(bool notAborted)
+{
+    filterAborted = notAborted;
+}
+
 void Statistics::SortGames(QHash<QString, QList<StatGame *>> &registeredGames)
 {
     registeredGames.clear();
@@ -501,6 +509,12 @@ bool Statistics::FilterSet(const StatSet &set)
 
 bool Statistics::FilterGame(const StatGame &game)
 {
+    if (filterAborted
+            && game.aborted)
+    {
+        return true;
+    }
+
     if (filterGameTime > 0.0f
             && game.duration < filterGameTime)
     {
@@ -550,6 +564,11 @@ QString Statistics::GetFilterString()
     if (filterUsername.length() > 0)
     {
         list.append("user: " + filterUsername);
+    }
+
+    if (filterAborted)
+    {
+        list.append("not aborted");
     }
 
     QString str;
@@ -714,6 +733,7 @@ void Statistics::GenerateParticipation()
         QVector<float> gameCount;
         QVector<QString> labels;
         QVector<float> gameWonCount;
+        QVector<float> gameTime;
 
         for (auto &pair : list)
         {
@@ -724,6 +744,7 @@ void Statistics::GenerateParticipation()
                 labels.append(pair.first->username);
                 gameCount.append(1.0f);
                 gameWonCount.append(pair.second->DidPlayerWin() ? 1.0f : 0.0f);
+                gameTime.append(pair.second->duration);
             }
             else
             {
@@ -731,6 +752,8 @@ void Statistics::GenerateParticipation()
 
                 if (pair.second->DidPlayerWin())
                     gameWonCount[index] += 1.0f;
+
+                gameTime[index] += pair.second->duration;
             }
         }
 
@@ -743,8 +766,10 @@ void Statistics::GenerateParticipation()
             {
                 winRatios.append(gameWonCount[i] / gameCount[i]);
 
-                QString tag = FormatString("%.f%% of total (%.f%% won of played)",
-                                           gameCount[i] / float(list.length()) * 100.0f, winRatios.last() * 100.0f);
+                QString tag = FormatString("%.f%% of total (%.f%% won of played) total in-game time: %.1fm",
+                                           gameCount[i] / float(list.length()) * 100.0f,
+                                           winRatios.last() * 100.0f,
+                                           gameTime[i] / 60.0f);
                 tags.append(tag);
             }
 

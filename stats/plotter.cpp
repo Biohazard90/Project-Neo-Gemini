@@ -38,9 +38,12 @@ inline QRect GetTextRect(QPainter &painter, const QString &text)
 
 inline QColor GetUniformColor(int index)
 {
-    return QColor::fromHsv((index * 60) % 360,
-                            255 - 50 * (index / 360),
-                            255 - 30 * (index / 360));
+    const int colorStep = 45;
+    const int darkenStep = 360 / colorStep;
+
+    return QColor::fromHsv((index * colorStep) % 360,
+                            255 - 30 * (index / darkenStep),
+                            255 - 50 * (index / darkenStep));
 }
 
 inline QColor ModulateColor(QColor col, float amount)
@@ -126,6 +129,7 @@ void Plotter::PlotTimeLine(float minTime, float maxTime, QVector<float> &values)
         int xPos = imageMargin + fraction * (width - imageMargin * 2);
 
         QLinearGradient gradient;
+        gradient.setInterpolationMode(QGradient::ComponentInterpolation);
         gradient.setStart(xPos - 15.0f, 0.0f);
         gradient.setFinalStop(xPos + 15.0f, 0.0f);
         gradient.setColorAt(0.0f, brushColorInvis);
