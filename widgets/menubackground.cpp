@@ -15,6 +15,17 @@ MenuBackground::MenuBackground(QWidget *parent) :
     memset(m_flPanels, 0, sizeof(m_flPanels));
 
     SimulationList::AddSimulationObject(this);
+
+    if (Resource::GetInstance()->HasEverCheated())
+    {
+        backgroundInner = QColor(196, 50, 30, 255);
+        backgroundOuter = QColor(64, 18, 10, 255);
+    }
+    else
+    {
+        backgroundInner = QColor(30, 50, 90, 255);
+        backgroundOuter = QColor(10, 18, 35, 255);
+    }
 }
 
 MenuBackground::~MenuBackground()
@@ -28,9 +39,6 @@ void MenuBackground::paintEvent(render_context_t &context)
 
     const float flStart = VALUE_PROPORTIONAL(50);
     const float flDelta = VALUE_PROPORTIONAL(180);
-
-    QColor backgroundInner(30, 50, 90, 255);
-    QColor backgroundOuter(10, 18, 35, 255);
 
     int w2 = context.w / 2;
     int h2 = context.h / 2;

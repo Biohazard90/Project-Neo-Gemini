@@ -36,7 +36,6 @@ void Ranking::Update()
 void Ranking::onSubmit()
 {
     Score::GetInstance()->Validate();
-    Resource::GetInstance()->Validate();
 
     PostHighscore(Score::GetInstance()->getName(), Score::GetInstance()->getScore());
 }
@@ -75,6 +74,11 @@ QString Ranking::getPlayer(int i)
 
 void Ranking::PostHighscore(const QString &name, int score)
 {
+    if (Resource::GetInstance()->HasEverCheated())
+    {
+        return;
+    }
+
     CreateNetworkAccessManagerOnDemand();
 
     QString hashString(name.toUtf8() + " " + QString("%1").arg(score));

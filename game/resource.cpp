@@ -5,6 +5,8 @@
 
 #include <QtXml>
 
+#define CURRENT_RESOURCE_HASH "17d65ec102a44cfd405a375936acef1c"
+
 Resource Resource::instance;
 Resource *Resource::GetInstance()
 {
@@ -52,9 +54,13 @@ void Resource::Init()
     LoadObstacles();
     LoadFighters();
 
-    //hash = BuildHash();
+    hash = QCryptographicHash::hash(hash.toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    //qDebug() << hash;
+}
 
-    //qDebug() << "Loaded resources: " << hash;
+bool Resource::HasEverCheated()
+{
+    return hash != CURRENT_RESOURCE_HASH;
 }
 
 void Resource::LoadProjectiles()
@@ -63,11 +69,15 @@ void Resource::LoadProjectiles()
     QString path(PATH_RESOURCE_ROOT);
     path += "projectiles.xml";
 
-    if (!OpenXMLFile(path, root))
+    QString content;
+
+    if (!OpenXMLFile(path, root, &content))
     {
         DBGWARNING("!! Failed to load projectile resources");
         return;
     }
+
+    hash += QCryptographicHash::hash(content.toLocal8Bit(), QCryptographicHash::Md5).toHex();
 
     QDomNodeList nodes = root.childNodes();
 
@@ -100,11 +110,15 @@ void Resource::LoadObstacles()
     QString path(PATH_RESOURCE_ROOT);
     path += "obstacles.xml";
 
-    if (!OpenXMLFile(path, root))
+    QString content;
+
+    if (!OpenXMLFile(path, root, &content))
     {
         DBGWARNING("!! Failed to load obstacle resources");
         return;
     }
+
+    hash += QCryptographicHash::hash(content.toLocal8Bit(), QCryptographicHash::Md5).toHex();
 
     QDomNodeList nodes = root.childNodes();
 
@@ -162,11 +176,15 @@ void Resource::LoadFighters()
     QString path(PATH_RESOURCE_ROOT);
     path += "fighters.xml";
 
-    if (!OpenXMLFile(path, root))
+    QString content;
+
+    if (!OpenXMLFile(path, root, &content))
     {
         DBGWARNING("!! Failed to load fighter resources");
         return;
     }
+
+    hash += QCryptographicHash::hash(content.toLocal8Bit(), QCryptographicHash::Md5).toHex();
 
     QDomNodeList nodes = root.childNodes();
 
@@ -221,41 +239,4 @@ void Resource::ParseDestructible(const QDomElement &node, Resource_Destructible_
         d.sound_destroy_count++;
     }
     FOREACH_QDOM_CHILD_END
-}
-
-void Resource::Validate()
-{
-//    QString currentHash = BuildHash();
-
-//    if (currentHash != hash)
-//    {
-//        qCritical() << "ByeBye.";
-//        std::abort();
-//    }
-}
-
-QString Resource::BuildHash()
-{
-    QString str;
-
-    // TODO: copy contents to qlist and sort or something
-
-    for (const auto &v : projectiles)
-    {
-        str += QCryptographicHash::hash(v.hash().toLocal8Bit(), QCryptographicHash::Md5).toHex();
-    }
-
-    for (const auto &v : fighters)
-    {
-        str += QCryptographicHash::hash(v.hash().toLocal8Bit(), QCryptographicHash::Md5).toHex();
-    }
-
-    for (const auto &v : obstacles)
-    {
-        str += QCryptographicHash::hash(v.hash().toLocal8Bit(), QCryptographicHash::Md5).toHex();
-    }
-
-    str = QCryptographicHash::hash(str.toLocal8Bit(), QCryptographicHash::Md5).toHex();
-
-    return str;
 }

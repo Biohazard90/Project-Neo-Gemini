@@ -152,8 +152,8 @@ FORCEINLINE bool IntersectSize(const Vector2D &aorigin, const Vector2D &asize,
 extern QPainter::CompositionMode StringToCompositionMode(const QString &string);
 extern ParticleField_e StringToParticleField(const QString &string);
 
-extern bool OpenXMLFile(const QString &path, QDomDocument &dest);
-extern bool OpenXMLFile(const QString &path, QDomElement  &root);
+extern bool OpenXMLFile(const QString &path, QDomDocument &dest, QString *fileContexts = nullptr);
+extern bool OpenXMLFile(const QString &path, QDomElement  &root, QString *fileContexts = nullptr);
 extern QDomElement XMLFirstChildElementNoRecursion(const QDomElement &root, const QString &name);
 
 extern QColor XMLParseColor(const QDomElement &node);

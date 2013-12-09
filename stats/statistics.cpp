@@ -792,6 +792,11 @@ void Statistics::GenerateEnemyEffectiveness()
 
 void Statistics::UploadData(const QString &filename, const QByteArray &statsData)
 {
+    if (Resource::GetInstance()->HasEverCheated())
+    {
+        return;
+    }
+
 //    QFile file(filename);
 //    file.open(QFile::ReadOnly);
 

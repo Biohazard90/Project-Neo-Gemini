@@ -20,7 +20,7 @@ public:
 
     void Init();
 
-    void Validate();
+    bool HasEverCheated();
 
     Resource_Projectile_t GetProjectile(const QString &name) const;
     Resource_Obstacle_t GetObstacle(const QString &name) const;
@@ -41,6 +41,8 @@ private:
     QHash<QString, Resource_Fighter_t> fighters;
 
     QString hash;
+
+    bool hasCheated;
 };
 
 #endif // RESOURCE_H

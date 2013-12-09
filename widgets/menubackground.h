@@ -26,6 +26,9 @@ private:
     void DrawGLRoundedRect(const QRectF &rect, float roundPerc);
     void DrawGLRoundedCorner(const Vector2D &center,float startDegrees, float endDegrees,
                              float size, int subDiv);
+
+    QColor backgroundInner;
+    QColor backgroundOuter;
     
 };
 

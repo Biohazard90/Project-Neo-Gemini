@@ -162,7 +162,7 @@ ParticleField_e StringToParticleField(const QString &string)
     }
 }
 
-bool OpenXMLFile(const QString &path, QDomDocument &dest)
+bool OpenXMLFile(const QString &path, QDomDocument &dest, QString *fileContexts)
 {
     QFile file(OSLocalPath(path));
     if (!file.open(QFile::ReadOnly | QFile::Text))
@@ -176,7 +176,14 @@ bool OpenXMLFile(const QString &path, QDomDocument &dest)
     int errorLine;
     int errorColumn;
 
-    if (!dest.setContent(&file, false, &errorStr, &errorLine,
+    QString content = file.readAll();
+
+    if (fileContexts != nullptr)
+    {
+        *fileContexts = content;
+    }
+
+    if (!dest.setContent(content, false, &errorStr, &errorLine,
                         &errorColumn))
     {
         DBGWARNING("Parse error at line " << errorLine << ", "
@@ -189,11 +196,11 @@ bool OpenXMLFile(const QString &path, QDomDocument &dest)
     return true;
 }
 
-bool OpenXMLFile(const QString &path, QDomElement &root)
+bool OpenXMLFile(const QString &path, QDomElement &root, QString *fileContexts)
 {
     QDomDocument doc;
 
-    if (!OpenXMLFile(path, doc))
+    if (!OpenXMLFile(path, doc, fileContexts))
     {
         return false;
     }
