@@ -9,21 +9,21 @@
                         </stop>
                         <colors>
                                 <color>
-                                        <r>10</r>
+                                        <r>13</r>
                                         <g>11</g>
-                                        <b>13</b>
+                                        <b>10</b>
                                         <fraction>0</fraction>
                                 </color>
                                 <color>
-                                        <r>15</r>
-                                        <g>25</g>
-                                        <b>40</b>
+                                        <r>40</r>
+                                        <g>22</g>
+                                        <b>8</b>
                                         <fraction>0.5</fraction>
                                 </color>
                                 <color>
-                                        <r>10</r>
+                                        <r>13</r>
                                         <g>11</g>
-                                        <b>13</b>
+                                        <b>10</b>
                                         <fraction>1</fraction>
                                 </color>
                         </colors>
