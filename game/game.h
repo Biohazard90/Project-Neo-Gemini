@@ -55,7 +55,7 @@ public:
     virtual Player *GetPlayer();
     virtual Map *GetMap() { return map; }
 
-    virtual void EndMap();
+    virtual void EndMap(const QString &nextMap = "");
 
     virtual void ShowWarningText();
     virtual void ShowCutscene(QString portraitLeft,QString portraitRight,QString titel,QString message);
@@ -67,7 +67,7 @@ public:
     int getPlayerHealth(){ return PlayerHealth; }
     
 signals:
-    void GameEnded();
+    void GameEnded(QString);
     void warningText();
     void cutscene();
     void liveCountChanged(int);

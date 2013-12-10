@@ -84,7 +84,6 @@
         <events>
 
 
-
                 <event type="instantaneous">
                         <delay>1</delay>
                         <duration>1</duration>
@@ -482,6 +481,13 @@
                         <titel>Houston</titel>
                         <message>You are leaving the asteroid field. Now is your chance to use the FTL-Jump!</message>
                         <soundclip>message_received.wav</soundclip>
+                        </event>
+                </event>
+				
+				<event type="instantaneous">
+                    <delay>78</delay>
+                        <event type="maptransition">
+                                <mapname>level_1</mapname>
                         </event>
                 </event>
         </events>

@@ -196,7 +196,8 @@ SOURCES += main.cpp\
     stats/statistics.cpp \
     stats/plotter.cpp \
     particle/operators/op_focus_force.cpp \
-    game/ai/fighter4ai.cpp
+    game/ai/fighter4ai.cpp \
+    game/event/maptransitionevent.cpp
 
 HEADERS  += mainwindow.h \
     util/util.h \

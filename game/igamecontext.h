@@ -23,7 +23,7 @@ public:
 
     virtual Player *GetPlayer() = 0;
 
-    virtual void EndMap() = 0;
+    virtual void EndMap(const QString &nextMap = "") = 0;
 
     virtual void ShowWarningText() = 0;
     virtual void ShowCutscene(QString portraitLeft, QString portraitRight, QString titel, QString message) = 0;

@@ -302,10 +302,8 @@ Player *Game::GetPlayer()
     return player;
 }
 
-void Game::EndMap()
+void Game::EndMap(const QString &nextMap)
 {
-    emit GameEnded();
-
     KeyValues *event = new KeyValues("map_ended");
     event->SetFloat("time", GetGameTime());
 
@@ -315,6 +313,8 @@ void Game::EndMap()
     }
 
     Events::GetInstance()->FireEvent(event);
+
+    emit GameEnded(nextMap);
 }
 
 void Game::ShowWarningText()

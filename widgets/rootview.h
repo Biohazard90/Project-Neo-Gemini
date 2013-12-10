@@ -72,7 +72,7 @@ public slots:
     void onShowBackground();
     void onAbortGame();
     void onLevelIntro();
-    void onGameOver();
+    void onGameOver(QString nextMap);
 
 signals:
     void AAEnabledChanged(bool);
@@ -87,6 +87,7 @@ signals:
 
     void prepareIngameMenu();
     void prepareGameoverMenu();
+    void prepareMapTransition(QString lvl);
     
 private:
     static RootView *rootViewInstance;
@@ -96,6 +97,7 @@ private:
         MENU_Main = 0,
         MENU_Ingame,
         MENU_Gameover, // highscore submission
+        MENU_MapTransition,
         MENU_Score
     };
     void ShowMenu(MenuMode_e mode = MENU_Main);

@@ -254,6 +254,9 @@ void RootView::ShowMenu(MenuMode_e mode)
     case MENU_Gameover:
         emit prepareGameoverMenu();
         break;
+    case MENU_MapTransition:
+        emit prepareMapTransition(LevelName);
+        break;
     }
 
     Ranking::GetInstance()->Update();
@@ -298,7 +301,7 @@ void RootView::CreateGame(const char *mapname, bool newGame)
         game->deleteLater();
 
     game = new Game(this);
-    QObject::connect(game, SIGNAL(GameEnded()), this, SLOT(onGameOver()));
+    QObject::connect(game, SIGNAL(GameEnded(QString)), this, SLOT(onGameOver(QString)));
 
    // gameView->setGeometry(geometry());
     //gameView->setGeometry(0, 0, 1920, 1080);
@@ -438,7 +441,15 @@ void RootView::onLevelIntro()
     AudioManager::GetInstance()->PlayMusic("intro.ogg", 1.0f, false);
 }
 
-void RootView::onGameOver()
+void RootView::onGameOver(QString nextMap)
 {
-    ShowGameOver();
+    if (nextMap.length() < 1)
+    {
+        ShowGameOver();
+    }
+    else
+    {
+        LevelName = nextMap;
+        ShowMenu(MENU_MapTransition);
+    }
 }

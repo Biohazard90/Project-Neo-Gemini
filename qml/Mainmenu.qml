@@ -11,6 +11,7 @@ Item {
     property int verticalSpacing: 15
     property string nextLevel: ""
     property string desiredResolution: ""
+    property bool gameInTransition: false
 
     Connections {
         target: menuController
@@ -28,6 +29,14 @@ Item {
             menu_main.scale = 0
             highscoreName.playerName = ""
             gameover_return_to_main.start()
+        }
+        onPrepareMapTransition: {
+            nextLevel = lvl
+            gameInTransition = true
+            showMenu();
+            menu_main.opacity = 0
+            menu_main.scale = 0
+            return_to_maptransition.start()
         }
     }
     Connections {
@@ -97,7 +106,7 @@ Item {
     Keys.onDigit4Pressed: if (state === "MAIN") startLevel("dev_fighter_2")
     Keys.onDigit5Pressed: if (state === "MAIN") startLevel("dev_fighter_3")
     Keys.onDigit6Pressed: if (state === "MAIN") startLevel("tutorial")
-    Keys.onDigit7Pressed: if (state === "MAIN") startLevel("space")
+    Keys.onDigit7Pressed: if (state === "MAIN") startLevel("level_1")
 
     GameView {
         id: game
@@ -147,7 +156,7 @@ Item {
                     buttonText: "Play"
                     mouseEnabled: root.isNavigationEnabled
                     onClick: {
-                        startLevel("Level_1")
+                        startLevel("tutorial")
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -522,6 +531,32 @@ Item {
             NumberAnimation { target: transition_menu; property: "opacity";
                 duration: 400; easing.type: Easing.InOutQuad; to: 0 }
         }
+
+        SequentialAnimation {
+            id: return_to_maptransition
+            running: false
+
+            onCompleted: {
+                transition_menu.visible = false
+            }
+
+            ScriptAction {
+                script: {
+                    root.state = "CLEAR"
+                    transition_menu.visible = true
+                }
+            }
+            ParallelAnimation {
+                NumberAnimation { target: transition_menu; property: "opacity";
+                    duration: 800; easing.type: Easing.InOutQuad; to: 1 }
+                ScriptAction {
+                    script: { startLevel(nextLevel) }
+                }
+            }
+            PauseAnimation { duration: 200 }
+            NumberAnimation { target: transition_menu; property: "opacity";
+                duration: 400; easing.type: Easing.InOutQuad; to: 0 }
+        }
     }
 
     Rectangle {
@@ -609,7 +644,10 @@ Item {
                 }
             }
             ScriptAction {
-                script: menuController.onStartGame(nextLevel, true)
+                script: {
+                    menuController.onStartGame(nextLevel, gameInTransition == false);
+                    gameInTransition = false;
+                }
             }
             NumberAnimation { target: transition_game; property: "opacity";
                 duration: 600; easing.type: Easing.InOutQuad; to: 0 }
@@ -695,7 +733,7 @@ Item {
             }
         },
         Transition {
-            from: "MAIN"
+            from: "MAIN,CLEAR"
             to: "TRANSITIONLEVELINTRO"
             SequentialAnimation {
                 ScriptAction {
