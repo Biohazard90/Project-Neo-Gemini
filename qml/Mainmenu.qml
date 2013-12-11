@@ -28,6 +28,7 @@ Item {
             menu_main.opacity = 0
             menu_main.scale = 0
             highscoreName.playerName = ""
+            root.isIngame = false
             gameover_return_to_main.start()
         }
         onPrepareMapTransition: {
@@ -156,7 +157,7 @@ Item {
                     buttonText: "Play"
                     mouseEnabled: root.isNavigationEnabled
                     onClick: {
-                        startLevel("tutorial")
+                        root.state = "CHAPTERS"
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -214,6 +215,59 @@ Item {
                         NumberAnimation { target: transition_game; property: "opacity";
                             duration: 1000; easing.type: Easing.InQuad; to: 1 }
                     }
+                }
+            }
+
+            Grid {
+                id: menu_chapter
+                opacity: 0
+                scale: 0
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                columns: 1
+                spacing: verticalSpacing
+
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Select level"
+                    mouseEnabled: false
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    borderDefaultColor: "#FFF"
+                    borderDefaultWidth: 2
+                }
+                Menubutton {
+                    width: buttonW * 1.5
+                    height: buttonH
+                    buttonText: "Tutorial"
+                    mouseEnabled: root.isNavigationEnabled
+                    onClick: {
+                        startLevel("tutorial")
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Menubutton {
+                    width: buttonW * 1.5
+                    height: buttonH
+                    buttonText: "Level 1"
+                    mouseEnabled: root.isNavigationEnabled
+                    onClick: {
+                        startLevel("level_1")
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Menubutton {
+                    width: buttonW
+                    height: buttonH
+                    buttonText: "Back"
+                    mouseEnabled: root.isNavigationEnabled
+                    onClick: {
+                        if (desiredResolution.length > 0)
+                            menuController.onSetResolution(desiredResolution)
+                        root.state = isIngame ? "INGAME" : "MAIN"
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
@@ -682,6 +736,12 @@ Item {
             }
         },
         State {
+            name: "CHAPTERS"
+            PropertyChanges {
+                target: menu_chapter; scale: 1; opacity: 1
+            }
+        },
+        State {
             name: "SCORE"
             PropertyChanges {
                 target: menu_score; scale: 1; opacity: 1
@@ -725,7 +785,7 @@ Item {
                 ScriptAction {
                     script: root.isNavigationEnabled = false
                 }
-                NumberAnimation { targets: [menu_main, menu_options, menu_ingame, ingame_fade, menu_gameover, menu_score];
+                NumberAnimation { targets: [menu_main, menu_options, menu_ingame, ingame_fade, menu_gameover, menu_score, menu_chapter];
                     properties: "opacity,scale"; duration: 400; easing.type: Easing.InOutBack }
                 ScriptAction {
                     script: root.isNavigationEnabled = true
@@ -733,13 +793,13 @@ Item {
             }
         },
         Transition {
-            from: "MAIN,CLEAR"
+            from: "MAIN,CHAPTERS,CLEAR"
             to: "TRANSITIONLEVELINTRO"
             SequentialAnimation {
                 ScriptAction {
                     script: root.isNavigationEnabled = false
                 }
-                NumberAnimation { targets: [transition_game, menu_main];
+                NumberAnimation { targets: [transition_game, menu_main, menu_chapter];
                     properties: "opacity,scale"; duration: 1000; easing.type: Easing.InCubic }
                 ScriptAction {
                     script: root.isNavigationEnabled = true
