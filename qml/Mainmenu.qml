@@ -101,10 +101,10 @@ Item {
 
     focus: true
     Keys.onDigit1Pressed: if (state === "MAIN") startLevel("dev_boss")
-    Keys.onDigit2Pressed: if (state === "MAIN") startLevel("dev_fighter_0")
-    Keys.onDigit3Pressed: if (state === "MAIN") startLevel("dev_fighter_1")
-    Keys.onDigit4Pressed: if (state === "MAIN") startLevel("dev_fighter_2")
-    Keys.onDigit5Pressed: if (state === "MAIN") startLevel("dev_fighter_3")
+    //Keys.onDigit2Pressed: if (state === "MAIN") startLevel("dev_fighter_0")
+    //Keys.onDigit3Pressed: if (state === "MAIN") startLevel("dev_fighter_1")
+    //Keys.onDigit4Pressed: if (state === "MAIN") startLevel("dev_fighter_2")
+    //Keys.onDigit5Pressed: if (state === "MAIN") startLevel("dev_fighter_3")
     Keys.onDigit6Pressed: if (state === "MAIN") startLevel("tutorial")
     Keys.onDigit7Pressed: if (state === "MAIN") startLevel("level_1")
 

@@ -20,6 +20,7 @@ public:
 
     void Init();
 
+    void OnCheated();
     bool HasEverCheated();
 
     Resource_Projectile_t GetProjectile(const QString &name) const;

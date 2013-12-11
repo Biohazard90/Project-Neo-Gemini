@@ -14,6 +14,7 @@ Resource *Resource::GetInstance()
 }
 
 Resource::Resource()
+    : hasCheated(false)
 {
 }
 
@@ -58,9 +59,15 @@ void Resource::Init()
     //qDebug() << hash;
 }
 
+void Resource::OnCheated()
+{
+    hasCheated = true;
+}
+
 bool Resource::HasEverCheated()
 {
-    return hash != CURRENT_RESOURCE_HASH;
+    return hash != CURRENT_RESOURCE_HASH
+            || hasCheated;
 }
 
 void Resource::LoadProjectiles()

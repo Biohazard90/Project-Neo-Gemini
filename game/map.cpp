@@ -5,6 +5,13 @@
 
 #include <QtXml>
 
+static const char *const mapHashes[][2] = {
+    "level_1", "d82e28482a2bdc1f9a3e8a644263fc2c",
+    "tutorial", "d729cfcec481b4b6162223e6e204b6fe",
+    "dev_boss", "087dd51b951f2935da3e71e65fac5c47",
+};
+static const int mapHashesCount = QARRAYSIZE(mapHashes);
+
 
 Map::Map()
 {
@@ -80,11 +87,37 @@ Map *Map::CreateMapFromXML(const char *path)
 void Map::LoadFromXML(const char *path)
 {
     QDomElement root;
-    if (!OpenXMLFile(path, root))
+    QString content;
+
+    if (!OpenXMLFile(path, root, &content))
     {
         DBGWARNING("!! Error loading map file:" << path);
         return;
     }
+
+    QFileInfo info(path);
+    QString mapName = info.baseName();
+    QString hash = QCryptographicHash::hash(content.toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    bool valid = false;
+
+    for (int i = 0; i < mapHashesCount; i++)
+    {
+        if (mapHashes[i][0] == mapName)
+        {
+            if (mapHashes[i][1] == hash)
+            {
+                valid = true;
+            }
+            break;
+        }
+    }
+
+    if (!valid)
+    {
+        Resource::GetInstance()->OnCheated();
+    }
+
+    //qDebug() << mapName << hash;
 
     name = path;
 
